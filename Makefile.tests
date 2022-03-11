@@ -1,0 +1,17 @@
+program/testdata/myprogram.tar.gz:
+	@./program/testdata/generate.sh
+
+.PHONY: testdata
+testdata: program/testdata/myprogram.tar.gz
+
+.PHONY: test/unit
+test/unit: testdata
+	go test -short -v ./...
+
+.PHONY: test/integration
+test/integration:
+	go test -run ".*[Ii]ntegration.*" -v ./...
+
+.PHONY: test/all
+test/all:
+	go test -v ./...

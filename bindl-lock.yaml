@@ -1,0 +1,16 @@
+programs:
+  - name: archy
+    version: 0.1.1
+    url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+    overlay:
+      OS:
+        linux: "Linux"
+        darwin: "Darwin"
+      Arch:
+        amd64: "x86_64"
+    checksums:
+      archy_0.1.1_Linux_x86_64.tar.gz:
+        _archive: b999ac46efeb15ea1e304c732ef42a7a313a773c61deea2192d78025794939c2
+        archy: b82437b1784a8d71ee436907f4639c414f1c07e15ea20932e8138d3c29780ea2
+
+updated: 2021-03-22T07:00:00Z

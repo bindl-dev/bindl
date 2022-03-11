@@ -1,0 +1,34 @@
+output: ./bin
+
+platforms:
+  linux:
+    - amd64
+    - arm
+    - arm64
+  darwin:
+    - amd64
+    - arm64
+
+programs:
+  - name: archy
+    version: 0.1.1
+    provider: url
+    path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+    overlay:
+      OS:
+        linux: "Linux"
+        darwin: "Darwin"
+      Arch:
+        amd64: "x86_64"
+    checksum: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+#  - name: ko
+#    provider: github
+#    path: google/ko
+#    version: 0.10.0
+#    overlay:
+#      _preset: uname
+#  - name: kind
+#    provider: url
+#    path: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/kind-{{ .OS }}-{{ .Arch }}
+#    version: 0.12.0
+#    checksum: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/kind-{{ .OS }}-{{ .Arch }}.sha256sum
