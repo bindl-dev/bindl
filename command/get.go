@@ -15,6 +15,38 @@ import (
 )
 
 func GetAll(ctx context.Context) error {
+	l, err := config.ParseLock(config.LockFilePath)
+	if err != nil {
+		return err
+	}
+
+	errors := []error{}
+	var wg sync.WaitGroup
+
+	for _, prog := range l.Programs {
+		if ctx.Err() != nil {
+			break
+		}
+		internal.Log().Debug().Str("program", prog.Name()).Msg("found program spec")
+		wg.Add(1)
+		go func(prog program.Program) {
+			err := downloadProgram(ctx, prog)
+			if err != nil {
+				errors = append(errors, fmt.Errorf("downloading %s: %w", prog.Name(), err))
+			}
+			wg.Done()
+		}(prog)
+	}
+
+	wg.Wait()
+
+	for _, err := range errors {
+		internal.ErrorMsg(err)
+	}
+	if len(errors) > 0 {
+		return FailExecError
+	}
+
 	return nil
 }
 

@@ -1,14 +1,9 @@
 package program
 
 import (
-	"archive/tar"
 	"bytes"
-	"compress/gzip"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
-	"path/filepath"
 	"strings"
 )
 
@@ -22,7 +17,7 @@ type Archive struct {
 const (
 	archiveTarSuffix   = ".tar"
 	archiveTarGzSuffix = ".tar.gz"
-	// TODO: archiveZipSuffix   = ".zip"
+	archiveZipSuffix   = ".zip"
 )
 
 func (a *Archive) Extract(filename string) ([]byte, error) {
@@ -45,9 +40,11 @@ func (a *Archive) extractBinaryNoChecksum(filename string) ([]byte, error) {
 	var data []byte
 	var err error
 
-	r := bytes.NewBuffer(a.Data)
+	r := bytes.NewReader(a.Data)
 
 	switch {
+	case strings.HasSuffix(a.Name, archiveZipSuffix):
+		err = unzip(&buf, r, int64(len(a.Data)), filename)
 	case strings.HasSuffix(a.Name, archiveTarSuffix):
 		err = untar(&buf, r, filename)
 	case strings.HasSuffix(a.Name, archiveTarGzSuffix):
@@ -64,39 +61,6 @@ func (a *Archive) extractBinaryNoChecksum(filename string) ([]byte, error) {
 		data = buf.Bytes()
 	}
 	return data, err
-}
-
-func untargz(w io.Writer, rawTarGz io.Reader, filename string) error {
-	gzReader, err := gzip.NewReader(rawTarGz)
-	if err != nil {
-		return err
-	}
-	defer gzReader.Close()
-
-	return untar(w, gzReader, filename)
-}
-
-func untar(w io.Writer, rawTar io.Reader, filename string) error {
-	tarReader := tar.NewReader(rawTar)
-
-	header, err := tarReader.Next()
-	for {
-		if err != nil {
-			break
-		}
-		if header.Typeflag != tar.TypeReg || filepath.Base(header.Name) != filename {
-			header, err = tarReader.Next()
-			continue
-		}
-
-		_, err = io.Copy(w, tarReader)
-		break
-	}
-
-	if errors.Is(err, io.EOF) {
-		err = fmt.Errorf("unable to find '%s' in archive: %w", filename, err)
-	}
-	return err
 }
 
 const archiveChecksumKey = "_archive"

@@ -9,6 +9,7 @@ import (
 	"text/template"
 
 	"go.xargs.dev/bindl/download"
+	"go.xargs.dev/bindl/internal"
 )
 
 type URLProgram struct {
@@ -80,7 +81,8 @@ func (p *URLProgram) DownloadArchive(ctx context.Context, d download.Downloader,
 	var buf bytes.Buffer
 	w := c.SHA256(&buf)
 
-	_, err = io.Copy(w, body)
+	n, err := io.Copy(w, body)
+	internal.Log().Debug().Err(err).Int64("bytes", n).Msg("copying response body")
 	if err != nil {
 		return nil, fmt.Errorf("reading response body: %w", err)
 	}
