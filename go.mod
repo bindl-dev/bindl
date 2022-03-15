@@ -17,3 +17,7 @@ require (
 	golang.org/x/sys v0.0.0-20211205182925-97ca703d548d // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
+
+// Lock to v2.3.0 until v3 is out to prevent line wrap
+// ref: https://github.com/go-yaml/yaml/pull/670#issuecomment-726666943
+replace gopkg.in/yaml.v2 v2.4.0 => gopkg.in/yaml.v2 v2.3.0
