@@ -7,7 +7,30 @@ import (
 	"fmt"
 	"hash"
 	"io"
+	"strings"
 )
+
+func readChecksum(r io.Reader) (map[string]string, error) {
+	raw, err := io.ReadAll(r)
+	if err != nil {
+		return nil, err
+	}
+	result := map[string]string{}
+	str := strings.ReplaceAll(string(raw), "\r\n", "\n")
+	for _, line := range strings.Split(str, "\n") {
+		if line == "" {
+			continue
+		}
+		cs, f, ok := strings.Cut(line, "  ")
+		if !ok {
+			return nil, fmt.Errorf("failed to cut string: unexpected formatting: '%s'", line)
+		}
+		result[f] = cs
+	}
+	return result, nil
+
+	return map[string]string{}, nil
+}
 
 func checksumSHA256(binary []byte, expect []byte) error {
 	got := make([]byte, hex.EncodedLen(sha256.Size))

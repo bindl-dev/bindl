@@ -13,42 +13,37 @@ import (
 )
 
 type URLProgram struct {
-	PName          string                       `json:"name"`
-	Version        string                       `json:"version"`
-	URLTemplate    string                       `json:"url"`
-	Overlay        map[string]map[string]string `json:"overlay,omitempty"`
-	ChecksumSource string                       `json:"checksum,omitempty"`
-	Checksums      map[string]*ArchiveChecksum  `json:"checksums,omitempty"`
+	Base
+
+	URLTemplate string                      `json:"url"`
+	Checksums   map[string]*ArchiveChecksum `json:"checksums,omitempty"`
 }
 
-func (p *URLProgram) Name() string {
-	return p.PName
+func NewURLProgram(c *Config) (*URLProgram, error) {
+	checksums := map[string]*ArchiveChecksum{}
+	for f, cs := range c.Checksums {
+		checksums[f] = &ArchiveChecksum{Archive: cs}
+	}
+	p := &URLProgram{
+		Base: Base{
+			PName:   c.PName,
+			Version: c.Version,
+			Overlay: c.Overlay,
+		},
+		URLTemplate: c.Path,
+		Checksums:   checksums,
+	}
+	return p, nil
 }
 
 func (p *URLProgram) URL(goOS, goArch string) (string, error) {
-	val := map[string]string{
-		"Name":    p.PName,
-		"Version": p.Version,
-
-		"OS":   goOS,
-		"Arch": goArch,
-	}
-
-	for label, originals := range p.Overlay {
-		for original, replacement := range originals {
-			if val[label] == original {
-				val[label] = replacement
-			}
-		}
-	}
-
 	t, err := template.New("url").Parse(p.URLTemplate)
 	if err != nil {
 		return "", err
 	}
 
 	var buf bytes.Buffer
-	if err := t.Execute(&buf, val); err != nil {
+	if err := t.Execute(&buf, p.Vars(goOS, goArch)); err != nil {
 		return "", err
 	}
 	return buf.String(), nil

@@ -20,7 +20,8 @@ programs:
         darwin: "Darwin"
       Arch:
         amd64: "x86_64"
-    checksum: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+    checksums:
+      _src: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
 #  - name: ko
 #    provider: github
 #    path: google/ko
