@@ -1,6 +1,7 @@
 before:
   hooks:
     - go mod tidy
+    - make test/all
 builds:
   - env:
       - CGO_ENABLED=0

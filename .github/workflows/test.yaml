@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tests:
+        - unit
+        - integration
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: ./.github/workflows/go.yaml
+
+    - name: Test
+      run: go version && make test/${{ matrix.tests }}
