@@ -29,7 +29,7 @@ func GetAll(ctx context.Context, conf *config.Runtime) error {
 		}
 		internal.Log().Debug().Str("program", prog.Name()).Msg("found program spec")
 		wg.Add(1)
-		go func(prog program.Program) {
+		go func(prog *program.URLProgram) {
 			err := downloadProgram(ctx, prog, conf.OutputDir)
 			if err != nil {
 				errors = append(errors, fmt.Errorf("downloading %s: %w", prog.Name(), err))
@@ -74,7 +74,7 @@ func Get(ctx context.Context, conf *config.Runtime, names ...string) error {
 				found = true
 				internal.Log().Debug().Str("program", name).Msg("found program spec")
 				wg.Add(1)
-				go func(name string, prog program.Program) {
+				go func(name string, prog *program.URLProgram) {
 					err := downloadProgram(ctx, prog, conf.OutputDir)
 					if err != nil {
 						errors = append(errors, fmt.Errorf("downloading %s: %w", name, err))
@@ -102,7 +102,7 @@ func Get(ctx context.Context, conf *config.Runtime, names ...string) error {
 	return nil
 }
 
-func downloadProgram(ctx context.Context, p program.Program, outDir string) error {
+func downloadProgram(ctx context.Context, p *program.URLProgram, outDir string) error {
 	a, err := p.DownloadArchive(ctx, &download.HTTP{}, runtime.GOOS, runtime.GOARCH)
 	if err != nil {
 		return err

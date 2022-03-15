@@ -1,50 +1,46 @@
 programs:
-  - name: archy
-    version: 0.1.1
-    url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
-    overlay:
-      OS:
-        linux: "Linux"
-        darwin: "Darwin"
-      Arch:
-        amd64: "x86_64"
-    checksums:
-      archy_0.1.1_Linux_x86_64.tar.gz:
-        _archive: b999ac46efeb15ea1e304c732ef42a7a313a773c61deea2192d78025794939c2
-        archy: b82437b1784a8d71ee436907f4639c414f1c07e15ea20932e8138d3c29780ea2
-  - name: ko
-    version: 0.10.0
-    url: https://github.com/google/ko/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
-    overlay:
-      OS:
-        linux: "Linux"
-        darwin: "Darwin"
-      Arch:
-        amd64: "x86_64"
-    checksums:
-      ko_0.10.0_Linux_x86_64.tar.gz:
-        _archive: 4cd190d1bbc39e8f26d5973b33aa8dae92d8b59c9509584fd92a1a371b22c7c3
-        ko: ac173c09e5a2276ffdb507b2707c1cb51eaddc6d7c83fceb83bbe18e0ac9bd93
-  - name: terraform
-    version: 1.1.7
-    url: https://releases.hashicorp.com/terraform/{{ .Version }}/terraform_{{ .Version }}_{{ .OS }}_{{ .Arch }}.zip
-    checksums:
-      terraform_1.1.7_linux_amd64.zip:
-        _archive: e4add092a54ff6febd3325d1e0c109c9e590dc6c38f8bb7f9632e4e6bcca99d4
-        terraform: ba86f524c64a97df436d541e67480607d0330ea27b23c3208316260189210151
-  - name: kind
-    version: 0.12.0
-    url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/{{ .Name }}-{{ .OS }}-{{ .Arch }}
-    checksums:
-      kind-linux-amd64:
-        _archive: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
-        kind: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
-  - name: golangci-lint
-    version: 1.44.2
-    url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
-    checksums:
-      golangci-lint-1.44.2-linux-amd64.tar.gz:
-        _archive: 461e238f83e2b3deb48665be15d835fd3eab75a9a0138074ca2ad81315e0c3aa
-        golangci-lint: 9695c4119856937d628a510f311294070745ad00851b7869e7fd6918bd374bff
-
-updated: 2021-03-22T07:00:00Z
+- checksum: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+  checksums:
+    archy_0.1.2_Darwin_arm64.tar.gz:
+      _archive: 4efe1d6a3885eac97c8bf7dbab25148a7f5a077ca26677764f6e98cc036b613e
+      archy: 49f27370e98c3dd758b28c25b0a1e87263f4d8ca608cc8e4b8fbf977fe7467a8
+    archy_0.1.2_Darwin_x86_64.tar.gz:
+      _archive: 1fb90e79406607484e0cb285eef5c72efc495c5e371f7ec0bc20fc29caa629a7
+      archy: 1cf8f6f1f150b66ecb68c4068f7149f52a257b5a3c8592b956ab54bc099ce7bc
+    archy_0.1.2_Linux_arm64.tar.gz:
+      _archive: 8d3ca1cbb351a0db4e8e7d2504fe28379a99a846e3ce183582e7b3559b3230b1
+      archy: 962eb359f63e4e36e37eea330bde802b04ebf932bc9165756d0dfb3d9095a8b5
+    archy_0.1.2_Linux_armv6.tar.gz:
+      _archive: 7bf551876904ce66d8d21421d51acde0dc1a7a4e010e5c4087ccd05594584a1f
+    archy_0.1.2_Linux_i386.tar.gz:
+      _archive: d3b9d4b2f91a8cd8a702619cc0a5453fbb2afef83dcb12b2f40bcdef09e3b5a2
+    archy_0.1.2_Linux_x86_64.tar.gz:
+      _archive: a6630ef3eded7f839a5c6f5bf316fd5bdf6628ffd773e2e7e9730c3d58a5205d
+      archy: f56006d12866fc741575416c8392fcc0f11b1e4e0e8ec13a697e5533691c0555
+  name: archy
+  overlay:
+    Arch:
+      amd64: x86_64
+    OS:
+      darwin: Darwin
+      linux: Linux
+  url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  version: 0.1.2
+- checksum: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/kind-{{ .OS }}-{{ .Arch }}.sha256sum
+  checksums:
+    kind-darwin-amd64:
+      _archive: 969d607a4eb5df20e1ea3841813b7869614235f6b1644c9a27700bff9de5bdfc
+      kind: 969d607a4eb5df20e1ea3841813b7869614235f6b1644c9a27700bff9de5bdfc
+    kind-darwin-arm64:
+      _archive: 98d0f29fbde2154c64653aff81e6d0b9faea5001c5e29ce80ecfb9f67810197b
+      kind: 98d0f29fbde2154c64653aff81e6d0b9faea5001c5e29ce80ecfb9f67810197b
+    kind-linux-amd64:
+      _archive: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
+      kind: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
+    kind-linux-arm64:
+      _archive: 26c16a8ec90e2a3a42f2f8e1c7139b69769ce1011e7a314cb4ae86345e6363bd
+      kind: 26c16a8ec90e2a3a42f2f8e1c7139b69769ce1011e7a314cb4ae86345e6363bd
+  name: kind
+  url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/kind-{{ .OS }}-{{ .Arch }}
+  version: 0.12.0
+updated: "2022-03-15T23:11:52.423657969Z"

@@ -20,22 +20,30 @@ const (
 	archiveZipSuffix   = ".zip"
 )
 
-func (a *Archive) Extract(filename string) ([]byte, error) {
-	binary, err := a.extractBinaryNoChecksum(filename)
+func (a *Archive) BinaryChecksum(binaryName string) ([]byte, error) {
+	binary, err := a.extractBinaryNoChecksum(binaryName)
+	if err != nil {
+		return nil, err
+	}
+	return checksumSHA256(binary), nil
+}
+
+func (a *Archive) Extract(binaryName string) ([]byte, error) {
+	binary, err := a.extractBinaryNoChecksum(binaryName)
 	if err != nil {
 		return nil, fmt.Errorf("extracting binary source from archive: %w", err)
 	}
 
-	expect := a.checksums.Binaries[filename]
+	expect := a.checksums.Binaries[binaryName]
 
-	if err := checksumSHA256(binary, []byte(expect)); err != nil {
-		return nil, fmt.Errorf("checksum validation for '%s': %w", filename, err)
+	if err := assertChecksumSHA256(binary, []byte(expect)); err != nil {
+		return nil, fmt.Errorf("checksum validation for '%s': %w", binaryName, err)
 	}
 
 	return binary, nil
 }
 
-func (a *Archive) extractBinaryNoChecksum(filename string) ([]byte, error) {
+func (a *Archive) extractBinaryNoChecksum(binaryName string) ([]byte, error) {
 	var buf bytes.Buffer
 	var data []byte
 	var err error
@@ -44,11 +52,11 @@ func (a *Archive) extractBinaryNoChecksum(filename string) ([]byte, error) {
 
 	switch {
 	case strings.HasSuffix(a.Name, archiveZipSuffix):
-		err = unzip(&buf, r, int64(len(a.Data)), filename)
+		err = unzip(&buf, r, int64(len(a.Data)), binaryName)
 	case strings.HasSuffix(a.Name, archiveTarSuffix):
-		err = untar(&buf, r, filename)
+		err = untar(&buf, r, binaryName)
 	case strings.HasSuffix(a.Name, archiveTarGzSuffix):
-		err = untargz(&buf, r, filename)
+		err = untargz(&buf, r, binaryName)
 	default:
 		// assume currently downloaded file is the binary
 		data = a.Data

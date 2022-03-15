@@ -7,20 +7,13 @@ import (
 	"net/http"
 	"text/template"
 
-	"go.xargs.dev/bindl/download"
 	"go.xargs.dev/bindl/internal"
 )
-
-type Program interface {
-	Name() string
-	URL(goOS, goArch string) (string, error)
-	DownloadArchive(ctx context.Context, d download.Downloader, goOS, goArch string) (*Archive, error)
-}
 
 type Base struct {
 	PName   string                       `json:"name"`
 	Version string                       `json:"version"`
-	Overlay map[string]map[string]string `json:"overlay"`
+	Overlay map[string]map[string]string `json:"overlay,omitempty"`
 }
 
 func (b *Base) Name() string {
@@ -55,16 +48,24 @@ type Config struct {
 	Checksums map[string]string `json:"checksums"`
 }
 
-func (c *Config) Program(platforms map[string][]string) (Program, error) {
+func (c *Config) URLProgram(ctx context.Context, platforms map[string][]string) (*URLProgram, error) {
 	if err := c.loadChecksum(platforms); err != nil {
 		return nil, fmt.Errorf("loading checksums: %w", err)
 	}
+	var p *URLProgram
+	var err error
 	switch c.Provider {
 	case "url":
-		return NewURLProgram(c)
+		p, err = NewURLProgram(c)
+		if err != nil {
+			return nil, err
+		}
+		p.collectBinaryChecksum(ctx, platforms)
 	default:
 		return nil, fmt.Errorf("unknown program config provider: %s", c.Provider)
 	}
+
+	return p, nil
 }
 
 func (c *Config) loadChecksum(platforms map[string][]string) error {
@@ -114,11 +115,11 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 		}
 	}
 
-	delete(c.Checksums, "_src")
-
 	// Override the downloaded result with any explicitly specified checksum
 	for f, cs := range c.Checksums {
-		internal.Log().Warn().Str("program", c.PName).Str(f, cs).Msg("overwrite retrieved checksum")
+		if f != "_src" {
+			internal.Log().Warn().Str("program", c.PName).Str(f, cs).Msg("overwrite retrieved checksum")
+		}
 		checksums[f] = cs
 	}
 	c.Checksums = checksums

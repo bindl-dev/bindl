@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"path/filepath"
+	"sync"
 	"text/template"
 
 	"go.xargs.dev/bindl/download"
@@ -16,14 +17,11 @@ type URLProgram struct {
 	Base
 
 	URLTemplate string                      `json:"url"`
+	ChecksumSrc string                      `json:"checksum,omitempty"`
 	Checksums   map[string]*ArchiveChecksum `json:"checksums,omitempty"`
 }
 
 func NewURLProgram(c *Config) (*URLProgram, error) {
-	checksums := map[string]*ArchiveChecksum{}
-	for f, cs := range c.Checksums {
-		checksums[f] = &ArchiveChecksum{Archive: cs}
-	}
 	p := &URLProgram{
 		Base: Base{
 			PName:   c.PName,
@@ -31,9 +29,52 @@ func NewURLProgram(c *Config) (*URLProgram, error) {
 			Overlay: c.Overlay,
 		},
 		URLTemplate: c.Path,
-		Checksums:   checksums,
+		Checksums:   map[string]*ArchiveChecksum{},
+	}
+	for f, cs := range c.Checksums {
+		if f == "_src" {
+			p.ChecksumSrc = cs
+		} else {
+			p.Checksums[f] = &ArchiveChecksum{Archive: cs, Binaries: map[string]string{}}
+		}
 	}
 	return p, nil
+}
+
+// TOFU: Trust on first use -- should only be run first time a program was added to
+// the lockfile. Collecting binary checksums by extracting archives.
+func (p *URLProgram) collectBinaryChecksum(ctx context.Context, platforms map[string][]string) error {
+	var wg sync.WaitGroup
+
+	hasError := false
+
+	for os, archs := range platforms {
+		for _, arch := range archs {
+			wg.Add(1)
+			go func(os, arch string) {
+				defer wg.Done()
+
+				a, err := p.DownloadArchive(ctx, &download.HTTP{}, os, arch)
+				if err != nil {
+					internal.ErrorMsg(fmt.Errorf("downloading archive for '%s' in %s/%s: %w", p.PName, os, arch, err))
+					return
+				}
+
+				b, err := a.BinaryChecksum(p.PName)
+				if err != nil {
+					internal.ErrorMsg(fmt.Errorf("calculating binary checksum for '%s' in %s/%s: %w", p.PName, os, arch, err))
+					return
+				}
+				p.Checksums[a.Name].Binaries[p.PName] = string(b)
+			}(os, arch)
+		}
+	}
+
+	wg.Wait()
+	if hasError {
+		return fmt.Errorf("failed to collect all checksums")
+	}
+	return nil
 }
 
 func (p *URLProgram) URL(goOS, goArch string) (string, error) {

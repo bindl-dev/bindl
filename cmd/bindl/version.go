@@ -27,11 +27,5 @@ func printVersion(*cobra.Command, []string) {
 		fmt.Printf("unable to retrieve build info")
 		os.Exit(1)
 	}
-	if len(bi.Deps) > 0 {
-		fmt.Printf("dependencies:\n")
-	}
-	for _, d := range bi.Deps {
-		fmt.Printf("  %s @ %s\n", d.Path, d.Version)
-		fmt.Printf("    %s\n", d.Sum)
-	}
+	fmt.Printf("go: %s\n", bi.GoVersion)
 }

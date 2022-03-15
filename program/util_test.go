@@ -46,3 +46,33 @@ checksums:
     _archive: 61577c9d9010c0c7190428fe3c15f406209be3bd409c3b87fb767febd3a784b9
     myprogram: d5b12eda84454df3bf1a4729dc3cf39c124232f62bf2f33f4defb5432b60f08e
 `
+
+const rawArchyProgramManifest = `
+name: archy
+version: 0.1.1
+provider: url
+path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+overlay:
+  OS:
+    linux: Linux
+    darwin: Darwin
+  Arch:
+    amd64: x86_64
+checksums:
+  _src: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+`
+
+const rawArchyLockManifest = `
+name: archy
+version: 0.1.1
+url: 'https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
+overlay:
+  OS:
+    linux: Linux
+    darwin: Darwin
+  Arch:
+    amd64: x86_64
+checksums:
+  archy_0.1.1_Linux_x86_64.tar.gz:
+    _archive: b999ac46efeb15ea1e304c732ef42a7a313a773c61deea2192d78025794939c2
+`

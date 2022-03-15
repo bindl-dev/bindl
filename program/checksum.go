@@ -32,10 +32,15 @@ func readChecksum(r io.Reader) (map[string]string, error) {
 	return map[string]string{}, nil
 }
 
-func checksumSHA256(binary []byte, expect []byte) error {
-	got := make([]byte, hex.EncodedLen(sha256.Size))
+func checksumSHA256(binary []byte) []byte {
+	v := make([]byte, hex.EncodedLen(sha256.Size))
 	byteHash := sha256.Sum256(binary)
-	_ = hex.Encode(got, byteHash[:])
+	_ = hex.Encode(v, byteHash[:])
+	return v
+}
+
+func assertChecksumSHA256(binary []byte, expect []byte) error {
+	got := checksumSHA256(binary)
 	if !bytes.Equal(expect, got) {
 		return fmt.Errorf("checksum mismatch:\n\texpected: %s\n\treceived: %s", expect, got)
 	}

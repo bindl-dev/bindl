@@ -12,14 +12,14 @@ import (
 	"go.xargs.dev/bindl/internal"
 )
 
-func unzip(w io.Writer, rawZip io.ReaderAt, size int64, filename string) error {
-	internal.Log().Debug().Int64("bytes", size).Str("file", filename).Msg("unzipping")
+func unzip(w io.Writer, rawZip io.ReaderAt, size int64, binaryName string) error {
+	internal.Log().Debug().Int64("bytes", size).Str("file", binaryName).Msg("unzipping")
 	r, err := zip.NewReader(rawZip, size)
 	if err != nil {
 		return fmt.Errorf("initializing zip reader: %w", err)
 	}
 	for _, f := range r.File {
-		if f.FileInfo().IsDir() || filepath.Base(f.Name) != filename {
+		if f.FileInfo().IsDir() || filepath.Base(f.Name) != binaryName {
 			continue
 		}
 		fd, err := f.Open()
@@ -33,10 +33,10 @@ func unzip(w io.Writer, rawZip io.ReaderAt, size int64, filename string) error {
 		}
 		return nil
 	}
-	return fmt.Errorf("unable to find '%s' from zip archive", filename)
+	return fmt.Errorf("unable to find '%s' from zip archive", binaryName)
 }
 
-func untar(w io.Writer, rawTar io.Reader, filename string) error {
+func untar(w io.Writer, rawTar io.Reader, binaryName string) error {
 	tarReader := tar.NewReader(rawTar)
 
 	header, err := tarReader.Next()
@@ -44,7 +44,7 @@ func untar(w io.Writer, rawTar io.Reader, filename string) error {
 		if err != nil {
 			break
 		}
-		if header.Typeflag != tar.TypeReg || filepath.Base(header.Name) != filename {
+		if header.Typeflag != tar.TypeReg || filepath.Base(header.Name) != binaryName {
 			header, err = tarReader.Next()
 			continue
 		}
@@ -54,17 +54,17 @@ func untar(w io.Writer, rawTar io.Reader, filename string) error {
 	}
 
 	if errors.Is(err, io.EOF) {
-		err = fmt.Errorf("unable to find '%s' in archive: %w", filename, err)
+		err = fmt.Errorf("unable to find '%s' in archive: %w", binaryName, err)
 	}
 	return err
 }
 
-func untargz(w io.Writer, rawTarGz io.Reader, filename string) error {
+func untargz(w io.Writer, rawTarGz io.Reader, binaryName string) error {
 	gzReader, err := gzip.NewReader(rawTarGz)
 	if err != nil {
 		return err
 	}
 	defer gzReader.Close()
 
-	return untar(w, gzReader, filename)
+	return untar(w, gzReader, binaryName)
 }
