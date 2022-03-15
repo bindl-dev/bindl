@@ -39,5 +39,12 @@ programs:
       kind-linux-amd64:
         _archive: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
         kind: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
+  - name: golangci-lint
+    version: 1.44.2
+    url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
+    checksums:
+      golangci-lint-1.44.2-linux-amd64.tar.gz:
+        _archive: 461e238f83e2b3deb48665be15d835fd3eab75a9a0138074ca2ad81315e0c3aa
+        golangci-lint: 9695c4119856937d628a510f311294070745ad00851b7869e7fd6918bd374bff
 
 updated: 2021-03-22T07:00:00Z

@@ -87,6 +87,11 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 			if err := t.Execute(&buf, c.Vars(os, arch)); err != nil {
 				return fmt.Errorf("retrieving checksum for %s/%s: %w", os, arch, err)
 			}
+			internal.Log().Debug().
+				Str("program", c.PName).
+				Str("platform", os+"/"+arch).
+				Str("url", buf.String()).
+				Msg("generate checksum url")
 			checksumSrc[buf.String()] = struct{}{}
 		}
 	}
@@ -104,12 +109,16 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 			return fmt.Errorf("reading checksums: %w", err)
 		}
 		for f, cs := range data {
+			internal.Log().Debug().Str("program", c.PName).Str(f, cs).Msg("retrieved checksum")
 			checksums[f] = cs
 		}
 	}
 
+	delete(c.Checksums, "_src")
+
 	// Override the downloaded result with any explicitly specified checksum
 	for f, cs := range c.Checksums {
+		internal.Log().Warn().Str("program", c.PName).Str(f, cs).Msg("overwrite retrieved checksum")
 		checksums[f] = cs
 	}
 	c.Checksums = checksums

@@ -14,8 +14,8 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
-func GetAll(ctx context.Context) error {
-	l, err := config.ParseLock(config.LockFilePath)
+func GetAll(ctx context.Context, conf *config.Runtime) error {
+	l, err := config.ParseLock(conf.LockfilePath)
 	if err != nil {
 		return err
 	}
@@ -30,7 +30,7 @@ func GetAll(ctx context.Context) error {
 		internal.Log().Debug().Str("program", prog.Name()).Msg("found program spec")
 		wg.Add(1)
 		go func(prog program.Program) {
-			err := downloadProgram(ctx, prog)
+			err := downloadProgram(ctx, prog, conf.OutputDir)
 			if err != nil {
 				errors = append(errors, fmt.Errorf("downloading %s: %w", prog.Name(), err))
 			}
@@ -50,9 +50,9 @@ func GetAll(ctx context.Context) error {
 	return nil
 }
 
-func Get(ctx context.Context, names ...string) error {
+func Get(ctx context.Context, conf *config.Runtime, names ...string) error {
 	internal.Log().Debug().Strs("programs", names).Msg("attempting to download programs")
-	l, err := config.ParseLock(config.LockFilePath)
+	l, err := config.ParseLock(conf.LockfilePath)
 	if err != nil {
 		return err
 	}
@@ -75,7 +75,7 @@ func Get(ctx context.Context, names ...string) error {
 				internal.Log().Debug().Str("program", name).Msg("found program spec")
 				wg.Add(1)
 				go func(name string, prog program.Program) {
-					err := downloadProgram(ctx, prog)
+					err := downloadProgram(ctx, prog, conf.OutputDir)
 					if err != nil {
 						errors = append(errors, fmt.Errorf("downloading %s: %w", name, err))
 					}
@@ -102,7 +102,7 @@ func Get(ctx context.Context, names ...string) error {
 	return nil
 }
 
-func downloadProgram(ctx context.Context, p program.Program) error {
+func downloadProgram(ctx context.Context, p program.Program, outDir string) error {
 	a, err := p.DownloadArchive(ctx, &download.HTTP{}, runtime.GOOS, runtime.GOARCH)
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func downloadProgram(ctx context.Context, p program.Program) error {
 	}
 	internal.Log().Debug().Str("program", p.Name()).Msg("found binary")
 
-	loc := path.Join(config.OutputDir, p.Name())
+	loc := path.Join(outDir, p.Name())
 	err = os.WriteFile(loc, bin, 0755)
 	if err != nil {
 		return err

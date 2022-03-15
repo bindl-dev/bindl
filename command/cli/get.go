@@ -15,9 +15,9 @@ var BindlGet = &cobra.Command{
 and ensures the program is ready to be used by setting executable flag.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
 		if bindlGetAll {
-			return command.GetAll(cmd.Context())
+			return command.GetAll(cmd.Context(), defaultConfig)
 		} else {
-			return command.Get(cmd.Context(), names...)
+			return command.Get(cmd.Context(), defaultConfig, names...)
 		}
 	},
 }

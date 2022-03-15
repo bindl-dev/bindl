@@ -1,5 +1,3 @@
-output: ./bin
-
 platforms:
   linux:
     - amd64
