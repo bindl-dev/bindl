@@ -34,7 +34,9 @@ checksums:
 		"linux":  []string{"amd64"},
 		"darwin": []string{"arm64"},
 	})
-	assert(t, nil, err)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	u, ok := p.(*program.URLProgram)
 	if !ok {
