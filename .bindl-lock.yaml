@@ -26,21 +26,4 @@ programs:
       linux: Linux
   url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 0.1.2
-- checksum: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/kind-{{ .OS }}-{{ .Arch }}.sha256sum
-  checksums:
-    kind-darwin-amd64:
-      _archive: 969d607a4eb5df20e1ea3841813b7869614235f6b1644c9a27700bff9de5bdfc
-      kind: 969d607a4eb5df20e1ea3841813b7869614235f6b1644c9a27700bff9de5bdfc
-    kind-darwin-arm64:
-      _archive: 98d0f29fbde2154c64653aff81e6d0b9faea5001c5e29ce80ecfb9f67810197b
-      kind: 98d0f29fbde2154c64653aff81e6d0b9faea5001c5e29ce80ecfb9f67810197b
-    kind-linux-amd64:
-      _archive: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
-      kind: b80624c14c807490c0944d21fdc9c3455d6cc904fad486fe236f2187ecaa5789
-    kind-linux-arm64:
-      _archive: 26c16a8ec90e2a3a42f2f8e1c7139b69769ce1011e7a314cb4ae86345e6363bd
-      kind: 26c16a8ec90e2a3a42f2f8e1c7139b69769ce1011e7a314cb4ae86345e6363bd
-  name: kind
-  url: https://github.com/kubernetes-sigs/kind/releases/download/v{{ .Version }}/kind-{{ .OS }}-{{ .Arch }}
-  version: 0.12.0
-updated: "2022-03-15T23:11:52.423657969Z"
+updated: "2022-03-16T00:48:27.359038038Z"

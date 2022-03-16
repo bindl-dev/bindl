@@ -3,8 +3,5 @@
 
 # If file content is outdated, run 'bindl make' to regenerate.
 
-bin/archy:
+bin/archy: bin/bindl
 	bin/bindl get archy
-
-bin/kind:
-	bin/bindl get kind

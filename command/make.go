@@ -9,7 +9,7 @@ import (
 	"go.xargs.dev/bindl/config"
 )
 
-var rawMakefileTmpl = "\n{{ .OutputDir }}/{{ .Name }}:\n\t{{ .OutputDir }}/bindl get {{ .Name }}\n"
+var rawMakefileTmpl = "\n{{ .OutputDir }}/{{ .Name }}: {{ .OutputDir }}/bindl\n\t{{ .OutputDir }}/bindl get {{ .Name }}\n"
 
 var makefileTmpl = template.Must(template.New("makefile").Parse(rawMakefileTmpl))
 
