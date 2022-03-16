@@ -7,9 +7,9 @@ import (
 )
 
 var All = []*cobra.Command{
-	BindlInit,
 	BindlGet,
 	BindlSync,
+	BindlMake,
 }
 
 var logDebug bool
@@ -36,10 +36,10 @@ var defaultConfig = &config.Runtime{
 }
 
 func init() {
-	Root.PersistentFlags().BoolVar(&logDisable, "silent", logDisable, "Silence logs")
-	Root.PersistentFlags().BoolVar(&logDebug, "debug", logDebug, "Show debug logs")
-	Root.PersistentFlags().StringVar(&defaultConfig.Path, "config", defaultConfig.Path, "Path to configuration file.")
-	Root.PersistentFlags().StringVar(&defaultConfig.LockfilePath, "lock", defaultConfig.LockfilePath, "Path to lockfile.")
-	Root.PersistentFlags().StringVarP(&defaultConfig.OutputDir, "out", "o", defaultConfig.OutputDir, "Directory to store binaries.")
+	Root.PersistentFlags().BoolVarP(&logDisable, "silent", "s", logDisable, "silence logs")
+	Root.PersistentFlags().BoolVar(&logDebug, "debug", logDebug, "show debug logs")
+	Root.PersistentFlags().StringVarP(&defaultConfig.Path, "config", "c", defaultConfig.Path, "path to configuration file")
+	Root.PersistentFlags().StringVarP(&defaultConfig.LockfilePath, "lock", "l", defaultConfig.LockfilePath, "path to lockfile")
+	Root.PersistentFlags().StringVarP(&defaultConfig.OutputDir, "bin", "b", defaultConfig.OutputDir, "directory to store binaries")
 	Root.AddCommand(All...)
 }

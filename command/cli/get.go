@@ -23,5 +23,5 @@ and ensures the program is ready to be used by setting executable flag.`,
 }
 
 func init() {
-	BindlGet.Flags().BoolVarP(&bindlGetAll, "all", "a", false, "Get all programs defined in 'bindl-lock.yaml'")
+	BindlGet.Flags().BoolVarP(&bindlGetAll, "all", "a", false, "get all programs defined in 'bindl-lock.yaml'")
 }

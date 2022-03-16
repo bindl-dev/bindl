@@ -22,5 +22,5 @@ lockfile for all desired platforms and programs.`,
 }
 
 func init() {
-	BindlSync.Flags().BoolVar(&bindlSyncStdout, "stdout", false, "Write output to stdout instead of lockfile")
+	BindlSync.Flags().BoolVar(&bindlSyncStdout, "stdout", false, "write output to stdout instead of lockfile")
 }
