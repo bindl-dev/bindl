@@ -114,6 +114,9 @@ func downloadProgram(ctx context.Context, p *program.URLProgram, outDir string) 
 	}
 	internal.Log().Debug().Str("program", p.Name()).Msg("found binary")
 
+	if err = os.MkdirAll(outDir, 0755); err != nil {
+		return err
+	}
 	loc := path.Join(outDir, p.Name())
 	err = os.WriteFile(loc, bin, 0755)
 	if err != nil {
