@@ -1,5 +1,7 @@
 include Makefile.*
 
+# Go executable to use, i.e. `make GO=/usr/bin/go1.18`
+# Defaults to first found in PATH
 GO?=go
 
 .PHONY: bin/bindl-dev
