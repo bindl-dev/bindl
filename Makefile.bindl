@@ -5,3 +5,6 @@
 
 bin/archy: bin/bindl
 	bin/bindl get archy
+
+bin/addlicense: bin/bindl
+	bin/bindl get addlicense

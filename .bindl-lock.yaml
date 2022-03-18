@@ -24,6 +24,31 @@ programs:
     OS:
       darwin: Darwin
       linux: Linux
-  url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 0.1.2
-updated: "2022-03-16T00:48:27.359038038Z"
+- checksum: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
+  checksums:
+    addlicense_1.0.0_Linux_arm64.tar.gz:
+      _archive: dd42bca32cfcf37c53ae172b5c2f2db8a3f5a09574a55db6aca1eb1186de3330
+      addlicense: 959d66bebdea6c2fa232cd0b0ee00417008278e023082238fcb81db2263e0b64
+    addlicense_1.0.0_Linux_x86_64.tar.gz:
+      _archive: aae27d96ce4dea4dfa5cd44ea81708157932783646cde801b38e8bbbf8fb682b
+      addlicense: ac53b538d315abfb1c6e2cec5c6a7886397f1d1738a6b7abe6af2159ce614bee
+    addlicense_1.0.0_Windows_x86_64.zip:
+      _archive: 1afe1d09c24fc5d08d6568d42e09e1919e4cbad8436900f68f6f6bfc9cd0c39c
+    addlicense_1.0.0_macOS_arm64.tar.gz:
+      _archive: 86285b616ef37451402d67fcc6c8485d24180307dbb21fe381d4f222885306ba
+      addlicense: 2f9bbb0952dd3e98884199776d456ac3eeb7d404a58e40feb0db64ce1bc76add
+    addlicense_1.0.0_macOS_x86_64.tar.gz:
+      _archive: 0e90a992a598638f1ddf471f1a63873c534a222886474c0b8d10f9c26c0c41ef
+      addlicense: d17bd42ed57ddea1875ea82f0a90373b56a72da96b092179f15021e97f951df2
+  name: addlicense
+  overlay:
+    Arch:
+      amd64: x86_64
+    OS:
+      darwin: macOS
+      linux: Linux
+  url: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  version: 1.0.0
+updated: "2022-03-18T05:50:55.117342775Z"
