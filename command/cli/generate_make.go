@@ -5,9 +5,9 @@ import (
 	"go.xargs.dev/bindl/command"
 )
 
-var bindlMakefilePath = "Makefile.bindl"
+var bindlGenerateMakefilePath = "Makefile.bindl"
 
-var BindlMake = &cobra.Command{
+var BindlGenerateMake = &cobra.Command{
 	Use:   "make",
 	Short: "Generate Makefile for bindl programs",
 	Long: `Generate Makefile for all programs in lockfile.
@@ -27,10 +27,10 @@ in your other rules. For example:
 
 Calling the imported rules also works on 'make' CLI.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return command.GenerateMakefile(defaultConfig, bindlMakefilePath)
+		return command.GenerateMakefile(defaultConfig, bindlGenerateMakefilePath)
 	},
 }
 
 func init() {
-	BindlMake.Flags().StringVarP(&bindlMakefilePath, "path", "p", bindlMakefilePath, "path to generated Makefile")
+	BindlGenerateMake.Flags().StringVarP(&bindlGenerateMakefilePath, "path", "p", bindlGenerateMakefilePath, "path to generated Makefile")
 }
