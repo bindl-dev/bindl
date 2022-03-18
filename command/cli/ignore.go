@@ -13,7 +13,7 @@ var BindlIgnore = &cobra.Command{
 	Long: `Generate ignore file for bindl programs 
 
 By default, Bindl will take ".gitignore" as input and append 
-<output directory>/*.
+<output directory>/* if it doesn't already exist.
 
 For example, with default output directory "bin":
 
@@ -21,8 +21,7 @@ For example, with default output directory "bin":
   $ tail -n 1 .gitignore
   bin/*
 
-This operation is idempotent, so running the command multiple times will
-result in the same ignore file.`,
+Supports typical ignore files. e.g. .dockerignore`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return command.UpdateIgnoreFile(defaultConfig, bindlIgnorePath)
 	},
