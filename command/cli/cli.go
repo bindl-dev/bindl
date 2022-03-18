@@ -8,9 +8,8 @@ import (
 
 var All = []*cobra.Command{
 	BindlGet,
-	BindlIgnore,
 	BindlSync,
-	BindlMake,
+	BindlGenerate,
 }
 
 var logDebug bool

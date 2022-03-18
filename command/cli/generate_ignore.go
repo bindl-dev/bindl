@@ -5,9 +5,9 @@ import (
 	"go.xargs.dev/bindl/command"
 )
 
-var bindlIgnorePath = ".gitignore"
+var bindlGenerateIgnorePath = ".gitignore"
 
-var BindlIgnore = &cobra.Command{
+var BindlGenerateIgnore = &cobra.Command{
 	Use:   "ignore",
 	Short: "Generate ignore file for bindl programs",
 	Long: `Generate ignore file for bindl programs 
@@ -23,10 +23,10 @@ For example, with default output directory "bin":
 
 Supports typical ignore files. e.g. .dockerignore`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return command.UpdateIgnoreFile(defaultConfig, bindlIgnorePath)
+		return command.UpdateIgnoreFile(defaultConfig, bindlGenerateIgnorePath)
 	},
 }
 
 func init() {
-	BindlIgnore.Flags().StringVarP(&bindlIgnorePath, "path", "p", bindlIgnorePath, "path to ignore file")
+	BindlGenerateIgnore.Flags().StringVarP(&bindlGenerateIgnorePath, "path", "p", bindlGenerateIgnorePath, "path to ignore file")
 }
