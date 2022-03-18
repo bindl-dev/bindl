@@ -10,7 +10,7 @@ programs:
   - name: archy
     version: 0.1.2
     provider: url
-    path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+    path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
     overlay:
       OS:
         linux: "Linux"
@@ -19,3 +19,15 @@ programs:
         amd64: "x86_64"
     checksums:
       _src: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+  - name: addlicense
+    version: 1.0.0
+    provider: url
+    path: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+    overlay:
+      OS:
+        linux: "Linux"
+        darwin: "macOS"
+      Arch:
+        amd64: "x86_64"
+    checksums:
+      _src: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt

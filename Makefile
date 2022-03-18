@@ -15,3 +15,10 @@ bin/bindl:
 .PHONY: archy
 archy: bin/archy
 	bin/archy -s -m
+
+.PHONY: license
+license: bin/addlicense
+	bin/addlicense \
+		-c "Bindl Authors" \
+		-l apache \
+		**/*.go
