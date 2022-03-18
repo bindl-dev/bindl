@@ -88,6 +88,18 @@ func (p *URLProgram) collectBinaryChecksum(ctx context.Context, platforms map[st
 	if hasError {
 		return fmt.Errorf("failed to collect all checksums")
 	}
+
+	// Not all checksums was necessarily used, remove the ones not caught by platform matrix
+	toDelete := []string{}
+	for archiveName, archiveCS := range p.Checksums {
+		if len(archiveCS.Binaries) == 0 {
+			toDelete = append(toDelete, archiveName)
+		}
+	}
+	for _, archiveName := range toDelete {
+		delete(p.Checksums, archiveName)
+	}
+
 	return nil
 }
 
