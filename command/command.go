@@ -14,6 +14,48 @@
 
 package command
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+
+	"go.xargs.dev/bindl/config"
+	"go.xargs.dev/bindl/internal"
+	"go.xargs.dev/bindl/program"
+)
 
 var FailExecError = errors.New("failed to execute command, please troubleshoot logs")
+
+func FilterPrograms(conf *config.Runtime, names []string) ([]*program.URLProgram, error) {
+	l, err := config.ParseLock(conf.LockfilePath)
+	if err != nil {
+		return nil, fmt.Errorf("parsing lockfile: %w", err)
+	}
+
+	if len(names) == 0 {
+		return l.Programs, nil
+	}
+
+	notFound := []string{}
+	programs := []*program.URLProgram{}
+
+	for _, name := range names {
+		found := false
+		for _, p := range l.Programs {
+			if p.PName == name {
+				programs = append(programs, p)
+				found = true
+				break
+			}
+		}
+		if !found {
+			notFound = append(notFound, name)
+		}
+	}
+
+	if len(notFound) > 0 {
+		internal.Log().Error().Strs("programs", notFound).Msg("undefined programs in lockfile")
+		return nil, FailExecError
+	}
+
+	return programs, nil
+}
