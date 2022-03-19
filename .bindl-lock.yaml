@@ -45,4 +45,21 @@ programs:
       linux: Linux
   url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 0.1.2
-updated: "2022-03-18T23:00:34.77359748Z"
+- checksum: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
+  checksums:
+    golangci-lint-1.45.0-darwin-amd64.tar.gz:
+      _archive: f53826957a96a3312f5e932299024a1274b31c8b70d54510803222fb5d9f7af8
+      golangci-lint: 16e0bb59872f325e2e788a397bc9c58cbc0476b78f46d882edc3a5eb8694cc06
+    golangci-lint-1.45.0-darwin-arm64.tar.gz:
+      _archive: b1dac279dbcd58938a2f77311d5d50e0b9624b518c849851f7a9d3d859cc14b2
+      golangci-lint: 23223a354f2461cc223ab12825ca2f8cc62633233ca664af185474f2dcc257e8
+    golangci-lint-1.45.0-linux-amd64.tar.gz:
+      _archive: ca06a2b170f41a9e1e34d40ca88b15b8fed2d7e37310f0c08b7fc244c34292a9
+      golangci-lint: 446b777853a8478b77a0300f04d0146c463120757a69cc6c9c51e5197ddba350
+    golangci-lint-1.45.0-linux-arm64.tar.gz:
+      _archive: 4c83a0f70189e2b6656ca0216a22fb37087c1ffb10eb5df9a002bbea15c88354
+      golangci-lint: b82fd0e4ad15db3b3273264b1913aeb01157990e450c368855ae3be92485ad0e
+  name: golangci-lint
+  url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
+  version: 1.45.0
+updated: "2022-03-19T19:30:30.383766Z"

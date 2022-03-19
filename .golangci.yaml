@@ -1,0 +1,33 @@
+# Configuration settings: https://golangci-lint.run/usage/configuration/
+
+linters-settings:
+  depguard:
+    include-go-root: true
+    packages:
+      - io/ioutil
+    packages-with-error-message:
+      - io/ioutil: 'ioutil was deprecated in 1.16 (https://go.dev/doc/go1.16#ioutil)'
+  forbidigo:
+    forbid:
+      - ^print.*$
+  goheader:
+    template-path: header.tmpl
+  goimports:
+    local-prefixes: go.xargs.dev/bindl
+
+linters:
+  disable:
+    - goheader
+
+run:
+  tests: false
+  go: 1.18
+
+issues:
+  exclude-rules:
+  - path: _test\.go
+    linters:
+    - errcheck
+    - gosec
+  max-issues-per-linter: 0
+  max-same-issues: 0

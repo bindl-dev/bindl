@@ -42,8 +42,6 @@ func readChecksum(r io.Reader) (map[string]string, error) {
 		result[f] = cs
 	}
 	return result, nil
-
-	return map[string]string{}, nil
 }
 
 func checksumSHA256(binary []byte) []byte {

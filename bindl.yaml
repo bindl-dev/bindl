@@ -31,3 +31,10 @@ programs:
         amd64: "x86_64"
     checksums:
       _src: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
+  - name: golangci-lint
+    # LINT: Match with version in .golangci.yaml and .github/workflows/go.yaml
+    version: 1.45.0
+    provider: url
+    path: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
+    checksums:
+      _src: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt

@@ -27,3 +27,11 @@ license: bin/addlicense
 		-c "Bindl Authors" \
 		-l apache \
 		$(call rwildcard, ., *.go)
+
+.PHONY: lint
+lint: bin/golangci-lint
+	bin/golangci-lint run
+
+.PHONY: lint/fix
+lint/fix: bin/golangci-lint
+	bin/golangci-lint run --fix

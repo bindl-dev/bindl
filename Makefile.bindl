@@ -3,8 +3,11 @@
 
 # If file content is outdated, run 'bindl make' to regenerate.
 
+bin/addlicense: bin/bindl
+	bin/bindl get addlicense
+
 bin/archy: bin/bindl
 	bin/bindl get archy
 
-bin/addlicense: bin/bindl
-	bin/bindl get addlicense
+bin/golangci-lint: bin/bindl
+	bin/bindl get golangci-lint
