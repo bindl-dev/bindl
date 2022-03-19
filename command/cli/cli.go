@@ -15,6 +15,8 @@
 package cli
 
 import (
+	"runtime"
+
 	"github.com/spf13/cobra"
 	"go.xargs.dev/bindl/config"
 	"go.xargs.dev/bindl/internal/log"
@@ -24,6 +26,7 @@ var All = []*cobra.Command{
 	BindlGet,
 	BindlSync,
 	BindlGenerate,
+	BindlVerify,
 }
 
 var logDebug bool
@@ -47,6 +50,9 @@ var defaultConfig = &config.Runtime{
 	Path:         "./bindl.yaml",
 	LockfilePath: "./.bindl-lock.yaml",
 	OutputDir:    "./bin",
+
+	OS:   runtime.GOOS,
+	Arch: runtime.GOARCH,
 }
 
 func init() {
@@ -55,5 +61,4 @@ func init() {
 	Root.PersistentFlags().StringVarP(&defaultConfig.Path, "config", "c", defaultConfig.Path, "path to configuration file")
 	Root.PersistentFlags().StringVarP(&defaultConfig.LockfilePath, "lock", "l", defaultConfig.LockfilePath, "path to lockfile")
 	Root.PersistentFlags().StringVarP(&defaultConfig.OutputDir, "bin", "b", defaultConfig.OutputDir, "directory to store binaries")
-	Root.AddCommand(All...)
 }

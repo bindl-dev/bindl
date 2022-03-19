@@ -12,13 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package config
+package cli
 
-type Runtime struct {
-	Path         string
-	LockfilePath string
-	OutputDir    string
+import (
+	"github.com/spf13/cobra"
+	"go.xargs.dev/bindl/command"
+)
 
-	OS   string
-	Arch string
+var BindlVerify = &cobra.Command{
+	Use:     "verify NAME",
+	Aliases: []string{"validate"},
+	Short:   "Verify current installation of a program",
+	Long: `Verify if the currently installed program matches the specified checksum in lockfile.
+If no program name is specified through args, then all programs will be validated.`,
+	RunE: func(cmd *cobra.Command, names []string) error {
+		return command.LockfileProgramCommandMapper(
+			cmd.Context(),
+			defaultConfig,
+			names,
+			command.Verify)
+	},
 }
