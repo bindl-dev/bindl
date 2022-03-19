@@ -74,7 +74,9 @@ func (c *Config) URLProgram(ctx context.Context, platforms map[string][]string) 
 		if err != nil {
 			return nil, err
 		}
-		p.collectBinaryChecksum(ctx, platforms)
+		if err = p.collectBinaryChecksum(ctx, platforms); err != nil {
+			return nil, err
+		}
 	default:
 		return nil, fmt.Errorf("unknown program config provider: %s", c.Provider)
 	}
@@ -113,7 +115,7 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 
 	checksums := map[string]string{}
 
-	for url, _ := range checksumSrc {
+	for url := range checksumSrc {
 		resp, err := http.Get(url)
 		if err != nil {
 			return fmt.Errorf("retrieving checksums from '%s': %w", url, err)
