@@ -15,6 +15,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 
 	"go.xargs.dev/bindl/command"
@@ -27,6 +29,12 @@ var BindlGet = &cobra.Command{
 	Short: "Get local copy of program",
 	Long: `Get downloads the names program, which must already exist in bindl.yaml,
 and ensures the program is ready to be used by setting executable flag.`,
+	PreRunE: func(cmd *cobra.Command, names []string) error {
+		if !bindlGetAll && len(names) == 0 {
+			return fmt.Errorf("program name required but missing: specify program name or use '--all'")
+		}
+		return nil
+	},
 	RunE: func(cmd *cobra.Command, names []string) error {
 		if bindlGetAll {
 			return command.GetAll(cmd.Context(), defaultConfig)
