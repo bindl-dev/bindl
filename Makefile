@@ -1,5 +1,10 @@
 include Makefile.*
 
+# Recursive wildcard.
+# Usage: $(call rwildcard, dir_to_search, pattern_to_search_for)
+# Example: $(call rwildcard, ., *.go)
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
 # Go executable to use, i.e. `make GO=/usr/bin/go1.18`
 # Defaults to first found in PATH
 GO?=go
@@ -21,4 +26,4 @@ license: bin/addlicense
 	bin/addlicense \
 		-c "Bindl Authors" \
 		-l apache \
-		**/*.go
+		$(call rwildcard, ., *.go)
