@@ -17,7 +17,6 @@ linters-settings:
 
 linters:
   disable:
-    - typecheck
     - goheader
 
 run:
