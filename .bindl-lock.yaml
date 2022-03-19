@@ -1,31 +1,4 @@
 programs:
-- checksum: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
-  checksums:
-    archy_0.1.2_Darwin_arm64.tar.gz:
-      _archive: 4efe1d6a3885eac97c8bf7dbab25148a7f5a077ca26677764f6e98cc036b613e
-      archy: 49f27370e98c3dd758b28c25b0a1e87263f4d8ca608cc8e4b8fbf977fe7467a8
-    archy_0.1.2_Darwin_x86_64.tar.gz:
-      _archive: 1fb90e79406607484e0cb285eef5c72efc495c5e371f7ec0bc20fc29caa629a7
-      archy: 1cf8f6f1f150b66ecb68c4068f7149f52a257b5a3c8592b956ab54bc099ce7bc
-    archy_0.1.2_Linux_arm64.tar.gz:
-      _archive: 8d3ca1cbb351a0db4e8e7d2504fe28379a99a846e3ce183582e7b3559b3230b1
-      archy: 962eb359f63e4e36e37eea330bde802b04ebf932bc9165756d0dfb3d9095a8b5
-    archy_0.1.2_Linux_armv6.tar.gz:
-      _archive: 7bf551876904ce66d8d21421d51acde0dc1a7a4e010e5c4087ccd05594584a1f
-    archy_0.1.2_Linux_i386.tar.gz:
-      _archive: d3b9d4b2f91a8cd8a702619cc0a5453fbb2afef83dcb12b2f40bcdef09e3b5a2
-    archy_0.1.2_Linux_x86_64.tar.gz:
-      _archive: a6630ef3eded7f839a5c6f5bf316fd5bdf6628ffd773e2e7e9730c3d58a5205d
-      archy: f56006d12866fc741575416c8392fcc0f11b1e4e0e8ec13a697e5533691c0555
-  name: archy
-  overlay:
-    Arch:
-      amd64: x86_64
-    OS:
-      darwin: Darwin
-      linux: Linux
-  url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
-  version: 0.1.2
 - checksum: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
   checksums:
     addlicense_1.0.0_Linux_arm64.tar.gz:
@@ -34,8 +7,6 @@ programs:
     addlicense_1.0.0_Linux_x86_64.tar.gz:
       _archive: aae27d96ce4dea4dfa5cd44ea81708157932783646cde801b38e8bbbf8fb682b
       addlicense: ac53b538d315abfb1c6e2cec5c6a7886397f1d1738a6b7abe6af2159ce614bee
-    addlicense_1.0.0_Windows_x86_64.zip:
-      _archive: 1afe1d09c24fc5d08d6568d42e09e1919e4cbad8436900f68f6f6bfc9cd0c39c
     addlicense_1.0.0_macOS_arm64.tar.gz:
       _archive: 86285b616ef37451402d67fcc6c8485d24180307dbb21fe381d4f222885306ba
       addlicense: 2f9bbb0952dd3e98884199776d456ac3eeb7d404a58e40feb0db64ce1bc76add
@@ -51,4 +22,27 @@ programs:
       linux: Linux
   url: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 1.0.0
-updated: "2022-03-18T05:50:55.117342775Z"
+- checksum: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+  checksums:
+    archy_0.1.2_Darwin_arm64.tar.gz:
+      _archive: 4efe1d6a3885eac97c8bf7dbab25148a7f5a077ca26677764f6e98cc036b613e
+      archy: 49f27370e98c3dd758b28c25b0a1e87263f4d8ca608cc8e4b8fbf977fe7467a8
+    archy_0.1.2_Darwin_x86_64.tar.gz:
+      _archive: 1fb90e79406607484e0cb285eef5c72efc495c5e371f7ec0bc20fc29caa629a7
+      archy: 1cf8f6f1f150b66ecb68c4068f7149f52a257b5a3c8592b956ab54bc099ce7bc
+    archy_0.1.2_Linux_arm64.tar.gz:
+      _archive: 8d3ca1cbb351a0db4e8e7d2504fe28379a99a846e3ce183582e7b3559b3230b1
+      archy: 962eb359f63e4e36e37eea330bde802b04ebf932bc9165756d0dfb3d9095a8b5
+    archy_0.1.2_Linux_x86_64.tar.gz:
+      _archive: a6630ef3eded7f839a5c6f5bf316fd5bdf6628ffd773e2e7e9730c3d58a5205d
+      archy: f56006d12866fc741575416c8392fcc0f11b1e4e0e8ec13a697e5533691c0555
+  name: archy
+  overlay:
+    Arch:
+      amd64: x86_64
+    OS:
+      darwin: Darwin
+      linux: Linux
+  url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  version: 0.1.2
+updated: "2022-03-18T23:00:34.77359748Z"
