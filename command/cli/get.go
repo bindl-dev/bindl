@@ -16,10 +16,13 @@ package cli
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/spf13/cobra"
 
 	"go.xargs.dev/bindl/command"
+	"go.xargs.dev/bindl/internal"
+	"go.xargs.dev/bindl/program"
 )
 
 var bindlGetAll bool
@@ -36,11 +39,40 @@ and ensures the program is ready to be used by setting executable flag.`,
 		return nil
 	},
 	RunE: func(cmd *cobra.Command, names []string) error {
-		if bindlGetAll {
-			return command.GetAll(cmd.Context(), defaultConfig)
-		} else {
-			return command.Get(cmd.Context(), defaultConfig, names...)
+		progs, err := command.FilterPrograms(defaultConfig, names)
+		if err != nil {
+			return err
 		}
+
+		hasError := false
+		errs := make(chan error)
+
+		var wg sync.WaitGroup
+		for _, p := range progs {
+			wg.Add(1)
+			go func(p *program.URLProgram) {
+				errs <- command.Get(cmd.Context(), defaultConfig, p)
+				wg.Done()
+			}(p)
+		}
+
+		go func() {
+			wg.Wait()
+			close(errs)
+		}()
+
+		for err := range errs {
+			if err != nil {
+				internal.Log().Err(err).Msg("getting program")
+				hasError = true
+			}
+		}
+
+		if hasError {
+			return command.FailExecError
+		}
+
+		return nil
 	},
 }
 
