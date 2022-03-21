@@ -31,7 +31,7 @@ var FailExecError = errors.New("failed to execute command, please troubleshoot l
 
 type ProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
 
-func LockfileProgramIterator(ctx context.Context, conf *config.Runtime, names []string, fn ProgramCommandFunc) error {
+func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []string, fn ProgramCommandFunc) error {
 	progs := make(chan *program.URLProgram, 1)
 	errs := make(chan error, 1)
 

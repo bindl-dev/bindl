@@ -27,7 +27,7 @@ var BindlVerify = &cobra.Command{
 If no program name is specified through args, then all programs in lockfile
 will be selected.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
-		return command.LockfileProgramIterator(
+		return command.IterateLockfilePrograms(
 			cmd.Context(),
 			defaultConfig,
 			names,
