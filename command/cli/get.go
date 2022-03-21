@@ -15,35 +15,24 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 
 	"go.xargs.dev/bindl/command"
 )
 
-var bindlGetAll bool
-
 var BindlGet = &cobra.Command{
-	Use:   "get NAME",
+	Use:   "get [name, ...]",
 	Short: "Get local copy of program",
 	Long: `Get downloads the names program, which must already exist in bindl.yaml,
-and ensures the program is ready to be used by setting executable flag.`,
-	PreRunE: func(cmd *cobra.Command, names []string) error {
-		if !bindlGetAll && len(names) == 0 {
-			return fmt.Errorf("program name required but missing: specify program name or use '--all'")
-		}
-		return nil
-	},
+and ensures the program is ready to be used by setting executable flag.
+
+If no program name is specified through args, then all programs in lockfile
+will be selected.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
-		return command.LockfileProgramCommandMapper(
+		return command.LockfileProgramIterator(
 			cmd.Context(),
 			defaultConfig,
 			names,
 			command.Get)
 	},
-}
-
-func init() {
-	BindlGet.Flags().BoolVarP(&bindlGetAll, "all", "a", false, "get all programs defined in 'bindl-lock.yaml'")
 }

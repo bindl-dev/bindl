@@ -29,9 +29,9 @@ import (
 // preserving the real error can be difficult with concurrent setup.
 var FailExecError = errors.New("failed to execute command, please troubleshoot logs")
 
-type lockfileProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
+type ProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
 
-func LockfileProgramCommandMapper(ctx context.Context, conf *config.Runtime, names []string, fn lockfileProgramCommandFunc) error {
+func LockfileProgramIterator(ctx context.Context, conf *config.Runtime, names []string, fn ProgramCommandFunc) error {
 	progs := make(chan *program.URLProgram, 1)
 	errs := make(chan error, 1)
 
@@ -77,8 +77,8 @@ func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, p
 		return fmt.Errorf("parsing lockfile: %w", err)
 	}
 
-	// Assume that user used --all flag, because otherwise it should be
-	// impossible to reach this step without it (gated by cobra PreRunE).
+	// In the event that no specific names were provided, then *all* programs in lockfile
+	// will be included in the filter.
 	if len(names) == 0 {
 		for _, p := range l.Programs {
 			if err := ctx.Err(); err != nil {

@@ -20,13 +20,14 @@ import (
 )
 
 var BindlVerify = &cobra.Command{
-	Use:     "verify NAME",
+	Use:     "verify [name, ...]",
 	Aliases: []string{"validate"},
 	Short:   "Verify current installation of a program",
 	Long: `Verify if the currently installed program matches the specified checksum in lockfile.
-If no program name is specified through args, then all programs will be validated.`,
+If no program name is specified through args, then all programs in lockfile
+will be selected.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
-		return command.LockfileProgramCommandMapper(
+		return command.LockfileProgramIterator(
 			cmd.Context(),
 			defaultConfig,
 			names,
