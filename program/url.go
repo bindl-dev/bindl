@@ -30,9 +30,9 @@ import (
 type URLProgram struct {
 	Base
 
-	URLTemplate string                      `json:"url"`
-	ChecksumSrc string                      `json:"checksum,omitempty"`
 	Checksums   map[string]*ArchiveChecksum `json:"checksums,omitempty"`
+	ChecksumSrc string                      `json:"checksum,omitempty"`
+	URLTemplate string                      `json:"url"`
 }
 
 func NewURLProgram(c *Config) (*URLProgram, error) {

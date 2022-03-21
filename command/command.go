@@ -25,9 +25,9 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
-// FailExecError is used as generic failure for command line interface as
+// ErrFailExec is used as generic failure for command line interface as
 // preserving the real error can be difficult with concurrent setup.
-var FailExecError = errors.New("failed to execute command, please troubleshoot logs")
+var ErrFailExec = errors.New("failed to execute command, please troubleshoot logs")
 
 type ProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
 
@@ -58,7 +58,7 @@ func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []
 	hasError := false
 	for err := range errs {
 		if err != nil {
-			if !errors.Is(err, FailExecError) {
+			if !errors.Is(err, ErrFailExec) {
 				internal.ErrorMsg(err)
 			}
 			hasError = true
@@ -66,7 +66,7 @@ func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []
 	}
 
 	if hasError {
-		return FailExecError
+		return ErrFailExec
 	}
 	return nil
 }
@@ -114,7 +114,7 @@ func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, p
 	// This can probably be done with boolean, but leaving it here for now to
 	// assist debugging as needed.
 	if len(notFound) > 0 {
-		return FailExecError
+		return ErrFailExec
 	}
 
 	return nil
