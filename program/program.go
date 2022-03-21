@@ -120,7 +120,7 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 		if err != nil {
 			return fmt.Errorf("retrieving checksums from '%s': %w", url, err)
 		}
-		data, err := readChecksum(resp.Body)
+		data, err := readChecksumRef(resp.Body)
 		resp.Body.Close()
 		if err != nil {
 			return fmt.Errorf("reading checksums: %w", err)

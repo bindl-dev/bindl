@@ -15,47 +15,105 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"sync"
 
 	"go.xargs.dev/bindl/config"
 	"go.xargs.dev/bindl/internal"
 	"go.xargs.dev/bindl/program"
 )
 
+// FailExecError is used as generic failure for command line interface as
+// preserving the real error can be difficult with concurrent setup.
 var FailExecError = errors.New("failed to execute command, please troubleshoot logs")
 
-func FilterPrograms(conf *config.Runtime, names []string) ([]*program.URLProgram, error) {
-	l, err := config.ParseLock(conf.LockfilePath)
-	if err != nil {
-		return nil, fmt.Errorf("parsing lockfile: %w", err)
+type ProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
+
+func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []string, fn ProgramCommandFunc) error {
+	progs := make(chan *program.URLProgram, 1)
+	errs := make(chan error, 1)
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		errs <- filterPrograms(ctx, conf, names, progs)
+		wg.Done()
+	}()
+
+	for p := range progs {
+		wg.Add(1)
+		go func(p *program.URLProgram) {
+			errs <- fn(ctx, conf, p)
+			wg.Done()
+		}(p)
 	}
 
+	go func() {
+		wg.Wait()
+		close(errs)
+	}()
+
+	hasError := false
+	for err := range errs {
+		if err != nil {
+			internal.ErrorMsg(err)
+			hasError = true
+		}
+	}
+
+	if hasError {
+		return FailExecError
+	}
+	return nil
+}
+
+func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, progs chan<- *program.URLProgram) error {
+	defer close(progs)
+
+	l, err := config.ParseLock(conf.LockfilePath)
+	if err != nil {
+		return fmt.Errorf("parsing lockfile: %w", err)
+	}
+
+	// In the event that no specific names were provided, then *all* programs in lockfile
+	// will be included in the filter.
 	if len(names) == 0 {
-		return l.Programs, nil
+		for _, p := range l.Programs {
+			if err := ctx.Err(); err != nil {
+				return err
+			}
+			progs <- p
+		}
+		return nil
 	}
 
 	notFound := []string{}
-	programs := []*program.URLProgram{}
 
 	for _, name := range names {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
 		found := false
 		for _, p := range l.Programs {
 			if p.PName == name {
-				programs = append(programs, p)
+				progs <- p
 				found = true
 				break
 			}
 		}
 		if !found {
+			internal.ErrorMsg(fmt.Errorf("program not found: %v", name))
 			notFound = append(notFound, name)
 		}
 	}
 
+	// This can probably be done with boolean, but leaving it here for now to
+	// assist debugging as needed.
 	if len(notFound) > 0 {
-		internal.Log().Error().Strs("programs", notFound).Msg("undefined programs in lockfile")
-		return nil, FailExecError
+		return FailExecError
 	}
 
-	return programs, nil
+	return nil
 }

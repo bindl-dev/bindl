@@ -18,6 +18,7 @@ import (
 	"os"
 	"time"
 
+	"go.xargs.dev/bindl/internal"
 	"go.xargs.dev/bindl/program"
 	"sigs.k8s.io/yaml"
 )
@@ -35,6 +36,10 @@ func ParseLock(path string) (*Lock, error) {
 	}
 	if err := yaml.Unmarshal(raw, l); err != nil {
 		return nil, err
+	}
+	internal.Log().Debug().Int("programs", len(l.Programs)).Msg("parsing lockfile")
+	if len(l.Programs) == 0 {
+		internal.Log().Warn().Msg("no programs found in lockfile")
 	}
 	return l, nil
 }

@@ -35,6 +35,7 @@ func run() error {
 	defer cancel()
 
 	cli.Root.AddCommand(versionCmd)
+	cli.Root.AddCommand(cli.All...)
 
 	// Silence default errors as they don't look noisy,
 	// print error manually in main()

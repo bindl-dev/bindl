@@ -103,6 +103,15 @@ func (p *URLProgram) collectBinaryChecksum(ctx context.Context, platforms map[st
 	return nil
 }
 
+func (p *URLProgram) ArchiveName(os, arch string) (string, error) {
+	url, err := p.URL(os, arch)
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Base(url), nil
+}
+
 func (p *URLProgram) URL(goOS, goArch string) (string, error) {
 	t, err := template.New("url").Parse(p.URLTemplate)
 	if err != nil {
@@ -139,7 +148,7 @@ func (p *URLProgram) DownloadArchive(ctx context.Context, d download.Downloader,
 		return nil, fmt.Errorf("downloading program: %w", err)
 	}
 
-	c := &checksumCalculator{}
+	c := &ChecksumCalculator{}
 	var buf bytes.Buffer
 	w := c.SHA256(&buf)
 

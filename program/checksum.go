@@ -24,7 +24,7 @@ import (
 	"strings"
 )
 
-func readChecksum(r io.Reader) (map[string]string, error) {
+func readChecksumRef(r io.Reader) (map[string]string, error) {
 	raw, err := io.ReadAll(r)
 	if err != nil {
 		return nil, err
@@ -59,11 +59,11 @@ func assertChecksumSHA256(binary []byte, expect []byte) error {
 	return nil
 }
 
-type checksumCalculator struct {
+type ChecksumCalculator struct {
 	h hash.Hash
 }
 
-func (c *checksumCalculator) SHA256(dst io.Writer) io.Writer {
+func (c *ChecksumCalculator) SHA256(dst io.Writer) io.Writer {
 	h := sha256.New()
 	c.h = h
 
@@ -71,7 +71,8 @@ func (c *checksumCalculator) SHA256(dst io.Writer) io.Writer {
 	return w
 }
 
-func (c *checksumCalculator) Error(expect []byte) error {
+// Error compares the Base64 encoded checksum
+func (c *ChecksumCalculator) Error(expect []byte) error {
 	got := make([]byte, hex.EncodedLen(sha256.Size))
 	byteHash := c.h.Sum(nil)
 	_ = hex.Encode(got, byteHash)

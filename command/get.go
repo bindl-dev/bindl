@@ -18,7 +18,6 @@ import (
 	"context"
 	"os"
 	"path"
-	"runtime"
 
 	"go.xargs.dev/bindl/config"
 	"go.xargs.dev/bindl/download"
@@ -26,8 +25,13 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
+// Get implements lockfileProgramCommandFunc, therefore needs to be concurrent-safe
 func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error {
-	a, err := p.DownloadArchive(ctx, &download.HTTP{}, runtime.GOOS, runtime.GOARCH)
+	if err := Verify(ctx, conf, p); err == nil {
+		internal.Log().Debug().Str("program", p.Name()).Msg("found existing, skipping")
+		return nil
+	}
+	a, err := p.DownloadArchive(ctx, &download.HTTP{}, conf.OS, conf.Arch)
 	if err != nil {
 		return err
 	}
