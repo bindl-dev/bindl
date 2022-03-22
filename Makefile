@@ -1,5 +1,3 @@
-include Makefile.*
-
 # Recursive wildcard.
 # Usage: $(call rwildcard, dir_to_search, pattern_to_search_for)
 # Example: $(call rwildcard, ., *.go)
@@ -9,13 +7,15 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 # Defaults to first found in PATH
 GO?=go
 
+# TODO: download from latest release
+bin/bindl:
+	${GO} build -o bin/bindl -trimpath ./cmd/bindl
+
 .PHONY: bin/bindl-dev
 bin/bindl-dev:
 	${GO} build -o bin/bindl -trimpath ./cmd/bindl
 
-# TODO: download from latest release
-bin/bindl:
-	${GO} build -o bin/bindl -trimpath ./cmd/bindl
+include Makefile.*
 
 .PHONY: archy
 archy: bin/archy

@@ -58,7 +58,9 @@ func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []
 	hasError := false
 	for err := range errs {
 		if err != nil {
-			internal.ErrorMsg(err)
+			if !errors.Is(err, FailExecError) {
+				internal.ErrorMsg(err)
+			}
 			hasError = true
 		}
 	}

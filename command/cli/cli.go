@@ -49,7 +49,8 @@ var Root = &cobra.Command{
 var defaultConfig = &config.Runtime{
 	Path:         "./bindl.yaml",
 	LockfilePath: "./.bindl-lock.yaml",
-	OutputDir:    "./bin",
+	BinPathDir:   "./bin",
+	ProgDir:      ".bindl/programs",
 
 	OS:   runtime.GOOS,
 	Arch: runtime.GOARCH,
@@ -60,5 +61,6 @@ func init() {
 	Root.PersistentFlags().BoolVar(&logDebug, "debug", logDebug, "show debug logs")
 	Root.PersistentFlags().StringVarP(&defaultConfig.Path, "config", "c", defaultConfig.Path, "path to configuration file")
 	Root.PersistentFlags().StringVarP(&defaultConfig.LockfilePath, "lock", "l", defaultConfig.LockfilePath, "path to lockfile")
-	Root.PersistentFlags().StringVarP(&defaultConfig.OutputDir, "bin", "b", defaultConfig.OutputDir, "directory to store binaries")
+	Root.PersistentFlags().StringVarP(&defaultConfig.BinPathDir, "bin", "b", defaultConfig.BinPathDir, "directory in PATH to add binaries")
+	Root.PersistentFlags().StringVar(&defaultConfig.ProgDir, "prog", defaultConfig.ProgDir, "directory to save real binary content")
 }

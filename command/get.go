@@ -17,7 +17,7 @@ package command
 import (
 	"context"
 	"os"
-	"path"
+	"path/filepath"
 
 	"go.xargs.dev/bindl/config"
 	"go.xargs.dev/bindl/download"
@@ -25,31 +25,62 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
-// Get implements lockfileProgramCommandFunc, therefore needs to be concurrent-safe
+func symlink(progDir, symlinkPath string, p *program.URLProgram) error {
+	internal.Log().Debug().Str("program", p.PName).Str("progDir", progDir).Msg("symlink program")
+	_ = os.Remove(symlinkPath)
+	return os.Symlink(filepath.Join(progDir, p.PName), symlinkPath)
+}
+
+// Get implements ProgramCommandFunc, therefore needs to be concurrent-safe
 func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error {
-	if err := Verify(ctx, conf, p); err == nil {
-		internal.Log().Debug().Str("program", p.Name()).Msg("found existing, skipping")
+	err := Verify(ctx, conf, p)
+	if err == nil {
+		internal.Log().Debug().Str("program", p.PName).Msg("found existing, skipping")
 		return nil
 	}
+
+	internal.Log().Debug().Err(err).Msg("verification failed")
+
+	// Looks like verify failed, let's assume that the right version exists,
+	// but was symlinked to the wrong one, therefore fix symlink and re-verify
+	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
+	if err != nil {
+		return err
+	}
+	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binaries[p.PName]+"-"+p.PName)
+	fullProgDir := filepath.Join(conf.BinPathDir, progDir)
+	symlinkPath := filepath.Join(conf.BinPathDir, p.PName)
+	if err := symlink(progDir, symlinkPath, p); err != nil {
+		internal.Log().Debug().Err(err).Msg("failed symlink, donwloading program")
+	} else {
+		if err = Verify(ctx, conf, p); err == nil {
+			internal.Log().Debug().Str("program", p.PName).Msg("re-linked to appropriate version")
+			return nil
+		}
+	}
+
+	internal.Log().Debug().Err(err).Msg("verification failed after fixing symlink, redownloading")
+
 	a, err := p.DownloadArchive(ctx, &download.HTTP{}, conf.OS, conf.Arch)
 	if err != nil {
 		return err
 	}
-	internal.Log().Debug().Str("program", p.Name()).Msg("extracting archive")
-	bin, err := a.Extract(p.Name())
+	internal.Log().Debug().Str("program", p.PName).Msg("extracting archive")
+	bin, err := a.Extract(p.PName)
 	if err != nil {
 		return err
 	}
-	internal.Log().Debug().Str("program", p.Name()).Msg("found binary")
+	internal.Log().Debug().Str("program", p.PName).Msg("found binary")
 
-	if err = os.MkdirAll(conf.OutputDir, 0755); err != nil {
+	if err = os.MkdirAll(fullProgDir, 0755); err != nil {
 		return err
 	}
-	loc := path.Join(conf.OutputDir, p.Name())
-	err = os.WriteFile(loc, bin, 0755)
+	binPath := filepath.Join(fullProgDir, p.PName)
+	err = os.WriteFile(binPath, bin, 0755)
 	if err != nil {
 		return err
 	}
-	internal.Log().Info().Str("output", loc).Str("program", p.Name()).Msg("downloaded")
-	return nil
+	internal.Log().Debug().Str("output", binPath).Str("program", p.PName).Msg("downloaded")
+
+	return symlink(progDir, symlinkPath, p)
 }

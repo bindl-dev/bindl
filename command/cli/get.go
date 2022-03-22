@@ -15,6 +15,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 
 	"go.xargs.dev/bindl/command"
@@ -29,10 +31,14 @@ and ensures the program is ready to be used by setting executable flag.
 If no program name is specified through args, then all programs in lockfile
 will be selected.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
-		return command.IterateLockfilePrograms(
+		err := command.IterateLockfilePrograms(
 			cmd.Context(),
 			defaultConfig,
 			names,
 			command.Get)
+		if err == nil {
+			fmt.Printf("✨ Programs are downloaded, ensure that %s is in your $PATH to use properly.\n", defaultConfig.BinPathDir)
+		}
+		return err
 	},
 }

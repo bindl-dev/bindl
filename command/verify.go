@@ -26,9 +26,9 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
-// Verify implements lockfileProgramCommandFunc, therefore needs to be concurrent-safe
+// Verify implements ProgramCommandFunc, therefore needs to be concurrent-safe
 func Verify(ctx context.Context, conf *config.Runtime, prog *program.URLProgram) error {
-	binPath := filepath.Join(conf.OutputDir, prog.PName)
+	binPath := filepath.Join(conf.BinPathDir, prog.PName)
 	f, err := os.Open(binPath)
 	if err != nil {
 		return fmt.Errorf("opening '%v': %w", binPath, err)
@@ -51,7 +51,7 @@ func Verify(ctx context.Context, conf *config.Runtime, prog *program.URLProgram)
 		return err
 	}
 
-	internal.Log().Info().Str("program", prog.PName).Msg("validated")
+	internal.Log().Debug().Str("program", prog.PName).Msg("validated")
 
 	return nil
 }

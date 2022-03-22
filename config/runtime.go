@@ -17,7 +17,8 @@ package config
 type Runtime struct {
 	Path         string
 	LockfilePath string
-	OutputDir    string
+	BinPathDir   string
+	ProgDir      string
 
 	OS   string
 	Arch string
