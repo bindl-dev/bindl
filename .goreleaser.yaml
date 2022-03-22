@@ -11,6 +11,20 @@ builds:
     main: ./cmd/bindl
     flags:
       - -trimpath
+sboms:
+  - artifacts: archive
+signs:
+- cmd: cosign
+  env:
+  - COSIGN_EXPERIMENTAL=1
+  certificate: '${artifact}.pem'
+  args:
+    - sign-blob
+    - '--output-certificate=${certificate}'
+    - '--output-signature=${signature}'
+    - '${artifact}'
+  artifacts: checksum
+  output: true
 archives:
   - replacements:
       darwin: Darwin
