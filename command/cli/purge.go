@@ -15,30 +15,24 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
-
 	"go.xargs.dev/bindl/command"
 )
 
-var BindlGet = &cobra.Command{
-	Use:   "get [name, ...]",
-	Short: "Get local copy of program",
-	Long: `Get downloads the names program, which must already exist in bindl.yaml,
-and ensures the program is ready to be used by setting executable flag.
+var bindlPurgeAll = false
+var bindlPurgeDryRun = false
 
-If no program name is specified through args, then all programs in lockfile
-will be selected.`,
+var BindlPurge = &cobra.Command{
+	Use:   "purge",
+	Short: "Remove downloaded programs",
+	Long: `Remove downloaded programs from cache, which are not listed in the lockfile.
+Passing --all would remove all existing programs regardless of lockfile.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
-		err := command.IterateLockfilePrograms(
-			cmd.Context(),
-			defaultConfig,
-			names,
-			command.Get)
-		if err == nil {
-			fmt.Printf("✨ Programs are downloaded, ensure that %s is in your $PATH to use properly.\n", defaultConfig.BinPathDir)
-		}
-		return err
+		return command.Purge(cmd.Context(), defaultConfig, bindlPurgeAll, bindlPurgeDryRun)
 	},
+}
+
+func init() {
+	BindlPurge.Flags().BoolVarP(&bindlPurgeAll, "all", "a", bindlPurgeAll, "purge all existing programs, regardless of lockfile")
+	BindlPurge.Flags().BoolVar(&bindlPurgeDryRun, "dry-run", bindlPurgeDryRun, "dry-run purge (print paths without deleting)")
 }

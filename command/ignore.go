@@ -67,23 +67,23 @@ func getNumNewlinesRequired(f *os.File) (int, error) {
 	return 0, nil
 }
 
-func getValidTargets(outputDir string) map[string]bool {
-	noTrailingSlash := strings.TrimSuffix(outputDir, "/")
+func getValidTargets(binPathDir string) map[string]bool {
+	noTrailingSlash := strings.TrimSuffix(binPathDir, "/")
 	return map[string]bool{
-		filepath.Join(outputDir, "*"): true,
-		noTrailingSlash + "/":         true,
-		noTrailingSlash:               true,
+		filepath.Join(binPathDir, "*"): true,
+		noTrailingSlash + "/":          true,
+		noTrailingSlash:                true,
 	}
 }
 
-func getIgnoreEntry(outputDir string, numPrefixNewlines int) string {
+func getIgnoreEntry(binPathDir string, numPrefixNewlines int) string {
 	prefix := ""
 	for i := 0; i < numPrefixNewlines; i++ {
 		prefix += "\n"
 	}
 
 	internal.Log().Debug().Int("newlines", numPrefixNewlines).Msg("creating entry to add to file")
-	return prefix + "# Development and tool binaries\n" + filepath.Join(outputDir, "*") + "\n"
+	return prefix + "# Development and tool binaries\n" + filepath.Join(binPathDir, "*") + "\n"
 }
 
 func UpdateIgnoreFile(conf *config.Runtime, path string) error {
@@ -95,7 +95,7 @@ func UpdateIgnoreFile(conf *config.Runtime, path string) error {
 	}
 	defer f.Close()
 
-	targets := getValidTargets(conf.OutputDir)
+	targets := getValidTargets(conf.BinPathDir)
 
 	n := 0
 	scanner := bufio.NewScanner(f)
@@ -115,6 +115,6 @@ func UpdateIgnoreFile(conf *config.Runtime, path string) error {
 		return err
 	}
 
-	_, err = f.WriteString(getIgnoreEntry(conf.OutputDir, numNewlinesRequired))
+	_, err = f.WriteString(getIgnoreEntry(conf.BinPathDir, numNewlinesRequired))
 	return err
 }
