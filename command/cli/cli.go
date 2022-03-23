@@ -26,6 +26,7 @@ var All = []*cobra.Command{
 	BindlGet,
 	BindlSync,
 	BindlGenerate,
+	BindlPurge,
 	BindlVerify,
 }
 
