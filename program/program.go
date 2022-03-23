@@ -25,9 +25,9 @@ import (
 )
 
 type Base struct {
+	Overlay map[string]map[string]string `json:"overlay,omitempty"`
 	PName   string                       `json:"name"`
 	Version string                       `json:"version"`
-	Overlay map[string]map[string]string `json:"overlay,omitempty"`
 }
 
 func (b *Base) Name() string {
@@ -57,9 +57,9 @@ func (b *Base) Vars(goOS, goArch string) map[string]string {
 type Config struct {
 	Base
 
+	Checksums map[string]string `json:"checksums"`
 	Provider  string            `json:"provider"`
 	Path      string            `json:"path"`
-	Checksums map[string]string `json:"checksums"`
 }
 
 func (c *Config) URLProgram(ctx context.Context, platforms map[string][]string) (*URLProgram, error) {

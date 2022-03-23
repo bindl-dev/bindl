@@ -22,10 +22,10 @@ import (
 )
 
 type Archive struct {
+	checksums *ArchiveChecksum
+
 	Name string
 	Data []byte
-
-	checksums *ArchiveChecksum
 }
 
 const (
@@ -88,8 +88,8 @@ func (a *Archive) extractBinaryNoChecksum(binaryName string) ([]byte, error) {
 const archiveChecksumKey = "_archive"
 
 type ArchiveChecksum struct {
-	Archive  string
 	Binaries map[string]string
+	Archive  string
 }
 
 func (c *ArchiveChecksum) MarshalJSON() ([]byte, error) {
