@@ -23,7 +23,7 @@ import (
 	"go.xargs.dev/bindl/config"
 )
 
-var rawMakefileTmpl = "\n{{ .BinPathDir }}/{{ .Name }}: {{ .BinPathDir }}/bindl\n\t{{ .BinPathDir }}/bindl get {{ .Name }}\n"
+var rawMakefileTmpl = "\n{{ .BinDir }}/{{ .Name }}: {{ .BinDir }}/bindl\n\t{{ .BinDir }}/bindl get {{ .Name }}\n"
 
 var makefileTmpl = template.Must(template.New("makefile").Parse(rawMakefileTmpl))
 
@@ -49,7 +49,7 @@ func GenerateMakefile(conf *config.Runtime, path string) error {
 	}
 
 	m := map[string]string{
-		"BinPathDir": filepath.Base(conf.BinPathDir),
+		"BinDir": filepath.Base(conf.BinDir),
 	}
 
 	for _, prog := range l.Programs {

@@ -15,11 +15,10 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 
 	"go.xargs.dev/bindl/command"
+	"go.xargs.dev/bindl/internal"
 )
 
 var BindlGet = &cobra.Command{
@@ -37,7 +36,7 @@ will be selected.`,
 			names,
 			command.Get)
 		if err == nil {
-			fmt.Printf("✨ Programs are downloaded, ensure that %s is in your $PATH to use properly.\n", defaultConfig.BinPathDir)
+			internal.Msgf("✨ Program(s) were downloaded, ensure that %s is in your $PATH to use properly.\n", defaultConfig.BinDir)
 		}
 		return err
 	},

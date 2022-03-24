@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/fatih/color v1.13.0
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.26.1
 	github.com/spf13/cobra v1.4.0
 	sigs.k8s.io/yaml v1.3.0

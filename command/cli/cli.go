@@ -17,6 +17,7 @@ package cli
 import (
 	"runtime"
 
+	"github.com/kelseyhightower/envconfig"
 	"github.com/spf13/cobra"
 	"go.xargs.dev/bindl/config"
 	"go.xargs.dev/bindl/internal/log"
@@ -30,38 +31,46 @@ var All = []*cobra.Command{
 	BindlVerify,
 }
 
-var logDebug bool
-var logDisable bool
-
 var Root = &cobra.Command{
 	Use:  "bindl",
 	Long: "Bindl is a static binary downloader for project development and infrastructure.",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		if logDisable {
-			return log.SetLevel("disabled")
-		} else if logDebug {
-			return log.SetLevel("debug")
-		} else {
-			return log.SetLevel("info")
+		if err := envconfig.Process("BINDL", defaultConfig); err != nil {
+			return err
 		}
+
+		var logLevel string
+		switch {
+		case defaultConfig.Silent:
+			logLevel = "disabled"
+		case defaultConfig.Debug:
+			logLevel = "debug"
+		default:
+			logLevel = "info"
+		}
+		return log.SetLevel(logLevel)
 	},
 }
 
 var defaultConfig = &config.Runtime{
 	Path:         "./bindl.yaml",
 	LockfilePath: "./.bindl-lock.yaml",
-	BinPathDir:   "./bin",
+	BinDir:       "./bin",
 	ProgDir:      ".bindl/programs",
+
+	Debug:  false,
+	Silent: false,
 
 	OS:   runtime.GOOS,
 	Arch: runtime.GOARCH,
 }
 
 func init() {
-	Root.PersistentFlags().BoolVarP(&logDisable, "silent", "s", logDisable, "silence logs")
-	Root.PersistentFlags().BoolVar(&logDebug, "debug", logDebug, "show debug logs")
 	Root.PersistentFlags().StringVarP(&defaultConfig.Path, "config", "c", defaultConfig.Path, "path to configuration file")
 	Root.PersistentFlags().StringVarP(&defaultConfig.LockfilePath, "lock", "l", defaultConfig.LockfilePath, "path to lockfile")
-	Root.PersistentFlags().StringVarP(&defaultConfig.BinPathDir, "bin", "b", defaultConfig.BinPathDir, "directory in PATH to add binaries")
+	Root.PersistentFlags().StringVarP(&defaultConfig.BinDir, "bin", "b", defaultConfig.BinDir, "directory in PATH to add binaries")
 	Root.PersistentFlags().StringVar(&defaultConfig.ProgDir, "prog", defaultConfig.ProgDir, "directory to save real binary content")
+
+	Root.PersistentFlags().BoolVarP(&defaultConfig.Silent, "silent", "s", defaultConfig.Silent, "silence logs")
+	Root.PersistentFlags().BoolVar(&defaultConfig.Debug, "debug", defaultConfig.Debug, "show debug logs")
 }

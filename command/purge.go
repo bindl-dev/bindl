@@ -28,7 +28,7 @@ import (
 )
 
 func Purge(ctx context.Context, conf *config.Runtime, all, dryRun bool) error {
-	progDir := filepath.Join(conf.BinPathDir, conf.ProgDir)
+	progDir := filepath.Join(conf.BinDir, conf.ProgDir)
 	if all {
 		return removeAll(progDir, dryRun)
 	}
