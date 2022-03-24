@@ -18,6 +18,7 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/rs/zerolog"
 	"go.xargs.dev/bindl/config"
@@ -28,6 +29,14 @@ import (
 
 func symlink(binDir, progDir string, p *program.URLProgram) error {
 	relProgDir := filepath.Join(progDir, p.PName)
+
+	// Update program atime and mtime to prevent Makefile from rebuilding
+	// ref: https://stackoverflow.com/a/35276091
+	now := time.Now().Local()
+	if err := os.Chtimes(filepath.Join(binDir, relProgDir), now, now); err != nil {
+		return err
+	}
+
 	symlinkPath := filepath.Join(binDir, p.PName)
 	internal.Log().Debug().
 		Str("program", p.PName).
