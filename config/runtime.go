@@ -15,11 +15,14 @@
 package config
 
 type Runtime struct {
-	Path         string
-	LockfilePath string
-	BinPathDir   string
-	ProgDir      string
+	Path         string `envconfig:"CONFIG"`
+	LockfilePath string `envconfig:"LOCK"`
+	BinDir       string `envconfig:"BIN"`
+	ProgDir      string `envconfig:"PROG"`
 
-	OS   string
-	Arch string
+	OS   string `envconfig:"OS"`
+	Arch string `envconfig:"ARCH"`
+
+	Debug  bool `envconfig:"DEBUG"`
+	Silent bool `envconfig:"SILENT"`
 }

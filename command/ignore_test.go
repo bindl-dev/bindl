@@ -25,13 +25,13 @@ import (
 func TestUpdateIgnoreFile(t *testing.T) {
 	testCases := []struct {
 		name         string
-		binPathDir   string
+		binDir       string
 		fileContents string
 		want         string
 	}{
 		{
 			name:         "Empty ignore file",
-			binPathDir:   "bin",
+			binDir:       "bin",
 			fileContents: "",
 			want: `# Development and tool binaries
 bin/*
@@ -39,31 +39,31 @@ bin/*
 		},
 		{
 			name:         "NO ADD: bin/* variation",
-			binPathDir:   "bin/",
+			binDir:       "bin/",
 			fileContents: "bin/*",
 			want:         "bin/*",
 		},
 		{
-			name:         "NO ADD: bin/ variation, binPathDir with trailing slash",
-			binPathDir:   "bin/",
+			name:         "NO ADD: bin/ variation, binDir with trailing slash",
+			binDir:       "bin/",
 			fileContents: "bin/",
 			want:         "bin/",
 		},
 		{
-			name:         "NO ADD: bin/ variation, binPathDir no trailing slash",
-			binPathDir:   "bin",
+			name:         "NO ADD: bin/ variation, binDir no trailing slash",
+			binDir:       "bin",
 			fileContents: "bin/",
 			want:         "bin/",
 		},
 		{
 			name:         "NO ADD: bin variation",
-			binPathDir:   "bin/",
+			binDir:       "bin/",
 			fileContents: "bin",
 			want:         "bin",
 		},
 		{
-			name:       "Ignore entry commented out",
-			binPathDir: "binny",
+			name:   "Ignore entry commented out",
+			binDir: "binny",
 			fileContents: `# binny/*
 secret`,
 			want: `# binny/*
@@ -74,8 +74,8 @@ binny/*
 `,
 		},
 		{
-			name:       "End with newline",
-			binPathDir: "binny",
+			name:   "End with newline",
+			binDir: "binny",
 			fileContents: `secret1
 secret
 `,
@@ -91,7 +91,7 @@ binny/*
 	dir := t.TempDir()
 	for _, tc := range testCases {
 		conf := &config.Runtime{
-			BinPathDir: tc.binPathDir,
+			BinDir: tc.binDir,
 		}
 		f, err := os.CreateTemp(dir, "ignore*")
 		if err != nil {

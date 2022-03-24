@@ -28,7 +28,7 @@ import (
 
 // Verify implements ProgramCommandFunc, therefore needs to be concurrent-safe
 func Verify(ctx context.Context, conf *config.Runtime, prog *program.URLProgram) error {
-	binPath := filepath.Join(conf.BinPathDir, prog.PName)
+	binPath := filepath.Join(conf.BinDir, prog.PName)
 	f, err := os.Open(binPath)
 	if err != nil {
 		return fmt.Errorf("opening '%v': %w", binPath, err)

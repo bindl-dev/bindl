@@ -19,42 +19,50 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/rs/zerolog"
 	"go.xargs.dev/bindl/config"
 	"go.xargs.dev/bindl/download"
 	"go.xargs.dev/bindl/internal"
 	"go.xargs.dev/bindl/program"
 )
 
-func symlink(progDir, symlinkPath string, p *program.URLProgram) error {
-	internal.Log().Debug().Str("program", p.PName).Str("progDir", progDir).Msg("symlink program")
+func symlink(binDir, progDir string, p *program.URLProgram) error {
+	relProgDir := filepath.Join(progDir, p.PName)
+	symlinkPath := filepath.Join(binDir, p.PName)
+	internal.Log().Debug().
+		Str("program", p.PName).
+		Dict("symlink", zerolog.Dict().
+			Str("ref", relProgDir).
+			Str("target", symlinkPath)).
+		Msg("symlink program")
 	_ = os.Remove(symlinkPath)
 	return os.Symlink(filepath.Join(progDir, p.PName), symlinkPath)
 }
 
-// Get implements ProgramCommandFunc, therefore needs to be concurrent-safe
+// Get implements ProgramCommandFunc, therefore needs to be concurrent-safe.
 func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error {
-	err := Verify(ctx, conf, p)
-	if err == nil {
-		internal.Log().Debug().Str("program", p.PName).Msg("found existing, skipping")
-		return nil
+	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
+	if err != nil {
+		return err
+	}
+
+	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binaries[p.PName]+"-"+p.PName)
+	if err := Verify(ctx, conf, p); err == nil {
+		// Re-run symlink to renew atime and mtime, so that GNU Make will not rebuild in the future
+		internal.Log().Debug().Str("program", p.PName).Msg("found valid existing, re-linking")
+		return symlink(conf.BinDir, progDir, p)
 	}
 
 	internal.Log().Debug().Err(err).Msg("verification failed")
 
 	// Looks like verify failed, let's assume that the right version exists,
 	// but was symlinked to the wrong one, therefore fix symlink and re-verify
-	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
-	if err != nil {
-		return err
-	}
-	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binaries[p.PName]+"-"+p.PName)
-	fullProgDir := filepath.Join(conf.BinPathDir, progDir)
-	symlinkPath := filepath.Join(conf.BinPathDir, p.PName)
-	if err := symlink(progDir, symlinkPath, p); err != nil {
+	if err := symlink(conf.BinDir, progDir, p); err != nil {
 		internal.Log().Debug().Err(err).Msg("failed symlink, donwloading program")
 	} else {
-		if err = Verify(ctx, conf, p); err == nil {
+		if err := Verify(ctx, conf, p); err == nil {
 			internal.Log().Debug().Str("program", p.PName).Msg("re-linked to appropriate version")
+			// No need to return symlink() here, because we just ran symlink()
 			return nil
 		}
 	}
@@ -72,6 +80,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error
 	}
 	internal.Log().Debug().Str("program", p.PName).Msg("found binary")
 
+	fullProgDir := filepath.Join(conf.BinDir, progDir)
 	if err = os.MkdirAll(fullProgDir, 0755); err != nil {
 		return err
 	}
@@ -82,5 +91,5 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error
 	}
 	internal.Log().Debug().Str("output", binPath).Str("program", p.PName).Msg("downloaded")
 
-	return symlink(progDir, symlinkPath, p)
+	return symlink(conf.BinDir, progDir, p)
 }

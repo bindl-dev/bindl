@@ -30,6 +30,10 @@ func init() {
 
 var Log *zerolog.Logger
 
+func IsSilent() bool {
+	return Log.GetLevel() == zerolog.Disabled
+}
+
 func SetLevel(level string) error {
 	lv, err := zerolog.ParseLevel(strings.ToLower(level))
 	if err != nil {
@@ -38,5 +42,6 @@ func SetLevel(level string) error {
 
 	l := Log.Level(lv)
 	Log = &l
+	Log.Debug().Str("lvl", level).Send()
 	return nil
 }

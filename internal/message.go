@@ -19,10 +19,19 @@ import (
 	"os"
 
 	"github.com/fatih/color"
+	"go.xargs.dev/bindl/internal/log"
 )
 
 var errHeader = color.HiRedString("ERROR")
 
 func ErrorMsg(err error) {
-	fmt.Fprintf(os.Stderr, "%s - %s\n", errHeader, err.Error())
+	if !log.IsSilent() {
+		fmt.Fprintf(os.Stderr, "%s - %s\n", errHeader, err.Error())
+	}
+}
+
+func Msgf(msg string, vars ...any) {
+	if !log.IsSilent() {
+		fmt.Fprintf(os.Stderr, msg, vars...)
+	}
 }
