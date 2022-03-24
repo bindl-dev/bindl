@@ -12,8 +12,12 @@ bin/bindl:
 	${GO} build -o bin/bindl -trimpath ./cmd/bindl
 
 .PHONY: bin/bindl-dev
-bin/bindl-dev:
-	${GO} build -o bin/bindl -trimpath ./cmd/bindl
+bin/bindl-dev: bin/goreleaser
+	bin/goreleaser build \
+		--output bin/bindl \
+		--single-target \
+		--skip-validate \
+		--rm-dist
 
 include Makefile.*
 

@@ -9,5 +9,8 @@ bin/addlicense: bin/bindl
 bin/archy: bin/bindl
 	bin/bindl get archy
 
+bin/goreleaser: bin/bindl
+	bin/bindl get goreleaser
+
 bin/golangci-lint: bin/bindl
 	bin/bindl get golangci-lint

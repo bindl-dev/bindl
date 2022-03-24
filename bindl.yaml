@@ -6,17 +6,19 @@ platforms:
     - amd64
     - arm64
 
+_uname: &uname
+  OS: &uname_OS
+    linux: "Linux"
+    darwin: "Darwin"
+  Arch: &uname_Arch
+    amd64: "x86_64"
+
 programs:
   - name: archy
     version: 0.1.2
     provider: url
     path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
-    overlay:
-      OS:
-        linux: "Linux"
-        darwin: "Darwin"
-      Arch:
-        amd64: "x86_64"
+    overlay: *uname
     checksums:
       _src: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
   - name: addlicense
@@ -25,12 +27,18 @@ programs:
     path: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
     overlay:
       OS:
-        linux: "Linux"
+        <<: *uname_OS
         darwin: "macOS"
-      Arch:
-        amd64: "x86_64"
+      Arch: *uname_Arch
     checksums:
       _src: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
+  - name: goreleaser
+    version: 1.7.0
+    provider: url
+    path: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz
+    overlay: *uname
+    checksums:
+      _src: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt
   - name: golangci-lint
     # LINT: Match with version in .golangci.yaml and .github/workflows/go.yaml
     version: 1.45.0
