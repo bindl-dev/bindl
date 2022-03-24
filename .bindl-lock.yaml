@@ -45,6 +45,29 @@ programs:
       linux: Linux
   url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 0.1.2
+- checksum: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt
+  checksums:
+    goreleaser_Darwin_arm64.tar.gz:
+      _archive: 3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94
+      goreleaser: 148af83bc1d992bfdf5a0607ed1337f239fef24ac7fd22ec97083026a25d3dce
+    goreleaser_Darwin_x86_64.tar.gz:
+      _archive: aebb22ab32ddc36002caf3362e2410f1a1487ab098c1f1ac6f5aae59f13f498b
+      goreleaser: 0a801baa89a8a1c8bec1763ee07ffbe84b22defd3284e94d5081d1cbe7ebad8e
+    goreleaser_Linux_arm64.tar.gz:
+      _archive: 8be69f369d8cd80aedbcfb39ba0af8fbb71fa86ee5879e0fcd94075cf17f73a2
+      goreleaser: 8ad2e4bf43079db8e5a17cf011547eda373012da331ea2536c29f15601a1f040
+    goreleaser_Linux_x86_64.tar.gz:
+      _archive: e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d
+      goreleaser: 6675d65b87ed168f6c7a981623b3b80a8c1c734197d6e4467cc764f23e843583
+  name: goreleaser
+  overlay:
+    Arch:
+      amd64: x86_64
+    OS:
+      darwin: Darwin
+      linux: Linux
+  url: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  version: 1.7.0
 - checksum: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
   checksums:
     golangci-lint-1.45.0-darwin-amd64.tar.gz:
@@ -62,4 +85,4 @@ programs:
   name: golangci-lint
   url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
   version: 1.45.0
-updated: "2022-03-19T19:30:30.383766Z"
+updated: "2022-03-24T19:15:27.148810664Z"

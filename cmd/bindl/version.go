@@ -16,16 +16,16 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"runtime/debug"
 
 	"github.com/spf13/cobra"
+	internalversion "go.xargs.dev/bindl/internal/version"
 )
 
 var (
-	version = "dev"
-	commit  = ""
-	date    = ""
+	version   = ""
+	commit    = ""
+	date      = ""
+	goVersion = ""
 )
 
 var versionCmd = &cobra.Command{
@@ -34,12 +34,16 @@ var versionCmd = &cobra.Command{
 	Run:   printVersion,
 }
 
-func printVersion(*cobra.Command, []string) {
-	fmt.Printf("version: %s\ncommit: %s\ndate: %s\n", version, commit, date)
-	bi, ok := debug.ReadBuildInfo()
-	if !ok {
-		fmt.Printf("unable to retrieve build info")
-		os.Exit(1)
+func init() {
+	if version == "" {
+		version = internalversion.Version()
 	}
-	fmt.Printf("go: %s\n", bi.GoVersion)
+	internalversion.MarkModified(&version)
+	if goVersion == "" {
+		goVersion = internalversion.GoVersion()
+	}
+}
+
+func printVersion(*cobra.Command, []string) {
+	fmt.Printf("version: %s (%s)\ncommit: %s\ndate: %s\n", version, goVersion, commit, date)
 }
