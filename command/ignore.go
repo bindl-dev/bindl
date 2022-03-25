@@ -86,6 +86,7 @@ func getIgnoreEntry(binDir string, numPrefixNewlines int) string {
 	return prefix + "# Development and tool binaries\n" + filepath.Join(binDir, "*") + "\n"
 }
 
+// UpdateIgnoreFile appends bindl ignore entries if none exist.
 func UpdateIgnoreFile(conf *config.Runtime, path string) error {
 	internal.Log().Debug().Str("ignore", path).Msg("attempting to update ignore file")
 

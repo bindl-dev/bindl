@@ -23,11 +23,14 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+// Lock is a configuration which was generated from Config.
+// By default, this is the content of .bindl-lock.yaml
 type Lock struct {
-	Updated  time.Time             `json:"updated"`
-	Programs []*program.URLProgram `json:"programs"`
+	Updated  time.Time       `json:"updated"`
+	Programs []*program.Lock `json:"programs"`
 }
 
+// ParseLock reads a file from path and returns *Lock
 func ParseLock(path string) (*Lock, error) {
 	l := &Lock{}
 	raw, err := os.ReadFile(path)

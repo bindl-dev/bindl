@@ -29,10 +29,14 @@ import (
 // preserving the real error can be difficult with concurrent setup.
 var ErrFailExec = errors.New("failed to execute command, please troubleshoot logs")
 
-type ProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
+// ProgramCommandFunc is a shorthand to command execution function signature,
+// allowing the command to be run concurrently for each program.
+type ProgramCommandFunc func(context.Context, *config.Runtime, *program.Lock) error
 
+// IterateLockfilePrograms is an iterator which spawns a goroutine for each
+// selected programs. Any subcommand can leverage this by honoring ProgramCommandFunc.
 func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []string, fn ProgramCommandFunc) error {
-	progs := make(chan *program.URLProgram, 1)
+	progs := make(chan *program.Lock, 1)
 	errs := make(chan error, 1)
 
 	var wg sync.WaitGroup
@@ -44,7 +48,7 @@ func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []
 
 	for p := range progs {
 		wg.Add(1)
-		go func(p *program.URLProgram) {
+		go func(p *program.Lock) {
 			errs <- fn(ctx, conf, p)
 			wg.Done()
 		}(p)
@@ -71,7 +75,7 @@ func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []
 	return nil
 }
 
-func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, progs chan<- *program.URLProgram) error {
+func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, progs chan<- *program.Lock) error {
 	defer close(progs)
 
 	l, err := config.ParseLock(conf.LockfilePath)
@@ -99,7 +103,7 @@ func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, p
 		}
 		found := false
 		for _, p := range l.Programs {
-			if p.PName == name {
+			if p.Name == name {
 				progs <- p
 				found = true
 				break

@@ -29,7 +29,7 @@ func TestIntegrationDownloadArchy(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping integration test in short mode")
 	}
-	p := program.URLProgram{}
+	p := program.Lock{}
 	err := yaml.Unmarshal([]byte(rawArchyLockManifest), &p)
 	if err != nil {
 		t.Fatalf("failed when expecting pass: %v", err)

@@ -59,10 +59,13 @@ func assertChecksumSHA256(binary []byte, expect []byte) error {
 	return nil
 }
 
+// ChecksumCalculator calculates checksum by passing in data through io.Writer
 type ChecksumCalculator struct {
 	h hash.Hash
 }
 
+// SHA256 takes in io.Writer and returns a io.Writer which writes to the
+// original io.Writer as well as the hash calculator
 func (c *ChecksumCalculator) SHA256(dst io.Writer) io.Writer {
 	h := sha256.New()
 	c.h = h

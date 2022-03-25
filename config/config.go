@@ -16,8 +16,14 @@ package config
 
 import "go.xargs.dev/bindl/program"
 
+// Config is a configuration which is used to declare a project's dependencies.
+// By default, this is the content of bindl.yaml
 type Config struct {
+	// Platforms is a matrix of OS and Arch for the binaries which
+	// the project would like to save checksums on.
+	// i.e. map["linux"][]{"amd64", "arm64"}
 	Platforms map[string][]string `json:"platforms"`
 
+	// Programs is a list of program specification
 	Programs []*program.Config `json:"programs"`
 }

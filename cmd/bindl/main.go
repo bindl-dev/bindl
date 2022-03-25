@@ -23,6 +23,7 @@ import (
 )
 
 func main() {
+	// Put any logic inside run() so that defer calls are honored.
 	if err := run(); err != nil {
 		os.Exit(1)
 	}

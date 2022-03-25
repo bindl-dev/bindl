@@ -26,13 +26,13 @@ import (
 )
 
 func TestProgramChecksumsYAMLUnmarshalJSON(t *testing.T) {
-	p := program.URLProgram{}
+	p := program.Lock{}
 	err := yaml.Unmarshal([]byte(rawProgramManifest), &p)
 	if err != nil {
 		t.Fatalf("failed when expecting pass: %v", err)
 	}
 
-	assert(t, "myprogram", p.PName)
+	assert(t, "myprogram", p.Name)
 	assert(t, "0.1.0-rc.2", p.Version)
 
 	cs := p.Checksums["myprogram-Linux-x86_64.tar.gz"]
@@ -41,7 +41,7 @@ func TestProgramChecksumsYAMLUnmarshalJSON(t *testing.T) {
 }
 
 func TestProgramURL(t *testing.T) {
-	p := &program.URLProgram{}
+	p := &program.Lock{}
 	err := yaml.Unmarshal([]byte(rawProgramManifest), p)
 	if err != nil {
 		t.Fatalf("failed when expecting pass: %v", err)
@@ -54,7 +54,7 @@ func TestProgramURL(t *testing.T) {
 }
 
 func TestDownloadChecksum(t *testing.T) {
-	p := &program.URLProgram{}
+	p := &program.Lock{}
 	err := yaml.Unmarshal([]byte(rawProgramManifest), p)
 	if err != nil {
 		t.Fatalf("failed when expecting pass: %v", err)

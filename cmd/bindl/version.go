@@ -21,6 +21,9 @@ import (
 	internalversion "go.xargs.dev/bindl/internal/version"
 )
 
+// These variables are stamped by ldflags on build, configured through goreleaser.
+// In the event that they aren't available on init(), the values will be populated
+// through debug.ReadBuildInfo in internal/version.
 var (
 	version   = ""
 	commit    = ""

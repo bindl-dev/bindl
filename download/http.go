@@ -21,6 +21,7 @@ import (
 	"net/http"
 )
 
+// HTTP implements Downloader which downloads programs through net/http
 type HTTP struct {
 	response *http.Response
 }

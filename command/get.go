@@ -27,8 +27,8 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
-func symlink(binDir, progDir string, p *program.URLProgram) error {
-	relProgDir := filepath.Join(progDir, p.PName)
+func symlink(binDir, progDir string, p *program.Lock) error {
+	relProgDir := filepath.Join(progDir, p.Name)
 
 	// Update program atime and mtime to prevent Makefile from rebuilding
 	// ref: https://stackoverflow.com/a/35276091
@@ -37,28 +37,34 @@ func symlink(binDir, progDir string, p *program.URLProgram) error {
 		return err
 	}
 
-	symlinkPath := filepath.Join(binDir, p.PName)
+	symlinkPath := filepath.Join(binDir, p.Name)
 	internal.Log().Debug().
-		Str("program", p.PName).
+		Str("program", p.Name).
 		Dict("symlink", zerolog.Dict().
 			Str("ref", relProgDir).
 			Str("target", symlinkPath)).
 		Msg("symlink program")
 	_ = os.Remove(symlinkPath)
-	return os.Symlink(filepath.Join(progDir, p.PName), symlinkPath)
+	return os.Symlink(filepath.Join(progDir, p.Name), symlinkPath)
 }
 
 // Get implements ProgramCommandFunc, therefore needs to be concurrent-safe.
-func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error {
+// Before downloading, Get attempts to:
+// - validate the existing installation
+// - if it failed, redo symlink, then validate again
+// - if it still fails, then attempt to download
+// This is useful when a project is working on branches with different versions of
+// a given program, ensuring that we only download when absolutely necessary.
+func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
 	if err != nil {
 		return err
 	}
 
-	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binaries[p.PName]+"-"+p.PName)
+	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binaries[p.Name]+"-"+p.Name)
 	if err := Verify(ctx, conf, p); err == nil {
 		// Re-run symlink to renew atime and mtime, so that GNU Make will not rebuild in the future
-		internal.Log().Debug().Str("program", p.PName).Msg("found valid existing, re-linking")
+		internal.Log().Debug().Str("program", p.Name).Msg("found valid existing, re-linking")
 		return symlink(conf.BinDir, progDir, p)
 	}
 
@@ -70,7 +76,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error
 		internal.Log().Debug().Err(err).Msg("failed symlink, donwloading program")
 	} else {
 		if err := Verify(ctx, conf, p); err == nil {
-			internal.Log().Debug().Str("program", p.PName).Msg("re-linked to appropriate version")
+			internal.Log().Debug().Str("program", p.Name).Msg("re-linked to appropriate version")
 			// No need to return symlink() here, because we just ran symlink()
 			return nil
 		}
@@ -82,23 +88,23 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error
 	if err != nil {
 		return err
 	}
-	internal.Log().Debug().Str("program", p.PName).Msg("extracting archive")
-	bin, err := a.Extract(p.PName)
+	internal.Log().Debug().Str("program", p.Name).Msg("extracting archive")
+	bin, err := a.Extract(p.Name)
 	if err != nil {
 		return err
 	}
-	internal.Log().Debug().Str("program", p.PName).Msg("found binary")
+	internal.Log().Debug().Str("program", p.Name).Msg("found binary")
 
 	fullProgDir := filepath.Join(conf.BinDir, progDir)
 	if err = os.MkdirAll(fullProgDir, 0755); err != nil {
 		return err
 	}
-	binPath := filepath.Join(fullProgDir, p.PName)
+	binPath := filepath.Join(fullProgDir, p.Name)
 	err = os.WriteFile(binPath, bin, 0755)
 	if err != nil {
 		return err
 	}
-	internal.Log().Debug().Str("output", binPath).Str("program", p.PName).Msg("downloaded")
+	internal.Log().Debug().Str("output", binPath).Str("program", p.Name).Msg("downloaded")
 
 	return symlink(conf.BinDir, progDir, p)
 }

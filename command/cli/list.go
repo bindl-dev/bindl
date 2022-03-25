@@ -40,7 +40,7 @@ var BindlList = &cobra.Command{
 			separator = " "
 		}
 		for _, p := range l.Programs {
-			fmt.Printf("%s%s", p.PName, separator)
+			fmt.Printf("%s%s", p.Name, separator)
 		}
 		if bindlListOneline {
 			fmt.Println()

@@ -27,6 +27,9 @@ import (
 	"go.xargs.dev/bindl/internal"
 )
 
+// Purge deletes downloaded binaries. By default, it only deletes
+// downloaded binaries which no longer mentioned by the lockfile.
+// Passing `all` will ignore lockfile check and deletes all programs.
 func Purge(ctx context.Context, conf *config.Runtime, all, dryRun bool) error {
 	progDir := filepath.Join(conf.BinDir, conf.ProgDir)
 	if all {
@@ -42,10 +45,10 @@ func Purge(ctx context.Context, conf *config.Runtime, all, dryRun bool) error {
 	for _, p := range l.Programs {
 		archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
 		if err != nil {
-			return fmt.Errorf("generating archive name for '%s': %w", p.PName, err)
+			return fmt.Errorf("generating archive name for '%s': %w", p.Name, err)
 		}
-		checksum := p.Checksums[archiveName].Binaries[p.PName]
-		keepPath := checksum + "-" + p.PName
+		checksum := p.Checksums[archiveName].Binaries[p.Name]
+		keepPath := checksum + "-" + p.Name
 		internal.Log().Debug().Str("program", keepPath).Msg("to keep")
 		keep[keepPath] = true
 	}

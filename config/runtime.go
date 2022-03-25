@@ -14,6 +14,9 @@
 
 package config
 
+// Runtime is a configuration which is primarily used by command/cli.
+// All variables which users can change at runtime with global effect
+// can be found here.
 type Runtime struct {
 	Path         string `envconfig:"CONFIG"`
 	LockfilePath string `envconfig:"LOCK"`

@@ -19,11 +19,13 @@ import (
 	"io"
 )
 
+// Downloader is an interface to download programs
 type Downloader interface {
 	Get(ctx context.Context, url string) (io.Reader, error)
 	Close()
 }
 
+// LocalFile implements Downloader, which simulates download through filesystem.
 type LocalFile struct {
 	r io.ReadCloser
 }
