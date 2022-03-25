@@ -103,7 +103,7 @@ func filterPrograms(ctx context.Context, conf *config.Runtime, names []string, p
 		}
 		found := false
 		for _, p := range l.Programs {
-			if p.PName == name {
+			if p.Name == name {
 				progs <- p
 				found = true
 				break

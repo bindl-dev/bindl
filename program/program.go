@@ -27,7 +27,7 @@ import (
 // Base is a minimal structure which exists in every program variations
 type Base struct {
 	Overlay map[string]map[string]string `json:"overlay,omitempty"`
-	PName   string                       `json:"name"`
+	Name   string                       `json:"name"`
 	Version string                       `json:"version"`
 }
 
@@ -35,7 +35,7 @@ type Base struct {
 // with overlays applied.
 func (b *Base) Vars(goOS, goArch string) map[string]string {
 	vars := map[string]string{
-		"Name":    b.PName,
+		"Name":    b.Name,
 		"Version": b.Version,
 
 		"OS":   goOS,
@@ -106,7 +106,7 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 				return fmt.Errorf("retrieving checksum for %s/%s: %w", os, arch, err)
 			}
 			internal.Log().Debug().
-				Str("program", c.PName).
+				Str("program", c.Name).
 				Str("platform", os+"/"+arch).
 				Str("url", buf.String()).
 				Msg("generate checksum url")
@@ -127,7 +127,7 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 			return fmt.Errorf("reading checksums: %w", err)
 		}
 		for f, cs := range data {
-			internal.Log().Debug().Str("program", c.PName).Str(f, cs).Msg("retrieved checksum")
+			internal.Log().Debug().Str("program", c.Name).Str(f, cs).Msg("retrieved checksum")
 			checksums[f] = cs
 		}
 	}
@@ -135,7 +135,7 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 	// Override the downloaded result with any explicitly specified checksum
 	for f, cs := range c.Checksums {
 		if f != "_src" {
-			internal.Log().Warn().Str("program", c.PName).Str(f, cs).Msg("overwrite retrieved checksum")
+			internal.Log().Warn().Str("program", c.Name).Str(f, cs).Msg("overwrite retrieved checksum")
 		}
 		checksums[f] = cs
 	}

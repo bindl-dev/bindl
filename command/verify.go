@@ -30,7 +30,7 @@ import (
 // It verifies existing if the exiting program is consistent with what is declared
 // by the lockfile.
 func Verify(ctx context.Context, conf *config.Runtime, prog *program.Lock) error {
-	binPath := filepath.Join(conf.BinDir, prog.PName)
+	binPath := filepath.Join(conf.BinDir, prog.Name)
 	f, err := os.Open(binPath)
 	if err != nil {
 		return fmt.Errorf("opening '%v': %w", binPath, err)
@@ -39,21 +39,21 @@ func Verify(ctx context.Context, conf *config.Runtime, prog *program.Lock) error
 
 	archiveName, err := prog.ArchiveName(conf.OS, conf.Arch)
 	if err != nil {
-		return fmt.Errorf("generating filename for '%v': %w", prog.PName, err)
+		return fmt.Errorf("generating filename for '%v': %w", prog.Name, err)
 	}
-	expected := prog.Checksums[archiveName].Binaries[prog.PName]
+	expected := prog.Checksums[archiveName].Binaries[prog.Name]
 
 	c := &program.ChecksumCalculator{}
 	w := c.SHA256(io.Discard)
 	if _, err = io.Copy(w, f); err != nil {
-		return fmt.Errorf("reading checksum for '%v': %w", prog.PName, err)
+		return fmt.Errorf("reading checksum for '%v': %w", prog.Name, err)
 	}
 
 	if err := c.Error([]byte(expected)); err != nil {
 		return err
 	}
 
-	internal.Log().Debug().Str("program", prog.PName).Msg("validated")
+	internal.Log().Debug().Str("program", prog.Name).Msg("validated")
 
 	return nil
 }

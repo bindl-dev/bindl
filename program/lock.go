@@ -40,7 +40,7 @@ type Lock struct {
 func NewLock(c *Config) (*Lock, error) {
 	p := &Lock{
 		Base: Base{
-			PName:   c.PName,
+			Name:   c.Name,
 			Version: c.Version,
 			Overlay: c.Overlay,
 		},
@@ -73,16 +73,16 @@ func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][
 
 				a, err := p.DownloadArchive(ctx, &download.HTTP{}, os, arch)
 				if err != nil {
-					internal.ErrorMsg(fmt.Errorf("downloading archive for '%s' in %s/%s: %w", p.PName, os, arch, err))
+					internal.ErrorMsg(fmt.Errorf("downloading archive for '%s' in %s/%s: %w", p.Name, os, arch, err))
 					return
 				}
 
-				b, err := a.BinaryChecksum(p.PName)
+				b, err := a.BinaryChecksum(p.Name)
 				if err != nil {
-					internal.ErrorMsg(fmt.Errorf("calculating binary checksum for '%s' in %s/%s: %w", p.PName, os, arch, err))
+					internal.ErrorMsg(fmt.Errorf("calculating binary checksum for '%s' in %s/%s: %w", p.Name, os, arch, err))
 					return
 				}
-				p.Checksums[a.Name].Binaries[p.PName] = string(b)
+				p.Checksums[a.Name].Binaries[p.Name] = string(b)
 			}(os, arch)
 		}
 	}
