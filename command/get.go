@@ -49,6 +49,12 @@ func symlink(binDir, progDir string, p *program.URLProgram) error {
 }
 
 // Get implements ProgramCommandFunc, therefore needs to be concurrent-safe.
+// Before downloading, Get attempts to:
+// - validate the existing installation
+// - if it failed, redo symlink, then validate again
+// - if it still fails, then attempt to download
+// This is useful when a project is working on branches with different versions of
+// a given program, ensuring that we only download when absolutely necessary.
 func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error {
 	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
 	if err != nil {

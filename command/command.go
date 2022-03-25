@@ -29,8 +29,12 @@ import (
 // preserving the real error can be difficult with concurrent setup.
 var ErrFailExec = errors.New("failed to execute command, please troubleshoot logs")
 
+// ProgramCommandFunc is a shorthand to command execution function signature,
+// allowing the command to be run concurrently for each program.
 type ProgramCommandFunc func(context.Context, *config.Runtime, *program.URLProgram) error
 
+// IterateLockfilePrograms is an iterator which spawns a goroutine for each
+// selected programs. Any subcommand can leverage this by honoring ProgramCommandFunc.
 func IterateLockfilePrograms(ctx context.Context, conf *config.Runtime, names []string, fn ProgramCommandFunc) error {
 	progs := make(chan *program.URLProgram, 1)
 	errs := make(chan error, 1)

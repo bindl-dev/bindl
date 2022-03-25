@@ -34,6 +34,9 @@ const (
 	archiveZipSuffix   = ".zip"
 )
 
+// BinaryChecksum retrieves checksum value of binary in archive.
+// Returned value is base64-encoded []byte.
+// TODO: maybe we should just return string(checksumSHA256(binary))?
 func (a *Archive) BinaryChecksum(binaryName string) ([]byte, error) {
 	binary, err := a.extractBinaryNoChecksum(binaryName)
 	if err != nil {
@@ -42,6 +45,8 @@ func (a *Archive) BinaryChecksum(binaryName string) ([]byte, error) {
 	return checksumSHA256(binary), nil
 }
 
+// Extract returns the binary data from archive with checksum guarantee.
+// That is, if checksum fails, then the binary will not be returned.
 func (a *Archive) Extract(binaryName string) ([]byte, error) {
 	binary, err := a.extractBinaryNoChecksum(binaryName)
 	if err != nil {

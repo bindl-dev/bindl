@@ -27,6 +27,8 @@ import (
 )
 
 // Verify implements ProgramCommandFunc, therefore needs to be concurrent-safe
+// It verifies existing if the exiting program is consistent with what is declared
+// by the lockfile.
 func Verify(ctx context.Context, conf *config.Runtime, prog *program.URLProgram) error {
 	binPath := filepath.Join(conf.BinDir, prog.PName)
 	f, err := os.Open(binPath)

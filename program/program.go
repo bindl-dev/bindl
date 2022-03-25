@@ -24,16 +24,15 @@ import (
 	"go.xargs.dev/bindl/internal"
 )
 
+// Base is a minimal structure which exists in every program variations
 type Base struct {
 	Overlay map[string]map[string]string `json:"overlay,omitempty"`
 	PName   string                       `json:"name"`
 	Version string                       `json:"version"`
 }
 
-func (b *Base) Name() string {
-	return b.PName
-}
-
+// Vars returns a map of variables to be used in templates,
+// with overlays applied.
 func (b *Base) Vars(goOS, goArch string) map[string]string {
 	vars := map[string]string{
 		"Name":    b.PName,
@@ -54,6 +53,7 @@ func (b *Base) Vars(goOS, goArch string) map[string]string {
 	return vars
 }
 
+// Config is a program declaration in configuration file (default: bindl.yaml)
 type Config struct {
 	Base
 
@@ -62,6 +62,7 @@ type Config struct {
 	Path      string            `json:"path"`
 }
 
+// URLProgram converts current configuration to URLProgram, which is the format used by lockfile.
 func (c *Config) URLProgram(ctx context.Context, platforms map[string][]string) (*URLProgram, error) {
 	if err := c.loadChecksum(platforms); err != nil {
 		return nil, fmt.Errorf("loading checksums: %w", err)

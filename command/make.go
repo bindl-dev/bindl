@@ -45,6 +45,7 @@ $(BINDL_PROGRAMS_PATH): {{ .Lockfile }} | {{ .BinDir }}/bindl
 
 var makefileTmpl = template.Must(template.New("makefile").Parse(rawMakefileTmpl))
 
+// GenerateMakefile writes a generated Makefile blindly (overwrites).
 func GenerateMakefile(conf *config.Runtime, path string) error {
 	f, err := os.OpenFile(path, os.O_TRUNC|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {

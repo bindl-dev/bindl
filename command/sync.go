@@ -27,6 +27,9 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+// Sync reads the configuration file (conf.Path) and generates the lockfile (conf.LockfilePath).
+// By default, it overwrites the lockfile blindly.
+// If `writeToStdout` is true, then it writes to STDOUT and lockfile will not be touched.
 func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 	c := &config.Config{}
 	raw, err := os.ReadFile(conf.Path)
