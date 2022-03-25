@@ -1,0 +1,42 @@
+platforms:
+  linux:
+    - amd64
+  darwin:
+    - arm64
+
+# Optionally, define popular platform naming convention for overlay
+_uname: &uname
+  OS:
+    linux: Linux
+    darwin: Darwin
+  Arch:
+    amd64: x86_64
+
+programs:
+  - name: terraform
+    version: 1.1.8
+    provider: url
+    paths:
+      base: 'https://releases.hashicorp.com/terraform/{{ .Version }}/'
+      target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.zip' #=> terraform_1.1.8_linux_amd64.zip
+      checksums:
+        artifact: '{{ .Name }}_{{ .Version }}_SHA256SUMS'
+  - name: ko
+    version: 0.11.2
+    provider: github  # shortcut for GitHub releases
+    overlay: *uname
+    paths:
+      base: google/ko  #=> https://github.com/google/ko/releases/download/v0.11.2/
+      target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
+      checksums:
+        artifact: checksums.txt
+  - name: cosign
+    version: 1.7.1
+    provider: github
+    paths:
+      base: sigstore/cosign
+      target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
+      checksums: # will validate signatures through 'cosign verify-blob' if provided
+        artifact: '{{ .Name }}_checksums.txt'
+        certificate: '{{ .Name }}_checksums.txt-keyless.pem'
+        signature: '{{ .Name }}_checksums.txt-keyless.sig'
