@@ -27,7 +27,7 @@ import (
 // Base is a minimal structure which exists in every program variations
 type Base struct {
 	Overlay map[string]map[string]string `json:"overlay,omitempty"`
-	Name   string                       `json:"name"`
+	Name    string                       `json:"name"`
 	Version string                       `json:"version"`
 }
 

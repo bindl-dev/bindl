@@ -40,7 +40,7 @@ type Lock struct {
 func NewLock(c *Config) (*Lock, error) {
 	p := &Lock{
 		Base: Base{
-			Name:   c.Name,
+			Name:    c.Name,
 			Version: c.Version,
 			Overlay: c.Overlay,
 		},
