@@ -20,12 +20,10 @@ import (
 	"os/signal"
 
 	"go.xargs.dev/bindl/command/cli"
-	"go.xargs.dev/bindl/internal"
 )
 
 func main() {
 	if err := run(); err != nil {
-		internal.ErrorMsg(err)
 		os.Exit(1)
 	}
 }
@@ -37,9 +35,7 @@ func run() error {
 	cli.Root.AddCommand(versionCmd)
 	cli.Root.AddCommand(cli.All...)
 
-	// Silence default errors as they don't look noisy,
-	// print error manually in main()
-	cli.Root.SilenceErrors = true
+	// Silence usage as they look noisy.
 	cli.Root.SilenceUsage = true
 
 	return cli.Root.ExecuteContext(ctx)
