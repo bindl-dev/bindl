@@ -1,4 +1,4 @@
-module go.xargs.dev/bindl
+module github.com/bindl-dev/bindl
 
 go 1.18
 

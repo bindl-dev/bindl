@@ -17,8 +17,8 @@ package cli
 import (
 	"fmt"
 
+	"github.com/bindl-dev/bindl/config"
 	"github.com/spf13/cobra"
-	"go.xargs.dev/bindl/config"
 )
 
 var bindlListOneline = false

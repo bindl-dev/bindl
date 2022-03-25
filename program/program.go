@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"text/template"
 
-	"go.xargs.dev/bindl/internal"
+	"github.com/bindl-dev/bindl/internal"
 )
 
 // Base is a minimal structure which exists in every program variations

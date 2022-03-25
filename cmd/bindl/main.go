@@ -19,7 +19,7 @@ import (
 	"os"
 	"os/signal"
 
-	"go.xargs.dev/bindl/command/cli"
+	"github.com/bindl-dev/bindl/command/cli"
 )
 
 func main() {

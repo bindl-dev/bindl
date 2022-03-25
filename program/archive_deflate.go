@@ -23,7 +23,7 @@ import (
 	"io"
 	"path/filepath"
 
-	"go.xargs.dev/bindl/internal"
+	"github.com/bindl-dev/bindl/internal"
 )
 
 func unzip(w io.Writer, rawZip io.ReaderAt, size int64, binaryName string) error {

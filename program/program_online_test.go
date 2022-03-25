@@ -18,7 +18,7 @@ import (
 	"context"
 	"testing"
 
-	"go.xargs.dev/bindl/program"
+	"github.com/bindl-dev/bindl/program"
 	"sigs.k8s.io/yaml"
 )
 

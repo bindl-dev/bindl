@@ -17,8 +17,8 @@ package main
 import (
 	"fmt"
 
+	internalversion "github.com/bindl-dev/bindl/internal/version"
 	"github.com/spf13/cobra"
-	internalversion "go.xargs.dev/bindl/internal/version"
 )
 
 // These variables are stamped by ldflags on build, configured through goreleaser.

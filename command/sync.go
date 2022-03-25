@@ -21,9 +21,9 @@ import (
 	"sync"
 	"time"
 
-	"go.xargs.dev/bindl/config"
-	"go.xargs.dev/bindl/internal"
-	"go.xargs.dev/bindl/program"
+	"github.com/bindl-dev/bindl/config"
+	"github.com/bindl-dev/bindl/internal"
+	"github.com/bindl-dev/bindl/program"
 	"sigs.k8s.io/yaml"
 )
 
