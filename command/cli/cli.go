@@ -26,6 +26,7 @@ import (
 var All = []*cobra.Command{
 	BindlGet,
 	BindlSync,
+	BindlList,
 	BindlGenerate,
 	BindlPurge,
 	BindlVerify,

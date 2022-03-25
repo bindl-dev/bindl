@@ -16,7 +16,7 @@ bin/bindl-dev: bin/goreleaser
 	bin/goreleaser build \
 		--output bin/bindl \
 		--single-target \
-		--skip-validate \
+		--snapshot \
 		--rm-dist
 
 include Makefile.*

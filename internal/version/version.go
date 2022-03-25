@@ -41,7 +41,7 @@ func init() {
 		case "vcs.time":
 			date = s.Value
 		case "vcs.modified":
-			modified = true
+			modified = s.Value == "true"
 			version = version + "-dirty"
 		default:
 			continue
@@ -73,4 +73,12 @@ func MarkModified(v *string) {
 	if Modified() {
 		*v = *v + "-dirty"
 	}
+}
+
+func SetFromCmd(v string) {
+	version = v
+}
+
+func Summary() string {
+	return version + " (" + commit + ") (" + goVersion + ")"
 }

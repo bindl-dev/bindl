@@ -37,8 +37,16 @@ var versionCmd = &cobra.Command{
 func init() {
 	if version == "" {
 		version = internalversion.Version()
+	} else {
+		internalversion.MarkModified(&version)
+		internalversion.SetFromCmd(version)
 	}
-	internalversion.MarkModified(&version)
+	if commit == "" {
+		commit = internalversion.Commit()
+	}
+	if date == "" {
+		date = internalversion.Date()
+	}
 	if goVersion == "" {
 		goVersion = internalversion.GoVersion()
 	}

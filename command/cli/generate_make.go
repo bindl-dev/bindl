@@ -22,8 +22,9 @@ import (
 var bindlGenerateMakefilePath = "Makefile.bindl"
 
 var BindlGenerateMake = &cobra.Command{
-	Use:   "make",
-	Short: "Generate Makefile for bindl programs",
+	Use:     "make",
+	Aliases: []string{"makefile"},
+	Short:   "Generate Makefile for bindl programs",
 	Long: `Generate Makefile for all programs in lockfile.
 
 By default, the generated Makefile will be named 'Makefile.bindl', which can be
