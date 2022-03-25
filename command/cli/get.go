@@ -17,8 +17,8 @@ package cli
 import (
 	"github.com/spf13/cobra"
 
-	"go.xargs.dev/bindl/command"
-	"go.xargs.dev/bindl/internal"
+	"github.com/bindl-dev/bindl/command"
+	"github.com/bindl-dev/bindl/internal"
 )
 
 var BindlGet = &cobra.Command{

@@ -23,8 +23,8 @@ import (
 	"sync"
 	"text/template"
 
-	"go.xargs.dev/bindl/download"
-	"go.xargs.dev/bindl/internal"
+	"github.com/bindl-dev/bindl/download"
+	"github.com/bindl-dev/bindl/internal"
 )
 
 // Lock is a configuration used by lockfile to explicitly state the

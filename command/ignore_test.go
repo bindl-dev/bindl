@@ -18,8 +18,8 @@ import (
 	"os"
 	"testing"
 
-	"go.xargs.dev/bindl/command"
-	"go.xargs.dev/bindl/config"
+	"github.com/bindl-dev/bindl/command"
+	"github.com/bindl-dev/bindl/config"
 )
 
 func TestUpdateIgnoreFile(t *testing.T) {

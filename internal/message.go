@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/bindl-dev/bindl/internal/log"
 	"github.com/fatih/color"
-	"go.xargs.dev/bindl/internal/log"
 )
 
 var errHeader = color.HiRedString("ERROR")

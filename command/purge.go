@@ -23,8 +23,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"go.xargs.dev/bindl/config"
-	"go.xargs.dev/bindl/internal"
+	"github.com/bindl-dev/bindl/config"
+	"github.com/bindl-dev/bindl/internal"
 )
 
 // Purge deletes downloaded binaries. By default, it only deletes

@@ -12,7 +12,7 @@ linters-settings:
       - ^print.*$
 
   goimports:
-    local-prefixes: go.xargs.dev/bindl
+    local-prefixes: github.com/bindl-dev/bindl
 
   govet:
     enable:

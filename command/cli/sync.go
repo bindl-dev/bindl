@@ -15,8 +15,8 @@
 package cli
 
 import (
+	"github.com/bindl-dev/bindl/command"
 	"github.com/spf13/cobra"
-	"go.xargs.dev/bindl/command"
 )
 
 var bindlSyncStdout bool

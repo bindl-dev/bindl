@@ -17,10 +17,10 @@ package cli
 import (
 	"runtime"
 
+	"github.com/bindl-dev/bindl/config"
+	"github.com/bindl-dev/bindl/internal/log"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/spf13/cobra"
-	"go.xargs.dev/bindl/config"
-	"go.xargs.dev/bindl/internal/log"
 )
 
 var All = []*cobra.Command{

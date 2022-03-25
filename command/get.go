@@ -20,11 +20,11 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/bindl-dev/bindl/config"
+	"github.com/bindl-dev/bindl/download"
+	"github.com/bindl-dev/bindl/internal"
+	"github.com/bindl-dev/bindl/program"
 	"github.com/rs/zerolog"
-	"go.xargs.dev/bindl/config"
-	"go.xargs.dev/bindl/download"
-	"go.xargs.dev/bindl/internal"
-	"go.xargs.dev/bindl/program"
 )
 
 func symlink(binDir, progDir string, p *program.Lock) error {

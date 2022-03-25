@@ -14,7 +14,7 @@
 
 package config
 
-import "go.xargs.dev/bindl/program"
+import "github.com/bindl-dev/bindl/program"
 
 // Config is a configuration which is used to declare a project's dependencies.
 // By default, this is the content of bindl.yaml

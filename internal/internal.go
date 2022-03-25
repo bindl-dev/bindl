@@ -15,8 +15,8 @@
 package internal
 
 import (
+	"github.com/bindl-dev/bindl/internal/log"
 	"github.com/rs/zerolog"
-	"go.xargs.dev/bindl/internal/log"
 )
 
 func Log() *zerolog.Logger {

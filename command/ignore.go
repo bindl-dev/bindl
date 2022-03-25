@@ -22,8 +22,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"go.xargs.dev/bindl/config"
-	"go.xargs.dev/bindl/internal"
+	"github.com/bindl-dev/bindl/config"
+	"github.com/bindl-dev/bindl/internal"
 )
 
 func isNewline(c byte) bool {
