@@ -57,8 +57,8 @@ overlay:
     amd64: x86_64
 checksums:
   myprogram-Linux-x86_64.tar.gz:
-    _archive: 61577c9d9010c0c7190428fe3c15f406209be3bd409c3b87fb767febd3a784b9
-    myprogram: d5b12eda84454df3bf1a4729dc3cf39c124232f62bf2f33f4defb5432b60f08e
+    archive: 61577c9d9010c0c7190428fe3c15f406209be3bd409c3b87fb767febd3a784b9
+    binary: d5b12eda84454df3bf1a4729dc3cf39c124232f62bf2f33f4defb5432b60f08e
 `
 
 const rawArchyProgramManifest = `
@@ -88,5 +88,5 @@ overlay:
     amd64: x86_64
 checksums:
   archy_0.1.1_Linux_x86_64.tar.gz:
-    _archive: b999ac46efeb15ea1e304c732ef42a7a313a773c61deea2192d78025794939c2
+    archive: b999ac46efeb15ea1e304c732ef42a7a313a773c61deea2192d78025794939c2
 `

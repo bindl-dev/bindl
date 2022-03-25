@@ -41,7 +41,7 @@ func Verify(ctx context.Context, conf *config.Runtime, prog *program.Lock) error
 	if err != nil {
 		return fmt.Errorf("generating filename for '%v': %w", prog.Name, err)
 	}
-	expected := prog.Checksums[archiveName].Binaries[prog.Name]
+	expected := prog.Checksums[archiveName].Binary
 
 	c := &program.ChecksumCalculator{}
 	w := c.SHA256(io.Discard)

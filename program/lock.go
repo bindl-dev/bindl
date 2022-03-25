@@ -48,10 +48,11 @@ func NewLock(c *Config) (*Lock, error) {
 		Checksums:   map[string]*ArchiveChecksum{},
 	}
 	for f, cs := range c.Checksums {
-		if f == "_src" {
+		switch f {
+		case "_src":
 			p.ChecksumSrc = cs
-		} else {
-			p.Checksums[f] = &ArchiveChecksum{Archive: cs, Binaries: map[string]string{}}
+		default:
+			p.Checksums[f] = &ArchiveChecksum{Archive: cs}
 		}
 	}
 	return p, nil
@@ -82,7 +83,7 @@ func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][
 					internal.ErrorMsg(fmt.Errorf("calculating binary checksum for '%s' in %s/%s: %w", p.Name, os, arch, err))
 					return
 				}
-				p.Checksums[a.Name].Binaries[p.Name] = string(b)
+				p.Checksums[a.Name].Binary = string(b)
 			}(os, arch)
 		}
 	}
@@ -95,7 +96,7 @@ func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][
 	// Not all checksums was necessarily used, remove the ones not caught by platform matrix
 	toDelete := []string{}
 	for archiveName, archiveCS := range p.Checksums {
-		if len(archiveCS.Binaries) == 0 {
+		if archiveCS.Binary == "" {
 			toDelete = append(toDelete, archiveName)
 		}
 	}

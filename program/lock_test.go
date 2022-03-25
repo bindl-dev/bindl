@@ -37,7 +37,7 @@ func TestProgramChecksumsYAMLUnmarshalJSON(t *testing.T) {
 
 	cs := p.Checksums["myprogram-Linux-x86_64.tar.gz"]
 	assert(t, "61577c9d9010c0c7190428fe3c15f406209be3bd409c3b87fb767febd3a784b9", cs.Archive)
-	assert(t, "d5b12eda84454df3bf1a4729dc3cf39c124232f62bf2f33f4defb5432b60f08e", cs.Binaries["myprogram"])
+	assert(t, "d5b12eda84454df3bf1a4729dc3cf39c124232f62bf2f33f4defb5432b60f08e", cs.Binary)
 }
 
 func TestProgramURL(t *testing.T) {

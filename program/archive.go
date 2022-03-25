@@ -16,7 +16,6 @@ package program
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -53,7 +52,7 @@ func (a *Archive) Extract(binaryName string) ([]byte, error) {
 		return nil, fmt.Errorf("extracting binary source from archive: %w", err)
 	}
 
-	expect := a.checksums.Binaries[binaryName]
+	expect := a.checksums.Binary
 
 	if err := assertChecksumSHA256(binary, []byte(expect)); err != nil {
 		return nil, fmt.Errorf("checksum validation for '%s': %w", binaryName, err)
@@ -90,41 +89,7 @@ func (a *Archive) extractBinaryNoChecksum(binaryName string) ([]byte, error) {
 	return data, err
 }
 
-const archiveChecksumKey = "_archive"
-
 type ArchiveChecksum struct {
-	Binaries map[string]string
-	Archive  string
-}
-
-func (c *ArchiveChecksum) MarshalJSON() ([]byte, error) {
-	raw := map[string]string{}
-
-	raw[archiveChecksumKey] = c.Archive
-	for b, cs := range c.Binaries {
-		raw[b] = cs
-	}
-
-	return json.Marshal(raw)
-}
-
-func (c *ArchiveChecksum) UnmarshalJSON(b []byte) error {
-	if c.Binaries == nil {
-		c.Binaries = map[string]string{}
-	}
-
-	raw := map[string]string{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return fmt.Errorf("reading partial json: %w", err)
-	}
-
-	for name, hash := range raw {
-		if name == archiveChecksumKey {
-			c.Archive = hash
-		} else {
-			c.Binaries[name] = hash
-		}
-	}
-
-	return nil
+	Archive string `json:"archive"`
+	Binary  string `json:"binary"`
 }
