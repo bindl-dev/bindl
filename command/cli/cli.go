@@ -36,15 +36,15 @@ var Root = &cobra.Command{
 	Use:  "bindl",
 	Long: "Bindl is a static binary downloader for project development and infrastructure.",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		if err := envconfig.Process("BINDL", defaultConfig); err != nil {
+		if err := envconfig.Process("BINDL", conf); err != nil {
 			return err
 		}
 
 		var logLevel string
 		switch {
-		case defaultConfig.Silent:
+		case conf.Silent:
 			logLevel = "disabled"
-		case defaultConfig.Debug:
+		case conf.Debug:
 			logLevel = "debug"
 		default:
 			logLevel = "info"
@@ -53,7 +53,7 @@ var Root = &cobra.Command{
 	},
 }
 
-var defaultConfig = &config.Runtime{
+var conf = &config.Runtime{
 	Path:         "./bindl.yaml",
 	LockfilePath: "./.bindl-lock.yaml",
 	BinDir:       "./bin",
@@ -67,11 +67,11 @@ var defaultConfig = &config.Runtime{
 }
 
 func init() {
-	Root.PersistentFlags().StringVarP(&defaultConfig.Path, "config", "c", defaultConfig.Path, "path to configuration file")
-	Root.PersistentFlags().StringVarP(&defaultConfig.LockfilePath, "lock", "l", defaultConfig.LockfilePath, "path to lockfile")
-	Root.PersistentFlags().StringVarP(&defaultConfig.BinDir, "bin", "b", defaultConfig.BinDir, "directory in PATH to add binaries")
-	Root.PersistentFlags().StringVar(&defaultConfig.ProgDir, "prog", defaultConfig.ProgDir, "directory to save real binary content")
+	Root.PersistentFlags().StringVarP(&conf.Path, "config", "c", conf.Path, "path to configuration file")
+	Root.PersistentFlags().StringVarP(&conf.LockfilePath, "lock", "l", conf.LockfilePath, "path to lockfile")
+	Root.PersistentFlags().StringVarP(&conf.BinDir, "bin", "b", conf.BinDir, "directory in PATH to add binaries")
+	Root.PersistentFlags().StringVar(&conf.ProgDir, "prog", conf.ProgDir, "directory to save real binary content")
 
-	Root.PersistentFlags().BoolVarP(&defaultConfig.Silent, "silent", "s", defaultConfig.Silent, "silence logs")
-	Root.PersistentFlags().BoolVar(&defaultConfig.Debug, "debug", defaultConfig.Debug, "show debug logs")
+	Root.PersistentFlags().BoolVarP(&conf.Silent, "silent", "s", conf.Silent, "silence logs")
+	Root.PersistentFlags().BoolVar(&conf.Debug, "debug", conf.Debug, "show debug logs")
 }

@@ -31,7 +31,7 @@ var BindlList = &cobra.Command{
 	Args: cobra.NoArgs,
 
 	RunE: func(cmd *cobra.Command, args []string) error {
-		l, err := config.ParseLock(defaultConfig.LockfilePath)
+		l, err := config.ParseLock(conf.LockfilePath)
 		if err != nil {
 			return fmt.Errorf("parsing lockfile: %w", err)
 		}

@@ -42,7 +42,7 @@ in your other rules. For example:
 
 Calling the imported rules also works on 'make' CLI.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return command.GenerateMakefile(defaultConfig, bindlGenerateMakefilePath)
+		return command.GenerateMakefile(conf, bindlGenerateMakefilePath)
 	},
 }
 

@@ -31,7 +31,7 @@ file specifications (i.e. bindl.yaml), ensuring that checksums exists in
 lockfile for all desired platforms and programs.`,
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return command.Sync(cmd.Context(), defaultConfig, bindlSyncStdout)
+		return command.Sync(cmd.Context(), conf, bindlSyncStdout)
 	},
 }
 

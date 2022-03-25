@@ -28,7 +28,7 @@ var BindlPurge = &cobra.Command{
 	Long: `Remove downloaded programs from cache, which are not listed in the lockfile.
 Passing --all would remove all existing programs regardless of lockfile.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
-		return command.Purge(cmd.Context(), defaultConfig, bindlPurgeAll, bindlPurgeDryRun)
+		return command.Purge(cmd.Context(), conf, bindlPurgeAll, bindlPurgeDryRun)
 	},
 }
 

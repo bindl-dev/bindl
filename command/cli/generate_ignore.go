@@ -37,7 +37,7 @@ For example, with default output directory "bin":
 
 Supports typical ignore files. e.g. .dockerignore`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return command.UpdateIgnoreFile(defaultConfig, bindlGenerateIgnorePath)
+		return command.UpdateIgnoreFile(conf, bindlGenerateIgnorePath)
 	},
 }
 

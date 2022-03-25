@@ -32,11 +32,11 @@ will be selected.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
 		err := command.IterateLockfilePrograms(
 			cmd.Context(),
-			defaultConfig,
+			conf,
 			names,
 			command.Get)
 		if err == nil {
-			internal.Msgf("✨ Program(s) were downloaded, ensure that %s is in your $PATH to use properly.\n", defaultConfig.BinDir)
+			internal.Msgf("✨ Program(s) were downloaded, ensure that %s is in your $PATH to use properly.\n", conf.BinDir)
 		}
 		return err
 	},

@@ -29,7 +29,7 @@ will be selected.`,
 	RunE: func(cmd *cobra.Command, names []string) error {
 		return command.IterateLockfilePrograms(
 			cmd.Context(),
-			defaultConfig,
+			conf,
 			names,
 			command.Verify)
 	},
