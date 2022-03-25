@@ -33,7 +33,7 @@ func TestIntegrationConvertProgramConfigURLProviderToURL(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	u, err := c.URLProgram(context.Background(), map[string][]string{
+	u, err := c.Lock(context.Background(), map[string][]string{
 		"linux":  []string{"amd64"},
 		"darwin": []string{"arm64"},
 	})

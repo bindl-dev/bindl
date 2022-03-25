@@ -27,7 +27,7 @@ import (
 	"go.xargs.dev/bindl/program"
 )
 
-func symlink(binDir, progDir string, p *program.URLProgram) error {
+func symlink(binDir, progDir string, p *program.Lock) error {
 	relProgDir := filepath.Join(progDir, p.PName)
 
 	// Update program atime and mtime to prevent Makefile from rebuilding
@@ -55,7 +55,7 @@ func symlink(binDir, progDir string, p *program.URLProgram) error {
 // - if it still fails, then attempt to download
 // This is useful when a project is working on branches with different versions of
 // a given program, ensuring that we only download when absolutely necessary.
-func Get(ctx context.Context, conf *config.Runtime, p *program.URLProgram) error {
+func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
 	if err != nil {
 		return err

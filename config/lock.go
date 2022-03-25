@@ -27,7 +27,7 @@ import (
 // By default, this is the content of .bindl-lock.yaml
 type Lock struct {
 	Updated  time.Time             `json:"updated"`
-	Programs []*program.URLProgram `json:"programs"`
+	Programs []*program.Lock `json:"programs"`
 }
 
 // ParseLock reads a file from path and returns *Lock

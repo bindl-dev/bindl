@@ -40,7 +40,7 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 		return fmt.Errorf("parsing yaml: %w", err)
 	}
 
-	parsed := make(chan *program.URLProgram, 4)
+	parsed := make(chan *program.Lock, 4)
 	hasError := false
 
 	var wg sync.WaitGroup
@@ -51,7 +51,7 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 			defer wg.Done()
 
 			internal.Log().Info().Str("program", prog.PName).Msg("building program spec")
-			p, err := prog.URLProgram(ctx, c.Platforms)
+			p, err := prog.Lock(ctx, c.Platforms)
 			if err != nil {
 				internal.Log().Err(err).Str("program", prog.PName).Msg("parsing configuration")
 				hasError = true
@@ -66,7 +66,7 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 		close(parsed)
 	}()
 
-	programs := []*program.URLProgram{}
+	programs := []*program.Lock{}
 	for p := range parsed {
 		internal.Log().Info().Str("program", p.PName).Msg("built program spec")
 		programs = append(programs, p)

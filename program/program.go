@@ -62,16 +62,16 @@ type Config struct {
 	Path      string            `json:"path"`
 }
 
-// URLProgram converts current configuration to URLProgram, which is the format used by lockfile.
-func (c *Config) URLProgram(ctx context.Context, platforms map[string][]string) (*URLProgram, error) {
+// Lock converts current configuration to Lock, which is the format used by lockfile.
+func (c *Config) Lock(ctx context.Context, platforms map[string][]string) (*Lock, error) {
 	if err := c.loadChecksum(platforms); err != nil {
 		return nil, fmt.Errorf("loading checksums: %w", err)
 	}
-	var p *URLProgram
+	var p *Lock
 	var err error
 	switch c.Provider {
 	case "url":
-		p, err = NewURLProgram(c)
+		p, err = NewLock(c)
 		if err != nil {
 			return nil, err
 		}

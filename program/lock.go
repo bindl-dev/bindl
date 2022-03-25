@@ -27,9 +27,9 @@ import (
 	"go.xargs.dev/bindl/internal"
 )
 
-// URLProgram is a configuration used by lockfile to explicitly state the
+// Lock is a configuration used by lockfile to explicitly state the
 // expected validations of each program.
-type URLProgram struct {
+type Lock struct {
 	Base
 
 	Checksums   map[string]*ArchiveChecksum `json:"checksums,omitempty"`
@@ -37,8 +37,8 @@ type URLProgram struct {
 	URLTemplate string                      `json:"url"`
 }
 
-func NewURLProgram(c *Config) (*URLProgram, error) {
-	p := &URLProgram{
+func NewLock(c *Config) (*Lock, error) {
+	p := &Lock{
 		Base: Base{
 			PName:   c.PName,
 			Version: c.Version,
@@ -60,7 +60,7 @@ func NewURLProgram(c *Config) (*URLProgram, error) {
 // TOFU: Trust on first use -- should only be run first time a program was added to
 // the lockfile. Collecting binary checksums by extracting archives.
 // TODO: Use the values presented in SBOM when available.
-func (p *URLProgram) collectBinaryChecksum(ctx context.Context, platforms map[string][]string) error {
+func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][]string) error {
 	var wg sync.WaitGroup
 
 	hasError := false
@@ -109,7 +109,7 @@ func (p *URLProgram) collectBinaryChecksum(ctx context.Context, platforms map[st
 // ArchiveName returns the archive name with OS and Arch interpolated
 // if necessary, i.e. someprogram-linux-amd64.tar.gz.
 // This reads from URL and assumes that contains the archive name.
-func (p *URLProgram) ArchiveName(os, arch string) (string, error) {
+func (p *Lock) ArchiveName(os, arch string) (string, error) {
 	url, err := p.URL(os, arch)
 	if err != nil {
 		return "", err
@@ -119,7 +119,7 @@ func (p *URLProgram) ArchiveName(os, arch string) (string, error) {
 }
 
 // URL returns the download URL with variables interpolated as necessary.
-func (p *URLProgram) URL(goOS, goArch string) (string, error) {
+func (p *Lock) URL(goOS, goArch string) (string, error) {
 	t, err := template.New("url").Parse(p.URLTemplate)
 	if err != nil {
 		return "", err
@@ -134,7 +134,7 @@ func (p *URLProgram) URL(goOS, goArch string) (string, error) {
 
 // DownloadArchive returns Archive which has the archive data in-memory, with guarantees
 // on archive checksum. That is, if checksum fails, no data will be made available to caller.
-func (p *URLProgram) DownloadArchive(ctx context.Context, d download.Downloader, goOS, goArch string) (*Archive, error) {
+func (p *Lock) DownloadArchive(ctx context.Context, d download.Downloader, goOS, goArch string) (*Archive, error) {
 	url, err := p.URL(goOS, goArch)
 	if err != nil {
 		return nil, fmt.Errorf("generating URL for download: %w", err)
