@@ -14,13 +14,12 @@ _uname: &uname
     amd64: "x86_64"
 
 programs:
-  - name: archy
-    version: 0.1.2
+  - name: cosign
+    version: 1.6.0
     provider: url
-    path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
-    overlay: *uname
+    path: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}-{{ .OS }}-{{ .Arch }}
     checksums:
-      _src: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+      _src: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
   - name: addlicense
     version: 1.0.0
     provider: url

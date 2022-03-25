@@ -61,7 +61,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 		return err
 	}
 
-	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binaries[p.Name]+"-"+p.Name)
+	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binary+"-"+p.Name)
 	if err := Verify(ctx, conf, p); err == nil {
 		// Re-run symlink to renew atime and mtime, so that GNU Make will not rebuild in the future
 		internal.Log().Debug().Str("program", p.Name).Msg("found valid existing, re-linking")

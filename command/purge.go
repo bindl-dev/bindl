@@ -47,7 +47,7 @@ func Purge(ctx context.Context, conf *config.Runtime, all, dryRun bool) error {
 		if err != nil {
 			return fmt.Errorf("generating archive name for '%s': %w", p.Name, err)
 		}
-		checksum := p.Checksums[archiveName].Binaries[p.Name]
+		checksum := p.Checksums[archiveName].Binary
 		keepPath := checksum + "-" + p.Name
 		internal.Log().Debug().Str("program", keepPath).Msg("to keep")
 		keep[keepPath] = true

@@ -2,17 +2,17 @@ programs:
 - checksum: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
   checksums:
     addlicense_1.0.0_Linux_arm64.tar.gz:
-      _archive: dd42bca32cfcf37c53ae172b5c2f2db8a3f5a09574a55db6aca1eb1186de3330
-      addlicense: 959d66bebdea6c2fa232cd0b0ee00417008278e023082238fcb81db2263e0b64
+      archive: dd42bca32cfcf37c53ae172b5c2f2db8a3f5a09574a55db6aca1eb1186de3330
+      binary: 959d66bebdea6c2fa232cd0b0ee00417008278e023082238fcb81db2263e0b64
     addlicense_1.0.0_Linux_x86_64.tar.gz:
-      _archive: aae27d96ce4dea4dfa5cd44ea81708157932783646cde801b38e8bbbf8fb682b
-      addlicense: ac53b538d315abfb1c6e2cec5c6a7886397f1d1738a6b7abe6af2159ce614bee
+      archive: aae27d96ce4dea4dfa5cd44ea81708157932783646cde801b38e8bbbf8fb682b
+      binary: ac53b538d315abfb1c6e2cec5c6a7886397f1d1738a6b7abe6af2159ce614bee
     addlicense_1.0.0_macOS_arm64.tar.gz:
-      _archive: 86285b616ef37451402d67fcc6c8485d24180307dbb21fe381d4f222885306ba
-      addlicense: 2f9bbb0952dd3e98884199776d456ac3eeb7d404a58e40feb0db64ce1bc76add
+      archive: 86285b616ef37451402d67fcc6c8485d24180307dbb21fe381d4f222885306ba
+      binary: 2f9bbb0952dd3e98884199776d456ac3eeb7d404a58e40feb0db64ce1bc76add
     addlicense_1.0.0_macOS_x86_64.tar.gz:
-      _archive: 0e90a992a598638f1ddf471f1a63873c534a222886474c0b8d10f9c26c0c41ef
-      addlicense: d17bd42ed57ddea1875ea82f0a90373b56a72da96b092179f15021e97f951df2
+      archive: 0e90a992a598638f1ddf471f1a63873c534a222886474c0b8d10f9c26c0c41ef
+      binary: d17bd42ed57ddea1875ea82f0a90373b56a72da96b092179f15021e97f951df2
   name: addlicense
   overlay:
     Arch:
@@ -22,43 +22,37 @@ programs:
       linux: Linux
   url: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 1.0.0
-- checksum: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
+- checksum: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
   checksums:
-    archy_0.1.2_Darwin_arm64.tar.gz:
-      _archive: 4efe1d6a3885eac97c8bf7dbab25148a7f5a077ca26677764f6e98cc036b613e
-      archy: 49f27370e98c3dd758b28c25b0a1e87263f4d8ca608cc8e4b8fbf977fe7467a8
-    archy_0.1.2_Darwin_x86_64.tar.gz:
-      _archive: 1fb90e79406607484e0cb285eef5c72efc495c5e371f7ec0bc20fc29caa629a7
-      archy: 1cf8f6f1f150b66ecb68c4068f7149f52a257b5a3c8592b956ab54bc099ce7bc
-    archy_0.1.2_Linux_arm64.tar.gz:
-      _archive: 8d3ca1cbb351a0db4e8e7d2504fe28379a99a846e3ce183582e7b3559b3230b1
-      archy: 962eb359f63e4e36e37eea330bde802b04ebf932bc9165756d0dfb3d9095a8b5
-    archy_0.1.2_Linux_x86_64.tar.gz:
-      _archive: a6630ef3eded7f839a5c6f5bf316fd5bdf6628ffd773e2e7e9730c3d58a5205d
-      archy: f56006d12866fc741575416c8392fcc0f11b1e4e0e8ec13a697e5533691c0555
-  name: archy
-  overlay:
-    Arch:
-      amd64: x86_64
-    OS:
-      darwin: Darwin
-      linux: Linux
-  url: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
-  version: 0.1.2
+    golangci-lint-1.45.0-darwin-amd64.tar.gz:
+      archive: f53826957a96a3312f5e932299024a1274b31c8b70d54510803222fb5d9f7af8
+      binary: 16e0bb59872f325e2e788a397bc9c58cbc0476b78f46d882edc3a5eb8694cc06
+    golangci-lint-1.45.0-darwin-arm64.tar.gz:
+      archive: b1dac279dbcd58938a2f77311d5d50e0b9624b518c849851f7a9d3d859cc14b2
+      binary: 23223a354f2461cc223ab12825ca2f8cc62633233ca664af185474f2dcc257e8
+    golangci-lint-1.45.0-linux-amd64.tar.gz:
+      archive: ca06a2b170f41a9e1e34d40ca88b15b8fed2d7e37310f0c08b7fc244c34292a9
+      binary: 446b777853a8478b77a0300f04d0146c463120757a69cc6c9c51e5197ddba350
+    golangci-lint-1.45.0-linux-arm64.tar.gz:
+      archive: 4c83a0f70189e2b6656ca0216a22fb37087c1ffb10eb5df9a002bbea15c88354
+      binary: b82fd0e4ad15db3b3273264b1913aeb01157990e450c368855ae3be92485ad0e
+  name: golangci-lint
+  url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
+  version: 1.45.0
 - checksum: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt
   checksums:
     goreleaser_Darwin_arm64.tar.gz:
-      _archive: 3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94
-      goreleaser: 148af83bc1d992bfdf5a0607ed1337f239fef24ac7fd22ec97083026a25d3dce
+      archive: 3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94
+      binary: 148af83bc1d992bfdf5a0607ed1337f239fef24ac7fd22ec97083026a25d3dce
     goreleaser_Darwin_x86_64.tar.gz:
-      _archive: aebb22ab32ddc36002caf3362e2410f1a1487ab098c1f1ac6f5aae59f13f498b
-      goreleaser: 0a801baa89a8a1c8bec1763ee07ffbe84b22defd3284e94d5081d1cbe7ebad8e
+      archive: aebb22ab32ddc36002caf3362e2410f1a1487ab098c1f1ac6f5aae59f13f498b
+      binary: 0a801baa89a8a1c8bec1763ee07ffbe84b22defd3284e94d5081d1cbe7ebad8e
     goreleaser_Linux_arm64.tar.gz:
-      _archive: 8be69f369d8cd80aedbcfb39ba0af8fbb71fa86ee5879e0fcd94075cf17f73a2
-      goreleaser: 8ad2e4bf43079db8e5a17cf011547eda373012da331ea2536c29f15601a1f040
+      archive: 8be69f369d8cd80aedbcfb39ba0af8fbb71fa86ee5879e0fcd94075cf17f73a2
+      binary: 8ad2e4bf43079db8e5a17cf011547eda373012da331ea2536c29f15601a1f040
     goreleaser_Linux_x86_64.tar.gz:
-      _archive: e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d
-      goreleaser: 6675d65b87ed168f6c7a981623b3b80a8c1c734197d6e4467cc764f23e843583
+      archive: e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d
+      binary: 6675d65b87ed168f6c7a981623b3b80a8c1c734197d6e4467cc764f23e843583
   name: goreleaser
   overlay:
     Arch:
@@ -68,21 +62,21 @@ programs:
       linux: Linux
   url: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz
   version: 1.7.0
-- checksum: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
+- checksum: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
   checksums:
-    golangci-lint-1.45.0-darwin-amd64.tar.gz:
-      _archive: f53826957a96a3312f5e932299024a1274b31c8b70d54510803222fb5d9f7af8
-      golangci-lint: 16e0bb59872f325e2e788a397bc9c58cbc0476b78f46d882edc3a5eb8694cc06
-    golangci-lint-1.45.0-darwin-arm64.tar.gz:
-      _archive: b1dac279dbcd58938a2f77311d5d50e0b9624b518c849851f7a9d3d859cc14b2
-      golangci-lint: 23223a354f2461cc223ab12825ca2f8cc62633233ca664af185474f2dcc257e8
-    golangci-lint-1.45.0-linux-amd64.tar.gz:
-      _archive: ca06a2b170f41a9e1e34d40ca88b15b8fed2d7e37310f0c08b7fc244c34292a9
-      golangci-lint: 446b777853a8478b77a0300f04d0146c463120757a69cc6c9c51e5197ddba350
-    golangci-lint-1.45.0-linux-arm64.tar.gz:
-      _archive: 4c83a0f70189e2b6656ca0216a22fb37087c1ffb10eb5df9a002bbea15c88354
-      golangci-lint: b82fd0e4ad15db3b3273264b1913aeb01157990e450c368855ae3be92485ad0e
-  name: golangci-lint
-  url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
-  version: 1.45.0
-updated: "2022-03-24T19:15:27.148810664Z"
+    cosign-darwin-amd64:
+      archive: fcff17a94fb8a5098c9b9b623e2e190cc4d3c47c4f5e8dbf75b72a56a874b219
+      binary: fcff17a94fb8a5098c9b9b623e2e190cc4d3c47c4f5e8dbf75b72a56a874b219
+    cosign-darwin-arm64:
+      archive: e59fb49a3cc03adbb81dbd2f5cd6206fe09479cdbb7426cdd1b22aaf9145bbbc
+      binary: e59fb49a3cc03adbb81dbd2f5cd6206fe09479cdbb7426cdd1b22aaf9145bbbc
+    cosign-linux-amd64:
+      archive: b62ac8c1ab1cdb072d442d2f3db7d7ffe977566a6170cd03dd48e4583dad3203
+      binary: b62ac8c1ab1cdb072d442d2f3db7d7ffe977566a6170cd03dd48e4583dad3203
+    cosign-linux-arm64:
+      archive: 5f1c8bb2b30c75fb1c72c266b08d9cfc517ddb8b632e35627fd63aaf09e8f1bd
+      binary: 5f1c8bb2b30c75fb1c72c266b08d9cfc517ddb8b632e35627fd63aaf09e8f1bd
+  name: cosign
+  url: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}-{{ .OS }}-{{ .Arch }}
+  version: 1.6.0
+updated: "2022-03-25T05:45:10.918260896Z"
