@@ -1,6 +1,5 @@
-![Lazy Gopher](/docs/static/lazy-gopher.png)
-
-_Image is "Lazy Gopher" from [Gophers](https://github.com/ashleymcnamara/gophers)_
+<img style="width: 20em;" src="/docs/static/lazy-gopher.png">
+<i>Image is "Lazy Gopher" from the collection <a href="https://github.com/ashleymcnamara/gophers/blob/master/LazyGopher.png">"Gophers" by Ashley Willis</a>.</i>
 
 # Bindl
 
