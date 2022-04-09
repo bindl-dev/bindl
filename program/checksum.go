@@ -24,13 +24,9 @@ import (
 	"strings"
 )
 
-func readChecksumRef(r io.Reader) (map[string]string, error) {
-	raw, err := io.ReadAll(r)
-	if err != nil {
-		return nil, err
-	}
+func parseChecksumRef(raw string) (map[string]string, error) {
 	result := map[string]string{}
-	str := strings.ReplaceAll(string(raw), "\r\n", "\n")
+	str := strings.ReplaceAll(raw, "\r\n", "\n")
 	for _, line := range strings.Split(str, "\n") {
 		if line == "" {
 			continue

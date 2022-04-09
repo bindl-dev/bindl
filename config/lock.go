@@ -32,12 +32,17 @@ type Lock struct {
 
 // ParseLock reads a file from path and returns *Lock
 func ParseLock(path string) (*Lock, error) {
-	l := &Lock{}
 	raw, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	if err := yaml.Unmarshal(raw, l); err != nil {
+	return ParseLockBytes(raw)
+}
+
+// ParseLock reads a file from parameter and returns *Lock
+func ParseLockBytes(b []byte) (*Lock, error) {
+	l := &Lock{}
+	if err := yaml.Unmarshal(b, l); err != nil {
 		return nil, err
 	}
 	internal.Log().Debug().Int("programs", len(l.Programs)).Msg("parsing lockfile")

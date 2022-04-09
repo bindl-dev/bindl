@@ -18,6 +18,9 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"strings"
+	"sync"
 	"text/template"
 
 	"github.com/bindl-dev/bindl/download"
@@ -57,9 +60,9 @@ func (b *Base) Vars(goOS, goArch string) map[string]string {
 type Config struct {
 	Base
 
+	Paths     *RemotePath       `json:"paths"`
 	Checksums map[string]string `json:"checksums"`
 	Provider  string            `json:"provider"`
-	Path      string            `json:"path"`
 }
 
 // Lock converts current configuration to Lock, which is the format used by lockfile.
@@ -86,61 +89,171 @@ func (c *Config) Lock(ctx context.Context, platforms map[string][]string, useCac
 }
 
 func (c *Config) loadChecksum(ctx context.Context, platforms map[string][]string, useCache bool) error {
-	src := c.Checksums["_src"]
-	if src == "" {
-		internal.Log().Debug().Msg("no checksum source was provided")
+	c.Paths.fmt()
+	if c.Paths.Checksums == nil {
+		internal.Log().Debug().Str("program", c.Name).Msg("no remote checksum path provided")
 		return nil
 	}
 
-	t, err := template.New("url").Parse(src)
+	checksumSrcs, err := c.Paths.Checksums.generate(platforms, c.Vars)
 	if err != nil {
-		return fmt.Errorf("parsing checksum url template: %w", err)
+		return fmt.Errorf("generating checksum source(s): %w", err)
 	}
 
-	checksumSrc := map[string]struct{}{}
+	rawChecksums := ""
 
-	for os, archs := range platforms {
-		for _, arch := range archs {
-			var buf bytes.Buffer
-			if err := t.Execute(&buf, c.Vars(os, arch)); err != nil {
-				return fmt.Errorf("retrieving checksum for %s/%s: %w", os, arch, err)
-			}
-			internal.Log().Debug().
-				Str("program", c.Name).
-				Str("platform", os+"/"+arch).
-				Str("url", buf.String()).
-				Msg("generate checksum url")
-			checksumSrc[buf.String()] = struct{}{}
+	for _, checksumSrc := range checksumSrcs {
+		bundle, err := checksumSrc.values(ctx, useCache)
+		if err != nil {
+			return fmt.Errorf("extracting checksum values from '%s': %w", checksumSrc.Artifact, err)
 		}
+		if bundle.Signed() {
+			internal.Log().Debug().Str("program", c.Name).Msg("found signature specification")
+			if err := bundle.VerifySignature(ctx); err != nil {
+				return fmt.Errorf("verifying signed checksum: %w", err)
+			}
+			internal.Log().Info().Str("program", c.Name).Msg("cosign has verified signature")
+			c.Paths.Cosign = append(c.Paths.Cosign, bundle)
+		}
+		rawChecksums += "\n" + bundle.Artifact
 	}
 
 	checksums := map[string]string{}
 
-	for url := range checksumSrc {
-		d := &download.HTTP{UseCache: useCache}
-		r, err := d.Get(ctx, url)
-		if err != nil {
-			return fmt.Errorf("retrieving checksums from '%s': %w", url, err)
-		}
-		data, err := readChecksumRef(r)
-		d.Close()
-		if err != nil {
-			return fmt.Errorf("reading checksums: %w", err)
-		}
-		for f, cs := range data {
-			internal.Log().Debug().Str("program", c.Name).Str(f, cs).Msg("retrieved checksum")
-			checksums[f] = cs
-		}
+	data, err := parseChecksumRef(rawChecksums)
+	if err != nil {
+		return fmt.Errorf("reading checksums: %w", err)
+	}
+	for f, cs := range data {
+		internal.Log().Debug().Str("program", c.Name).Str(f, cs).Msg("found checksum")
+		checksums[f] = cs
 	}
 
 	// Override the downloaded result with any explicitly specified checksum
 	for f, cs := range c.Checksums {
-		if f != "_src" {
-			internal.Log().Warn().Str("program", c.Name).Str(f, cs).Msg("overwrite retrieved checksum")
-		}
+		internal.Log().Warn().Str("program", c.Name).Str(f, cs).Msg("overwrite retrieved checksum")
 		checksums[f] = cs
 	}
 	c.Checksums = checksums
 
 	return nil
+}
+
+type RemotePath struct {
+	Base   string `json:"base"`
+	Target string `json:"target"`
+
+	Checksums *ChecksumPaths `json:"checksums,omitempty"`
+
+	Cosign []*CosignBundle `json:"-"`
+
+	fmtOnce sync.Once
+}
+
+func (p *RemotePath) fmt() {
+	p.fmtOnce.Do(func() {
+		if l := len(p.Base); p.Base[l-1] != '/' {
+			p.Base += "/"
+		}
+		if p.Checksums != nil {
+			p.Checksums.rebase(p.Base)
+		}
+	})
+}
+
+func (p *RemotePath) target() string {
+	p.fmt()
+	return p.Base + p.Target
+}
+
+type ChecksumPaths struct {
+	Artifact    string `json:"artifact"`
+	Certificate string `json:"certificate,omitempty"`
+	Signature   string `json:"signature,omitempty"`
+}
+
+func (c *ChecksumPaths) rebase(base string) {
+	if !strings.HasPrefix(c.Artifact, "http") {
+		c.Artifact = base + c.Artifact
+	}
+	if c.Certificate != "" && !strings.HasPrefix(c.Certificate, "http") {
+		c.Certificate = base + c.Certificate
+	}
+	if c.Signature != "" && !strings.HasPrefix(c.Signature, "http") {
+		c.Signature = base + c.Signature
+	}
+}
+
+func (c *ChecksumPaths) generate(platforms map[string][]string, varsFn func(os, arch string) map[string]string) ([]*ChecksumPaths, error) {
+	tArtifact, err := template.New("url").Parse(c.Artifact)
+	if err != nil {
+		return nil, err
+	}
+	tCert, err := template.New("url").Parse(c.Certificate)
+	if err != nil {
+		return nil, err
+	}
+	tSig, err := template.New("url").Parse(c.Signature)
+	if err != nil {
+		return nil, err
+	}
+
+	// Use map to ensure uniqueness
+	bundles := map[string]*ChecksumPaths{}
+	for os, archs := range platforms {
+		for _, arch := range archs {
+			var artifact, cert, sig bytes.Buffer
+			if err := tArtifact.Execute(&artifact, varsFn(os, arch)); err != nil {
+				return nil, fmt.Errorf("retrieving checksum artifact for %s/%s: %w", os, arch, err)
+			}
+			if err := tCert.Execute(&cert, varsFn(os, arch)); err != nil {
+				return nil, fmt.Errorf("retrieving checksum certificate for %s/%s: %w", os, arch, err)
+			}
+			if err := tSig.Execute(&sig, varsFn(os, arch)); err != nil {
+				return nil, fmt.Errorf("retrieving checksum certificate for %s/%s: %w", os, arch, err)
+			}
+			bundles[artifact.String()] = &ChecksumPaths{
+				Artifact:    artifact.String(),
+				Certificate: cert.String(),
+				Signature:   sig.String(),
+			}
+		}
+	}
+
+	result := []*ChecksumPaths{}
+	for _, bundle := range bundles {
+		result = append(result, bundle)
+	}
+	return result, nil
+}
+
+func (c *ChecksumPaths) values(ctx context.Context, useCache bool) (*CosignBundle, error) {
+	download := func(dst *string, src string) error {
+		if src == "" {
+			return nil
+		}
+		d := &download.HTTP{UseCache: useCache}
+		r, err := d.Get(ctx, src)
+		defer d.Close()
+		if err != nil {
+			return err
+		}
+		v, err := io.ReadAll(r)
+		if err != nil {
+			return err
+		}
+		*dst = string(v)
+		return nil
+	}
+	b := CosignBundle{}
+	if err := download(&b.Artifact, c.Artifact); err != nil {
+		return nil, err
+	}
+	if err := download(&b.Certificate, c.Certificate); err != nil {
+		return nil, err
+	}
+	if err := download(&b.Signature, c.Signature); err != nil {
+		return nil, err
+	}
+	return &b, nil
 }

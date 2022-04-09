@@ -21,6 +21,12 @@ bin/bindl-dev: bin/goreleaser
 
 include Makefile.*
 
+.PHONY: program/bootstrap/cosign-lock.yaml
+program/bootstrap/cosign-lock.yaml: bin/bindl
+	bin/bindl sync \
+		--config program/bootstrap/cosign.yaml \
+		--lock program/bootstrap/cosign-lock.yaml
+
 .PHONY: license
 license: bin/addlicense
 	bin/addlicense \

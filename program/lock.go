@@ -32,9 +32,9 @@ import (
 type Lock struct {
 	Base
 
-	Checksums   map[string]*ArchiveChecksum `json:"checksums,omitempty"`
-	ChecksumSrc string                      `json:"checksum,omitempty"`
-	URLTemplate string                      `json:"url"`
+	Checksums map[string]*ArchiveChecksum `json:"checksums,omitempty"`
+	Paths     *RemotePath                 `json:"paths"`
+	Cosign    []*CosignBundle             `json:"cosign,omitempty"`
 }
 
 func NewLock(c *Config) (*Lock, error) {
@@ -44,16 +44,14 @@ func NewLock(c *Config) (*Lock, error) {
 			Version: c.Version,
 			Overlay: c.Overlay,
 		},
-		URLTemplate: c.Path,
-		Checksums:   map[string]*ArchiveChecksum{},
+		Checksums: map[string]*ArchiveChecksum{},
+		Paths:     c.Paths,
+	}
+	if c.Paths.Cosign != nil {
+		p.Cosign = c.Paths.Cosign
 	}
 	for f, cs := range c.Checksums {
-		switch f {
-		case "_src":
-			p.ChecksumSrc = cs
-		default:
-			p.Checksums[f] = &ArchiveChecksum{Archive: cs}
-		}
+		p.Checksums[f] = &ArchiveChecksum{Archive: cs}
 	}
 	return p, nil
 }
@@ -121,7 +119,7 @@ func (p *Lock) ArchiveName(os, arch string) (string, error) {
 
 // URL returns the download URL with variables interpolated as necessary.
 func (p *Lock) URL(goOS, goArch string) (string, error) {
-	t, err := template.New("url").Parse(p.URLTemplate)
+	t, err := template.New("url").Parse(p.Paths.target())
 	if err != nil {
 		return "", err
 	}
@@ -153,6 +151,7 @@ func (p *Lock) DownloadArchive(ctx context.Context, d download.Downloader, goOS,
 		return nil, fmt.Errorf("expected hash for '%s' is invalid: cannot be empty string", a.Name)
 	}
 
+	internal.Log().Info().Str("program", p.Name).Msg("downloading")
 	body, err := d.Get(ctx, url)
 	if err != nil {
 		return nil, fmt.Errorf("downloading program: %w", err)

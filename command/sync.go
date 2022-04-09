@@ -45,6 +45,8 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 
 	var wg sync.WaitGroup
 
+	requireCosign := false
+	hasCosign := false
 	for _, programConfig := range c.Programs {
 		wg.Add(1)
 		go func(prog *program.Config) {
@@ -56,6 +58,12 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 				internal.Log().Err(err).Str("program", prog.Name).Msg("parsing configuration")
 				hasError = true
 				return
+			}
+			if p.Name == "cosign" {
+				hasCosign = true
+			}
+			if p.Cosign != nil {
+				requireCosign = true
 			}
 			parsed <- p
 		}(programConfig)
@@ -72,8 +80,12 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 		programs = append(programs, p)
 	}
 
+	if requireCosign && !hasCosign {
+		internal.Log().Warn().Msg("found program requiring cosign, but cosign dependency is missing")
+	}
+
 	if hasError {
-		return fmt.Errorf("unsuccessful configuration parsing")
+		return fmt.Errorf("failed to process configuration")
 	}
 
 	l := &config.Lock{

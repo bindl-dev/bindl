@@ -1,0 +1,19 @@
+platforms:
+  linux:
+    - amd64
+    - arm64
+    - ppc64le
+    - s390x
+  darwin:
+    - amd64
+    - arm64
+
+programs:
+  - name: cosign
+    version: 1.7.1
+    provider: url
+    paths:
+      base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+      target: "{{ .Name }}-{{ .OS }}-{{ .Arch }}"
+      checksums: 
+        artifact: "{{ .Name }}_checksums.txt"
