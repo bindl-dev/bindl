@@ -18,9 +18,9 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"net/http"
 	"text/template"
 
+	"github.com/bindl-dev/bindl/download"
 	"github.com/bindl-dev/bindl/internal"
 )
 
@@ -63,8 +63,8 @@ type Config struct {
 }
 
 // Lock converts current configuration to Lock, which is the format used by lockfile.
-func (c *Config) Lock(ctx context.Context, platforms map[string][]string) (*Lock, error) {
-	if err := c.loadChecksum(platforms); err != nil {
+func (c *Config) Lock(ctx context.Context, platforms map[string][]string, useCache bool) (*Lock, error) {
+	if err := c.loadChecksum(ctx, platforms, useCache); err != nil {
 		return nil, fmt.Errorf("loading checksums: %w", err)
 	}
 	var p *Lock
@@ -75,7 +75,7 @@ func (c *Config) Lock(ctx context.Context, platforms map[string][]string) (*Lock
 		if err != nil {
 			return nil, err
 		}
-		if err = p.collectBinaryChecksum(ctx, platforms); err != nil {
+		if err = p.collectBinaryChecksum(ctx, platforms, useCache); err != nil {
 			return nil, err
 		}
 	default:
@@ -85,7 +85,7 @@ func (c *Config) Lock(ctx context.Context, platforms map[string][]string) (*Lock
 	return p, nil
 }
 
-func (c *Config) loadChecksum(platforms map[string][]string) error {
+func (c *Config) loadChecksum(ctx context.Context, platforms map[string][]string, useCache bool) error {
 	src := c.Checksums["_src"]
 	if src == "" {
 		internal.Log().Debug().Msg("no checksum source was provided")
@@ -117,12 +117,13 @@ func (c *Config) loadChecksum(platforms map[string][]string) error {
 	checksums := map[string]string{}
 
 	for url := range checksumSrc {
-		resp, err := http.Get(url)
+		d := &download.HTTP{UseCache: useCache}
+		r, err := d.Get(ctx, url)
 		if err != nil {
 			return fmt.Errorf("retrieving checksums from '%s': %w", url, err)
 		}
-		data, err := readChecksumRef(resp.Body)
-		resp.Body.Close()
+		data, err := readChecksumRef(r)
+		d.Close()
 		if err != nil {
 			return fmt.Errorf("reading checksums: %w", err)
 		}

@@ -61,7 +61,7 @@ func NewLock(c *Config) (*Lock, error) {
 // TOFU: Trust on first use -- should only be run first time a program was added to
 // the lockfile. Collecting binary checksums by extracting archives.
 // TODO: Use the values presented in SBOM when available.
-func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][]string) error {
+func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][]string, useCache bool) error {
 	var wg sync.WaitGroup
 
 	hasError := false
@@ -72,7 +72,7 @@ func (p *Lock) collectBinaryChecksum(ctx context.Context, platforms map[string][
 			go func(os, arch string) {
 				defer wg.Done()
 
-				a, err := p.DownloadArchive(ctx, &download.HTTP{}, os, arch)
+				a, err := p.DownloadArchive(ctx, &download.HTTP{UseCache: useCache}, os, arch)
 				if err != nil {
 					internal.ErrorMsg(fmt.Errorf("downloading archive for '%s' in %s/%s: %w", p.Name, os, arch, err))
 					return

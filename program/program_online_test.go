@@ -36,7 +36,7 @@ func TestIntegrationConvertProgramConfigURLProviderToURL(t *testing.T) {
 	u, err := c.Lock(context.Background(), map[string][]string{
 		"linux":  []string{"amd64"},
 		"darwin": []string{"arm64"},
-	})
+	}, true)
 	if err != nil {
 		t.Fatal(err)
 	}

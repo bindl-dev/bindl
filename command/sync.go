@@ -51,7 +51,7 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 			defer wg.Done()
 
 			internal.Log().Info().Str("program", prog.Name).Msg("building program spec")
-			p, err := prog.Lock(ctx, c.Platforms)
+			p, err := prog.Lock(ctx, c.Platforms, conf.UseCache)
 			if err != nil {
 				internal.Log().Err(err).Str("program", prog.Name).Msg("parsing configuration")
 				hasError = true

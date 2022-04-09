@@ -73,7 +73,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 	// Looks like verify failed, let's assume that the right version exists,
 	// but was symlinked to the wrong one, therefore fix symlink and re-verify
 	if err := symlink(conf.BinDir, progDir, p); err != nil {
-		internal.Log().Debug().Err(err).Msg("failed symlink, donwloading program")
+		internal.Log().Debug().Err(err).Msg("failed symlink, downloading program")
 	} else {
 		if err := Verify(ctx, conf, p); err == nil {
 			internal.Log().Debug().Str("program", p.Name).Msg("re-linked to appropriate version")
@@ -84,7 +84,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 
 	internal.Log().Debug().Err(err).Msg("verification failed after fixing symlink, redownloading")
 
-	a, err := p.DownloadArchive(ctx, &download.HTTP{}, conf.OS, conf.Arch)
+	a, err := p.DownloadArchive(ctx, &download.HTTP{UseCache: conf.UseCache}, conf.OS, conf.Arch)
 	if err != nil {
 		return err
 	}

@@ -26,6 +26,8 @@ type Runtime struct {
 	OS   string `envconfig:"OS"`
 	Arch string `envconfig:"ARCH"`
 
+	UseCache bool `envconfig:"USE_CACHE"`
+
 	Debug  bool `envconfig:"DEBUG"`
 	Silent bool `envconfig:"SILENT"`
 }
