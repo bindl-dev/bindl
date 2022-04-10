@@ -17,5 +17,7 @@
 # Development and tool binaries
 bin/*
 !bin/.keep
+tmp/*
+!tmp/.keep
 .direnv
 dist/

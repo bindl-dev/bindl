@@ -19,35 +19,68 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"path/filepath"
+	"sync"
+
+	"github.com/bindl-dev/bindl/internal"
+	"github.com/bindl-dev/httpcache"
+	"github.com/bindl-dev/httpcache/diskcache"
 )
 
 // HTTP implements Downloader which downloads programs through net/http
+//nolint:govet  // bytes saved isn't worth the reduced visibility
 type HTTP struct {
-	response *http.Response
+	UseCache bool
+
+	closeBodyOnce sync.Once
+	body          io.ReadCloser
+}
+
+var client *http.Client
+
+func init() {
+	var cacheDir = filepath.Join(".bindlcache", "http")
+	userCacheDir, err := os.UserCacheDir()
+	if err != nil {
+		internal.Log().Debug().Err(err).Msg("finding user cache directory")
+	} else {
+		cacheDir = filepath.Join(userCacheDir, "bindl", "http")
+	}
+	client = httpcache.NewTransport(diskcache.New(cacheDir)).Client()
 }
 
 func (d *HTTP) Get(ctx context.Context, url string) (io.Reader, error) {
+	var c *http.Client
+	if d.UseCache {
+		c = client
+	} else {
+		c = http.DefaultClient
+	}
+
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("composing request: %w", err)
 	}
 
-	c := http.Client{}
 	resp, err := c.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("downloading program: %w", err)
 	}
-	d.response = resp
+	d.body = resp.Body
 
-	return d.response.Body, nil
+	if resp.Header.Get(httpcache.XFromCache) != "" {
+		internal.Log().Debug().Str("url", url).Msg("retrieved from cache")
+	}
+
+	return d.body, nil
 }
 
 func (d *HTTP) Close() {
-	if d.response == nil {
-		return
-	}
-	if d.response.Body == nil {
-		return
-	}
-	d.response.Body.Close()
+	d.closeBodyOnce.Do(func() {
+		if d.body == nil {
+			return
+		}
+		d.body.Close()
+	})
 }

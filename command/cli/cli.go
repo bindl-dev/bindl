@@ -59,6 +59,8 @@ var conf = &config.Runtime{
 	BinDir:       "./bin",
 	ProgDir:      ".bindl/programs",
 
+	UseCache: false,
+
 	Debug:  false,
 	Silent: false,
 
@@ -71,6 +73,8 @@ func init() {
 	Root.PersistentFlags().StringVarP(&conf.LockfilePath, "lock", "l", conf.LockfilePath, "path to lockfile")
 	Root.PersistentFlags().StringVarP(&conf.BinDir, "bin", "b", conf.BinDir, "directory in PATH to add binaries")
 	Root.PersistentFlags().StringVar(&conf.ProgDir, "prog", conf.ProgDir, "directory to save real binary content")
+
+	Root.PersistentFlags().BoolVar(&conf.UseCache, "cache", conf.UseCache, "read and write cache")
 
 	Root.PersistentFlags().BoolVarP(&conf.Silent, "silent", "s", conf.Silent, "silence logs")
 	Root.PersistentFlags().BoolVar(&conf.Debug, "debug", conf.Debug, "show debug logs")

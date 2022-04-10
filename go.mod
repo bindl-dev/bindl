@@ -3,6 +3,7 @@ module github.com/bindl-dev/bindl
 go 1.18
 
 require (
+	github.com/bindl-dev/httpcache v0.0.0-20220410163408-6f3ea26e5589
 	github.com/fatih/color v1.13.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/rs/zerolog v1.26.1
@@ -11,9 +12,11 @@ require (
 )
 
 require (
+	github.com/google/btree v1.0.1 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/peterbourgon/diskv/v3 v3.0.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	golang.org/x/sys v0.0.0-20220318055525-2edf467146b5 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
