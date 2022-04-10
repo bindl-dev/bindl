@@ -53,7 +53,7 @@ jobs:
       uses: golangci/golangci-lint-action@v3
       with:
         # LINT: Match with version in bindl.yaml.
-        version: v1.45.0
+        version: v1.45.2
 
   gofmt:
     runs-on: ubuntu-latest
