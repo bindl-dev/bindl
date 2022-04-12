@@ -33,7 +33,32 @@ function prompt() {
   fi
 }
 
-log "Hello! The sole purpose of my existence is to bootstrap bindl."
+function copy_local() {
+  set +e
+  exe=$(which ${PROGRAM_NAME} 2>/dev/null)
+  set -e
+
+  if [ -z $exe ]; then
+    return
+  fi
+
+  dst=$(realpath ${OUTDIR}/${PROGRAM_NAME})
+
+  if [ $exe == $dst ]; then
+    log "Found ${PROGRAM_NAME} in ${OUTDIR}, my job here is done."
+    exit 0
+  fi
+
+  log "I found ${exe}, I will now create symbolic link to ${OUTDIR}"
+  ln -s ${exe} ${dst} || return
+  log "Done!"
+  exit 0
+}
+
+log "Hello! The sole purpose of my existence is to bootstrap ${PROGRAM_NAME}."
+
+copy_local
+
 log "I have found myself in ${ARCH} machine running ${OS}."
 log "I expect the archive to be named ${ARCHIVE}."
 
