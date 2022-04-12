@@ -28,14 +28,12 @@ jobs:
   license:
     runs-on: ubuntu-latest
     steps:
+    - uses: bindl-dev/bindl@main
+
     - uses: actions/checkout@v2
 
-    - uses: actions/setup-go@v2
-      with:
-        go-version: 1.18.x
-
-    - name: make license
-      run: make bin/bindl && make license
+    - name: Add license headers
+      run: make license
 
     - uses: chainguard-dev/actions/nodiff@main
       with:
@@ -51,10 +49,7 @@ jobs:
         go-version: 1.18.x
 
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v3
-      with:
-        # LINT: Match with version in bindl.yaml.
-        version: v1.45.2
+      run: make lint/gh-actions
 
   gofmt:
     runs-on: ubuntu-latest
