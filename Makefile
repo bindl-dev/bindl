@@ -57,7 +57,7 @@ test/integration:
 test/functional:
 	${MAKE} bin/bindl
 	${MAKE} bin/cosign
-	${GO} test -race -run ".*[Ff]unctional.*" -v ./...
+	PATH=${PWD}/bin:${PATH} ${GO} test -race -run ".*[Ff]unctional.*" -v ./...
 
 .PHONY: test/all
 test/all:
