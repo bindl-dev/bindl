@@ -6,8 +6,8 @@ set -o pipefail
 OS="$(uname -s)"
 ARCH="$(uname -m)"
 
-PROGRAM_NAME="archy"
-REPOSITORY="xargs-dev/${PROGRAM_NAME}"
+PROGRAM_NAME="bindl"
+REPOSITORY="bindl-dev/${PROGRAM_NAME}"
 
 WORKDIR="$(mktemp -d /tmp/bindl-bootstrap-XXXXX)"
 
