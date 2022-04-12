@@ -18,7 +18,7 @@ programs:
     version: 1.7.1
     provider: url
     paths:
-      base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+      base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}
       target: "{{ .Name }}-{{ .OS }}-{{ .Arch }}"
       checksums: 
         artifact: "{{ .Name }}_checksums.txt"

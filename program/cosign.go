@@ -52,7 +52,7 @@ func cosignPath(ctx context.Context) (string, error) {
 		}
 	})
 	if bootstrapErr != nil {
-		return "", fmt.Errorf("bootstrapping cosign: %w", err)
+		return "", fmt.Errorf("bootstrapping cosign: %w", bootstrapErr)
 	}
 
 	cosignPath, err := exec.LookPath("cosign")
