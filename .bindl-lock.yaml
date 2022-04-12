@@ -26,26 +26,6 @@ programs:
     target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.0.0
 - checksums:
-    cosign-darwin-amd64:
-      archive: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
-      binary: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
-    cosign-darwin-arm64:
-      archive: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
-      binary: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
-    cosign-linux-amd64:
-      archive: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
-      binary: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
-    cosign-linux-arm64:
-      archive: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
-      binary: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
-  name: cosign
-  paths:
-    base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
-    checksums:
-      artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
-    target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
-  version: 1.7.1
-- checksums:
     golangci-lint-1.45.2-darwin-amd64.tar.gz:
       archive: 995e509e895ca6a64ffc7395ac884d5961bdec98423cb896b17f345a9b4a19cf
       binary: 32f233a3213bf48025bae4af1a41482535454dc9a906daf6df66d4c3c366ca19
@@ -114,7 +94,26 @@ programs:
       faba167e6d3eed6d7cc45b58fefc711b7eef2da7bd21e0ad66eb4f4bccc1ba1f  goreleaser_Linux_i386.tar.gz.sbom
       fdd5ca7cb052b86aff738ff89f5338ab16b7049c8fd02a74a56b01713e3e786b  goreleaser_Windows_x86_64.zip
       fe581c9442b4d430195aa7da958572ee4f6493b6c4c7b0b241933a3a13f751ed  goreleaser_1.7.0_amd64.deb
-    certificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURDekNDQXBHZ0F3SUJBZ0lVQU8yWjh0VmxWSkxTRHo0TGM4S0VibDd6NnVBd0NnWUlLb1pJemowRUF3TXcKS2pFVk1CTUdBMVVFQ2hNTWMybG5jM1J2Y21VdVpHVjJNUkV3RHdZRFZRUURFd2h6YVdkemRHOXlaVEFlRncweQpNakF6TWpFd01ERXpNRFZhRncweU1qQXpNakV3TURJek1EUmFNQUF3V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPClBRTUJCd05DQUFSL3dXVXI2eXY1emtCcGJYSm9KT1NVZXQ3Wmhlb0l0U2ZNYSsxZWZmMnhydGhUWndjeFhEWlkKaVFqclp6azhUMVA2RERpVDN6UjRHSy8zMWdNNDNVV1lvNElCdlRDQ0Fia3dEZ1lEVlIwUEFRSC9CQVFEQWdlQQpNQk1HQTFVZEpRUU1NQW9HQ0NzR0FRVUZCd01ETUF3R0ExVWRFd0VCL3dRQ01BQXdIUVlEVlIwT0JCWUVGQ1QvClAwTk5PRm14OFpWMG9HdUMyd0tDMGFnK01COEdBMVVkSXdRWU1CYUFGRmpBSGwrUlJhVm1xWHJNa0tHVEl0QXEKeGNYNk1HTUdBMVVkRVFFQi93UlpNRmVHVldoMGRIQnpPaTh2WjJsMGFIVmlMbU52YlM5bmIzSmxiR1ZoYzJWeQpMMmR2Y21Wc1pXRnpaWEl2TG1kcGRHaDFZaTkzYjNKclpteHZkM012WW5WcGJHUXVlVzFzUUhKbFpuTXZkR0ZuCmN5OTJNUzQzTGpBd0l3WUtLd1lCQkFHRHZ6QUJCUVFWWjI5eVpXeGxZWE5sY2k5bmIzSmxiR1ZoYzJWeU1CSUcKQ2lzR0FRUUJnNzh3QVFJRUJIQjFjMmd3T1FZS0t3WUJCQUdEdnpBQkFRUXJhSFIwY0hNNkx5OTBiMnRsYmk1aApZM1JwYjI1ekxtZHBkR2gxWW5WelpYSmpiMjUwWlc1MExtTnZiVEFUQmdvckJnRUVBWU8vTUFFRUJBVmlkV2xzClpEQTJCZ29yQmdFRUFZTy9NQUVEQkNnM05qY3haR0ZpTWpreE5EZ3pZakkzTXpObE9EY3hZV0ptWmpNM09XUXcKTjJVM05HUm1ZelpqTUI0R0Npc0dBUVFCZzc4d0FRWUVFSEpsWm5NdmRHRm5jeTkyTVM0M0xqQXdDZ1lJS29aSQp6ajBFQXdNRGFBQXdaUUl4QUtDelNDVzZQclNuZjVsZmtHdkV2Zi9NLy8xY3QwWWZwZHRFOVV0SDZMTkdmVlhHCkMrNFd0LzBLMTNTMHZ4OHF4d0l3US9Zd0N4dmMrSWptQnl1WTdiQk9mZXc3NE9ZcTZjVzVEU3J1WmpqSG5MeXQKRzJRSDh4emE2SUY3LzI0eW1mQ08KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    certificate: |
+      -----BEGIN CERTIFICATE-----
+      MIIDCzCCApGgAwIBAgIUAO2Z8tVlVJLSDz4Lc8KEbl7z6uAwCgYIKoZIzj0EAwMw
+      KjEVMBMGA1UEChMMc2lnc3RvcmUuZGV2MREwDwYDVQQDEwhzaWdzdG9yZTAeFw0y
+      MjAzMjEwMDEzMDVaFw0yMjAzMjEwMDIzMDRaMAAwWTATBgcqhkjOPQIBBggqhkjO
+      PQMBBwNCAAR/wWUr6yv5zkBpbXJoJOSUet7ZheoItSfMa+1eff2xrthTZwcxXDZY
+      iQjrZzk8T1P6DDiT3zR4GK/31gM43UWYo4IBvTCCAbkwDgYDVR0PAQH/BAQDAgeA
+      MBMGA1UdJQQMMAoGCCsGAQUFBwMDMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFCT/
+      P0NNOFmx8ZV0oGuC2wKC0ag+MB8GA1UdIwQYMBaAFFjAHl+RRaVmqXrMkKGTItAq
+      xcX6MGMGA1UdEQEB/wRZMFeGVWh0dHBzOi8vZ2l0aHViLmNvbS9nb3JlbGVhc2Vy
+      L2dvcmVsZWFzZXIvLmdpdGh1Yi93b3JrZmxvd3MvYnVpbGQueW1sQHJlZnMvdGFn
+      cy92MS43LjAwIwYKKwYBBAGDvzABBQQVZ29yZWxlYXNlci9nb3JlbGVhc2VyMBIG
+      CisGAQQBg78wAQIEBHB1c2gwOQYKKwYBBAGDvzABAQQraHR0cHM6Ly90b2tlbi5h
+      Y3Rpb25zLmdpdGh1YnVzZXJjb250ZW50LmNvbTATBgorBgEEAYO/MAEEBAVidWls
+      ZDA2BgorBgEEAYO/MAEDBCg3NjcxZGFiMjkxNDgzYjI3MzNlODcxYWJmZjM3OWQw
+      N2U3NGRmYzZjMB4GCisGAQQBg78wAQYEEHJlZnMvdGFncy92MS43LjAwCgYIKoZI
+      zj0EAwMDaAAwZQIxAKCzSCW6PrSnf5lfkGvEvf/M//1ct0YfpdtE9UtH6LNGfVXG
+      C+4Wt/0K13S0vx8qxwIwQ/YwCxvc+IjmByuY7bBOfew74OYq6cW5DSruZjjHnLyt
+      G2QH8xza6IF7/24ymfCO
+      -----END CERTIFICATE-----
     signature: MEYCIQCeX4Qsyh6Z290kSAIPdNISZzj5G2BBlt4W0ODD+o9RDQIhAKBNAT+6FubSywqhiTh0yY405BM9hO+gbZMephJVFSwp
   name: goreleaser
   overlay:
@@ -131,4 +130,24 @@ programs:
       signature: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.sig
     target: '{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.7.0
-updated: "2022-04-12T02:00:56.898866398Z"
+- checksums:
+    cosign-darwin-amd64:
+      archive: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+      binary: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+    cosign-darwin-arm64:
+      archive: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+      binary: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+    cosign-linux-amd64:
+      archive: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+      binary: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+    cosign-linux-arm64:
+      archive: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+      binary: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+  name: cosign
+  paths:
+    base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
+    target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
+  version: 1.7.1
+updated: "2022-04-12T06:18:42.756599463Z"

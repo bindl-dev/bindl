@@ -17,6 +17,7 @@ package program
 import (
 	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
 	"io"
 	"strings"
@@ -255,5 +256,12 @@ func (c *ChecksumPaths) values(ctx context.Context, useCache bool) (*CosignBundl
 	if err := download(&b.Signature, c.Signature); err != nil {
 		return nil, err
 	}
+
+	rawCert, err := base64.StdEncoding.DecodeString(b.Certificate)
+	if err != nil {
+		return nil, fmt.Errorf("base64 decoding certificate: %w", err)
+	}
+	b.Certificate = string(rawCert)
+
 	return &b, nil
 }
