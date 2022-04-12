@@ -219,3 +219,23 @@ programs:
       signature: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.sig
     target: '{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.7.0
+- checksums:
+    syft_0.43.2_darwin_amd64.tar.gz:
+      archive: 90953f7a116bbc5b57532778ce5d77782eec9fc9328da4f1127c1d00f70d9fb0
+      binary: 36ec338aaacf711bdf334c933c94989d07a75c568fe18b2973d040c72b37dc7b
+    syft_0.43.2_darwin_arm64.tar.gz:
+      archive: 18f8e73d74c336ca6b3ffbb34b2a7cd48127ebfac1a582bf1e00af1487ea0561
+      binary: 4f1f83d96d6b535a0ead8e2de48c5e6b68a720819fc5f6acba39347969c58ec4
+    syft_0.43.2_linux_amd64.tar.gz:
+      archive: 13f77a598bc8e38157332fa70bc4219ae0269bddee862fe9ad3e5bcf74e00805
+      binary: d872b7b2f70c3bcc5b2d15d8e102794107f5359aef738dd5db458acb8fe77f9e
+    syft_0.43.2_linux_arm64.tar.gz:
+      archive: 8ced32df0e4c382b64bea3a30e23f281299528b82cbb2e54db98823d68439a48
+      binary: 9e2ab49e70d1bc5b6279448b31dc349b1bfc1f0ee2111da6cbe0f40490290783
+  name: syft
+  paths:
+    base: https://github.com/anchore/syft/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/anchore/syft/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_checksums.txt
+    target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
+  version: 0.43.2
