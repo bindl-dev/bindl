@@ -16,7 +16,6 @@ package config
 
 import (
 	"os"
-	"time"
 
 	"github.com/bindl-dev/bindl/internal"
 	"github.com/bindl-dev/bindl/program"
@@ -26,7 +25,6 @@ import (
 // Lock is a configuration which was generated from Config.
 // By default, this is the content of .bindl-lock.yaml
 type Lock struct {
-	Updated  time.Time       `json:"updated"`
 	Programs []*program.Lock `json:"programs"`
 }
 

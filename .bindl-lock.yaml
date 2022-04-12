@@ -150,4 +150,3 @@ programs:
       artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
     target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
   version: 1.7.1
-updated: "2022-04-12T06:18:42.756599463Z"

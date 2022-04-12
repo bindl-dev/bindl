@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"os"
 	"sync"
-	"time"
 
 	"github.com/bindl-dev/bindl/config"
 	"github.com/bindl-dev/bindl/internal"
@@ -88,10 +87,7 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 		return fmt.Errorf("failed to process configuration")
 	}
 
-	l := &config.Lock{
-		Updated:  time.Now().UTC(),
-		Programs: programs,
-	}
+	l := &config.Lock{Programs: programs}
 
 	data, err := yaml.Marshal(l)
 	if err != nil {
