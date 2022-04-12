@@ -87,7 +87,7 @@ func Sync(ctx context.Context, conf *config.Runtime, writeToStdout bool) error {
 		return fmt.Errorf("failed to process configuration")
 	}
 
-	l := &config.Lock{Programs: programs}
+	l := config.NewLock(programs)
 
 	data, err := yaml.Marshal(l)
 	if err != nil {
