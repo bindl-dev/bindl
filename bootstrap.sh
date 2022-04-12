@@ -13,6 +13,7 @@ WORKDIR="$(mktemp -d /tmp/bootstrap-${PROGRAM_NAME}-XXXXX)"
 
 ARCHIVE="${PROGRAM_NAME}-${OS}-${ARCH}.tar.gz"
 
+OUTDIR="${OUTDIR:-$(pwd)}"
 TAG="${TAG:-latest}"
 
 function log() {
@@ -20,10 +21,15 @@ function log() {
 }
 
 function prompt() {
-  read -p "Proceed? (y/N) " answer
-  if [ $answer != "y" ]; then
-    echo "Aborted: only 'y' is accepted answer to continue (received '${answer}')"
-    exit 1
+  if [ -t 0 ]; then
+    read -p "Proceed? (y/N) " answer </dev/tty
+    if [ $answer != "y" ]; then
+      echo "Aborted: only 'y' is accepted answer to continue (received '${answer}')"
+      exit 1
+    fi
+  else
+    log "Detected non-interactive mode, prompt implictly proceeds"
+    return
   fi
 }
 
@@ -55,5 +61,5 @@ popd >/dev/null
 
 trap "rm -r ${WORKDIR}" EXIT
 
-mv ${WORKDIR}/${PROGRAM_NAME} .
-log "Done! The binary is in current working directory."
+mv ${WORKDIR}/${PROGRAM_NAME} ${OUTDIR}/.
+log "Done! The binary is in ${OUTDIR}"

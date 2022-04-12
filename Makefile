@@ -12,9 +12,8 @@ GO?=go
 # BUILD #
 #########
 
-# TODO: download from latest release
 bin/bindl:
-	${GO} build -o bin/bindl -trimpath ./cmd/bindl
+	OUTDIR=bin ./bootstrap.sh
 
 .PHONY: bin/bindl-dev
 bin/bindl-dev: bin/goreleaser
