@@ -38,7 +38,7 @@ BINDL_PROGRAMS_PATH?=$(addprefix bin/,$(BINDL_PROGRAMS))
 	{{ .BinDir }}/bindl sync
 
 # On the other hand, lockfile is a regular pre-requisite where we would like for
-# programs to be re-validated if lockfile was modified, in case the versions have changed
+# programs to be re-validated if lockfile was modified, in case the versions have changed.
 $(BINDL_PROGRAMS_PATH): {{ .Lockfile }} | {{ .BinDir }}/bindl
 	{{ .BinDir }}/bindl get $(@F)
 `

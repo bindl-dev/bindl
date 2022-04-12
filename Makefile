@@ -7,6 +7,11 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 # Defaults to first found in PATH
 GO?=go
 
+
+#########
+# BUILD #
+#########
+
 # TODO: download from latest release
 bin/bindl:
 	${GO} build -o bin/bindl -trimpath ./cmd/bindl
@@ -26,6 +31,42 @@ program/bootstrap/cosign-lock.yaml: bin/bindl
 	bin/bindl sync \
 		--config program/bootstrap/cosign.yaml \
 		--lock program/bootstrap/cosign-lock.yaml
+
+
+#########
+# TESTS #
+#########
+
+program/testdata/myprogram.tar.gz:
+	@./program/testdata/generate.sh
+
+.PHONY: testdata
+testdata: program/testdata/myprogram.tar.gz
+
+.PHONY: test/unit
+test/unit: testdata
+	${GO} test -race -short -v ./...
+
+.PHONY: test/integration
+test/integration:
+	${GO} test -race -run ".*[Ii]ntegration.*" -v ./...
+
+# Manually build bindl and then download cosign because Makefile
+# would not understand the dependency without bin/bindl existing.
+.PHONY: test/functional
+test/functional:
+	${MAKE} bin/bindl
+	${MAKE} bin/cosign
+	${GO} test -race -run ".*[Ff]unctional.*" -v ./...
+
+.PHONY: test/all
+test/all:
+	${GO} test -race -v ./...
+
+
+###########
+# LINTERS #
+###########
 
 .PHONY: license
 license: bin/addlicense

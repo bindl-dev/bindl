@@ -20,7 +20,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/bindl-dev/bindl/internal/log"
 	"github.com/bindl-dev/bindl/program"
 )
 
@@ -62,10 +61,13 @@ ffcd8a83e51163b8e13631689ac151ac45e1aa6c954991cd066ebed0816f4f5b  bindl_0.0.2_Da
 	}
 )
 
-func TestCosignBundleVerify(t *testing.T) {
+func TestFunctionalCosignBundleVerify(t *testing.T) {
+	if testing.Short() {
+		t.Skipf("skipping functional test in short mode")
+	}
 	_, err := exec.LookPath("cosign")
 	if err != nil {
-		t.Fatalf("cosign is required for this test, but not found in $PATH: %v", err)
+		t.Fatalf("cosign is required for this test, but not found: %v", err)
 	}
 	testCases := []struct {
 		bundle     *program.CosignBundle
@@ -97,7 +99,6 @@ func TestCosignBundleVerify(t *testing.T) {
 		},
 	}
 
-	log.SetLevel("debug")
 	for i, tc := range testCases {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		err := tc.bundle.VerifySignature(ctx)
