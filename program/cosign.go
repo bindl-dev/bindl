@@ -21,6 +21,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/bindl-dev/bindl/internal"
@@ -37,6 +38,7 @@ func cosignPath(ctx context.Context) (string, error) {
 		return p, nil
 	}
 
+	var stdout, stderr bytes.Buffer
 	var bootstrapErr error
 	bootstrapCosignOnce.Do(func() {
 		bindlExecPath, err := os.Executable()
@@ -44,21 +46,21 @@ func cosignPath(ctx context.Context) (string, error) {
 			bootstrapErr = err
 			return
 		}
-		err = exec.CommandContext(ctx, bindlExecPath, bootstrapCosignArgs...).Run()
+		cmd := exec.CommandContext(ctx, bindlExecPath, bootstrapCosignArgs...)
+		cmd.Stdout = &stdout
+		cmd.Stderr = &stderr
+		err = cmd.Run()
 		internal.Log().Debug().Strs("cmd", append([]string{bindlExecPath}, bootstrapCosignArgs...)).Err(err).Msg("bootstrapping cosign")
 		if err != nil {
-			bootstrapErr = err
+			bootstrapErr = fmt.Errorf("bootstrapping through bindl binary: %s", stderr.String())
 			return
 		}
 	})
 	if bootstrapErr != nil {
 		return "", fmt.Errorf("bootstrapping cosign: %w", bootstrapErr)
 	}
-
-	cosignPath, err := exec.LookPath("cosign")
-	if err != nil {
-		return "", fmt.Errorf("cosign not found after successful bootstrap")
-	}
+	cosignPath := strings.TrimSpace(stdout.String())
+	internal.Log().Debug().Str("cosign", cosignPath).Msg("found cosign")
 	return cosignPath, nil
 }
 
