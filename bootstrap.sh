@@ -9,9 +9,11 @@ ARCH="$(uname -m)"
 PROGRAM_NAME="bindl"
 REPOSITORY="bindl-dev/${PROGRAM_NAME}"
 
-WORKDIR="$(mktemp -d /tmp/bindl-bootstrap-XXXXX)"
+WORKDIR="$(mktemp -d /tmp/bootstrap-${PROGRAM_NAME}-XXXXX)"
 
-ARCHIVE="${PROGRAM_NAME}_0.1.2_${OS}_${ARCH}.tar.gz"
+ARCHIVE="${PROGRAM_NAME}-${OS}-${ARCH}.tar.gz"
+
+TAG="${TAG:-latest}"
 
 function log() {
   echo -e "[\e[1;34mbootstrap\e[0m] $1"
@@ -34,10 +36,13 @@ prompt
 log "Working in ${WORKDIR}"
 pushd "${WORKDIR}" >/dev/null
   log "Downloading (1/2): checksums.txt"
-  curl --silent --location --remote-name "https://github.com/${REPOSITORY}/releases/latest/download/checksums.txt"
+  curl --silent --location --remote-name "https://github.com/${REPOSITORY}/releases/${TAG}/download/checksums.txt"
 
   log "Downloading (2/2): ${ARCHIVE}"
-  curl --silent --location --remote-name "https://github.com/${REPOSITORY}/releases/latest/download/${ARCHIVE}"
+  curl --silent --location --remote-name "https://github.com/${REPOSITORY}/releases/${TAG}/download/${ARCHIVE}"
+
+  downloaded=$(ls -A | tr '\n' ' ')
+  log "Downloaded: ${downloaded}"
 
   log "Verifying checksums"
   shasum --algorithm 256 --check checksums.txt --ignore-missing
@@ -52,4 +57,3 @@ trap "rm -r ${WORKDIR}" EXIT
 
 mv ${WORKDIR}/${PROGRAM_NAME} .
 log "Done! The binary is in current working directory."
-log "Move them to a directory accessible in PATH to start using seamlessly."
