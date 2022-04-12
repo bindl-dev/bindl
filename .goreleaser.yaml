@@ -33,6 +33,10 @@ archives:
       linux: Linux
       386: i386
       amd64: x86_64
+    # Naming modification from default:
+    # - Use dash '-' instead of underscore '_' for better visibility in x86_64 scenario
+    # - Remove version from name to simplify bootstrapping
+    name_template: '{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}-{{ . }}{{ end }}{{ if eq .Amd64 "v3" }}v3{{ end }}'
 release:
   prerelease: auto
 checksum:
