@@ -28,6 +28,7 @@ import (
 )
 
 var (
+	bootstrapCosignPath string
 	bootstrapCosignOnce sync.Once
 	bootstrapCosignArgs = []string{"get", "--bootstrap", "cosign", "--silent"}
 )
@@ -55,13 +56,13 @@ func cosignPath(ctx context.Context) (string, error) {
 			bootstrapErr = fmt.Errorf("bootstrapping through bindl binary: %s", stderr.String())
 			return
 		}
+		bootstrapCosignPath = strings.TrimSpace(stdout.String())
 	})
 	if bootstrapErr != nil {
 		return "", fmt.Errorf("bootstrapping cosign: %w", bootstrapErr)
 	}
-	cosignPath := strings.TrimSpace(stdout.String())
-	internal.Log().Debug().Str("cosign", cosignPath).Msg("found cosign")
-	return cosignPath, nil
+	internal.Log().Debug().Str("cosign", bootstrapCosignPath).Msg("found cosign")
+	return bootstrapCosignPath, nil
 }
 
 type CosignBundle struct {
@@ -112,14 +113,14 @@ func (c *CosignBundle) VerifySignature(ctx context.Context) error {
 
 	err = cmd.Run()
 	if err == nil {
-		internal.Log().Debug().Str("cosign", stderr.String()).Send()
+		internal.Log().Debug().Str("cosign", strings.TrimSpace(stderr.String())).Send()
 		os.RemoveAll(dir)
 		return nil
 	}
 
 	cmdStr := append([]string{p}, cosignArgs...)
 
-	internal.Log().Debug().Strs("cmd", cmdStr).Err(err).Str("stderr", stderr.String()).Send()
+	internal.Log().Debug().Strs("cmd", cmdStr).Err(err).Str("stderr", strings.TrimSpace(stderr.String())).Send()
 
 	return fmt.Errorf("failed to verify signature: %s", stderr.String())
 }
