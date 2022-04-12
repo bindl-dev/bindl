@@ -20,4 +20,6 @@ bin/*
 tmp/*
 !tmp/.keep
 .direnv
+tmp/*
+!tmp/.keep
 dist/

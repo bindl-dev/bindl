@@ -70,7 +70,7 @@ func (d *HTTP) Get(ctx context.Context, url string) (io.Reader, error) {
 	d.body = resp.Body
 
 	if resp.Header.Get(httpcache.XFromCache) != "" {
-		internal.Log().Debug().Str("url", url).Msg("retrieved from cache")
+		internal.Log().Debug().Str("url", url).Msg("cached response")
 	}
 
 	return d.body, nil

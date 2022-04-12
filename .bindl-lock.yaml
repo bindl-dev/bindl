@@ -1,6 +1,5 @@
 programs:
-- checksum: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
-  checksums:
+- checksums:
     addlicense_1.0.0_Linux_arm64.tar.gz:
       archive: dd42bca32cfcf37c53ae172b5c2f2db8a3f5a09574a55db6aca1eb1186de3330
       binary: 959d66bebdea6c2fa232cd0b0ee00417008278e023082238fcb81db2263e0b64
@@ -20,10 +19,33 @@ programs:
     OS:
       darwin: macOS
       linux: Linux
-  url: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  paths:
+    base: https://github.com/google/addlicense/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
+    target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.0.0
-- checksum: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
-  checksums:
+- checksums:
+    cosign-darwin-amd64:
+      archive: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+      binary: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+    cosign-darwin-arm64:
+      archive: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+      binary: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+    cosign-linux-amd64:
+      archive: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+      binary: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+    cosign-linux-arm64:
+      archive: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+      binary: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+  name: cosign
+  paths:
+    base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
+    target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
+  version: 1.7.1
+- checksums:
     golangci-lint-1.45.2-darwin-amd64.tar.gz:
       archive: 995e509e895ca6a64ffc7395ac884d5961bdec98423cb896b17f345a9b4a19cf
       binary: 32f233a3213bf48025bae4af1a41482535454dc9a906daf6df66d4c3c366ca19
@@ -37,10 +59,13 @@ programs:
       archive: 1463049b744871168095e3e8f687247d6040eeb895955b869889ea151e0603ab
       binary: f6ea84deab5752583497b77e22e7e0a93c674edf043b341228ba6c030c17585d
   name: golangci-lint
-  url: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
+  paths:
+    base: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
+    target: '{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz'
   version: 1.45.2
-- checksum: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt
-  checksums:
+- checksums:
     goreleaser_Darwin_arm64.tar.gz:
       archive: 3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94
       binary: 148af83bc1d992bfdf5a0607ed1337f239fef24ac7fd22ec97083026a25d3dce
@@ -53,6 +78,44 @@ programs:
     goreleaser_Linux_x86_64.tar.gz:
       archive: e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d
       binary: 6675d65b87ed168f6c7a981623b3b80a8c1c734197d6e4467cc764f23e843583
+  cosign:
+  - artifact: |
+      1ab042180aa37bd0946871a08827d0826d12d96730639e8119e3e8dd6c156b4f  goreleaser_Windows_armv7.zip.sbom
+      1cc80fc5552f3220ada72eadd251a3e0435c7f837931bd411b1e40a8508511b2  goreleaser_Windows_i386.zip.sbom
+      22cd8584bb58e63ab81f5172687aeda4d38f7caaf8b0fec5cb64176e4d104bd0  goreleaser-1.7.0.aarch64.rpm
+      2bc4bb642db870cc492227c5c740ae68eed442434b05f7f529d795c599226620  goreleaser_Linux_i386.tar.gz
+      3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94  goreleaser_Darwin_arm64.tar.gz
+      41b3c5c26a53c2141fdc197053286a1b0797de793d37af8b82b207c5b2eca69d  goreleaser_Linux_x86_64.tar.gz.sbom
+      41d9dd50223cedc9bc551834ebd96b38f7e22b3d5c59b5a7fbbbc2d89fe439b3  goreleaser_Darwin_all.tar.gz
+      4a174977fd538609d2771236328997ca32b53435c8768f622d449c1eba0194cd  goreleaser_Darwin_all.tar.gz.sbom
+      4ec0506fbbc4236422949b6adc55257c408025a49229b4e9854a762d879b48b4  goreleaser_Windows_armv7.zip
+      5589cbdb77708a4327934cd3ed069c65cd97f3e11d5435c2ec385c0e4e8c520a  goreleaser-1.7.0.armv7hl.rpm
+      6a8627d0ce0046c05f78bda3361122c9804596a3a5b7c329fe21ab14ac9e5928  goreleaser_Windows_i386.zip
+      6b97640714cb7a5ed8790cc6b0b8b0a3a69fe9ef5b47492c6a0736e72ef02ca5  goreleaser_Linux_arm64.tar.gz.sbom
+      7463890cc6e14bf06201353480b25d97b51b029686af123d4f39d6288fe4e030  goreleaser_1.7.0_x86.apk
+      80419d5f5ac6a281c8328084030dd2dc8158106cc4d697d408a700464bc1f1db  goreleaser_Linux_armv7.tar.gz
+      8618a9497706fa694876c0899182769d5960b75171fa7fb500721f12768b8d33  goreleaser_Linux_armv7.tar.gz.sbom
+      8a438f7d6b41da2f5f8b85096108ec7895667861664861d27c05a5eccf875557  goreleaser_Darwin_x86_64.tar.gz.sbom
+      8a61178e6d1b086bd52f7113cb563cdacf63ff370c7a1ce22b25e9c8f6efdf89  goreleaser_Windows_arm64.zip.sbom
+      8a97bdcd530ae193b61d831d810424428f9e32ccb94d2880ed63e7540af25bcb  goreleaser_Darwin_arm64.tar.gz.sbom
+      8be69f369d8cd80aedbcfb39ba0af8fbb71fa86ee5879e0fcd94075cf17f73a2  goreleaser_Linux_arm64.tar.gz
+      90799f88fc03d5dcd3d4d451a0b5f720bea2805f68c7b0a989510afa9afa33db  goreleaser_1.7.0_i386.deb
+      9ca9e977ea18c2a2b7083a73eb8e53355796496b10f2b709f6a12cec467b10ef  goreleaser_Windows_arm64.zip
+      ace1cc3b9b36f74c629adda635f149fcfda7f64599944522279972db150c9431  goreleaser_1.7.0_armhf.deb
+      aebb22ab32ddc36002caf3362e2410f1a1487ab098c1f1ac6f5aae59f13f498b  goreleaser_Darwin_x86_64.tar.gz
+      b8bde58f99efa920a908d30100dd1832f8710114bb92d0985a26eae4c7454a32  goreleaser_1.7.0_x86_64.apk
+      be17f26131a58c8a12c6320e325a964096cbb7464923ae961f17b20ca053b621  goreleaser-1.7.0.x86_64.rpm
+      c7f3946d8ae6afa2238a0fb359d96ad6bbc3e062fbf5eee7baa9e11de361909d  goreleaser_Windows_x86_64.zip.sbom
+      c8c05b0221c569f7e5a5307d9fc8dfc7b1cb59f311f5869daacf950a679a3ec9  goreleaser_1.7.0_aarch64.apk
+      cde27bf11fecf5ecc4a0388d62af261529c13772f6e910e5ad6ee082b5c2e013  goreleaser_1.7.0_arm64.deb
+      d71a6d2a8b62384a20ebcec7ef7454010a49f8cbd525434696e15deec9b0f075  goreleaser_1.7.0_armv7.apk
+      e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d  goreleaser_Linux_x86_64.tar.gz
+      e958990644c0aa06cfdb27aa6f0373497dd87e1cc189f4824db73e20ef2c8482  goreleaser-1.7.0.i386.rpm
+      faba167e6d3eed6d7cc45b58fefc711b7eef2da7bd21e0ad66eb4f4bccc1ba1f  goreleaser_Linux_i386.tar.gz.sbom
+      fdd5ca7cb052b86aff738ff89f5338ab16b7049c8fd02a74a56b01713e3e786b  goreleaser_Windows_x86_64.zip
+      fe581c9442b4d430195aa7da958572ee4f6493b6c4c7b0b241933a3a13f751ed  goreleaser_1.7.0_amd64.deb
+    certificate: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURDekNDQXBHZ0F3SUJBZ0lVQU8yWjh0VmxWSkxTRHo0TGM4S0VibDd6NnVBd0NnWUlLb1pJemowRUF3TXcKS2pFVk1CTUdBMVVFQ2hNTWMybG5jM1J2Y21VdVpHVjJNUkV3RHdZRFZRUURFd2h6YVdkemRHOXlaVEFlRncweQpNakF6TWpFd01ERXpNRFZhRncweU1qQXpNakV3TURJek1EUmFNQUF3V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPClBRTUJCd05DQUFSL3dXVXI2eXY1emtCcGJYSm9KT1NVZXQ3Wmhlb0l0U2ZNYSsxZWZmMnhydGhUWndjeFhEWlkKaVFqclp6azhUMVA2RERpVDN6UjRHSy8zMWdNNDNVV1lvNElCdlRDQ0Fia3dEZ1lEVlIwUEFRSC9CQVFEQWdlQQpNQk1HQTFVZEpRUU1NQW9HQ0NzR0FRVUZCd01ETUF3R0ExVWRFd0VCL3dRQ01BQXdIUVlEVlIwT0JCWUVGQ1QvClAwTk5PRm14OFpWMG9HdUMyd0tDMGFnK01COEdBMVVkSXdRWU1CYUFGRmpBSGwrUlJhVm1xWHJNa0tHVEl0QXEKeGNYNk1HTUdBMVVkRVFFQi93UlpNRmVHVldoMGRIQnpPaTh2WjJsMGFIVmlMbU52YlM5bmIzSmxiR1ZoYzJWeQpMMmR2Y21Wc1pXRnpaWEl2TG1kcGRHaDFZaTkzYjNKclpteHZkM012WW5WcGJHUXVlVzFzUUhKbFpuTXZkR0ZuCmN5OTJNUzQzTGpBd0l3WUtLd1lCQkFHRHZ6QUJCUVFWWjI5eVpXeGxZWE5sY2k5bmIzSmxiR1ZoYzJWeU1CSUcKQ2lzR0FRUUJnNzh3QVFJRUJIQjFjMmd3T1FZS0t3WUJCQUdEdnpBQkFRUXJhSFIwY0hNNkx5OTBiMnRsYmk1aApZM1JwYjI1ekxtZHBkR2gxWW5WelpYSmpiMjUwWlc1MExtTnZiVEFUQmdvckJnRUVBWU8vTUFFRUJBVmlkV2xzClpEQTJCZ29yQmdFRUFZTy9NQUVEQkNnM05qY3haR0ZpTWpreE5EZ3pZakkzTXpObE9EY3hZV0ptWmpNM09XUXcKTjJVM05HUm1ZelpqTUI0R0Npc0dBUVFCZzc4d0FRWUVFSEpsWm5NdmRHRm5jeTkyTVM0M0xqQXdDZ1lJS29aSQp6ajBFQXdNRGFBQXdaUUl4QUtDelNDVzZQclNuZjVsZmtHdkV2Zi9NLy8xY3QwWWZwZHRFOVV0SDZMTkdmVlhHCkMrNFd0LzBLMTNTMHZ4OHF4d0l3US9Zd0N4dmMrSWptQnl1WTdiQk9mZXc3NE9ZcTZjVzVEU3J1WmpqSG5MeXQKRzJRSDh4emE2SUY3LzI0eW1mQ08KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    signature: MEYCIQCeX4Qsyh6Z290kSAIPdNISZzj5G2BBlt4W0ODD+o9RDQIhAKBNAT+6FubSywqhiTh0yY405BM9hO+gbZMephJVFSwp
   name: goreleaser
   overlay:
     Arch:
@@ -60,23 +123,12 @@ programs:
     OS:
       darwin: Darwin
       linux: Linux
-  url: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz
+  paths:
+    base: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt
+      certificate: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.pem
+      signature: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.sig
+    target: '{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.7.0
-- checksum: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
-  checksums:
-    cosign-darwin-amd64:
-      archive: fcff17a94fb8a5098c9b9b623e2e190cc4d3c47c4f5e8dbf75b72a56a874b219
-      binary: fcff17a94fb8a5098c9b9b623e2e190cc4d3c47c4f5e8dbf75b72a56a874b219
-    cosign-darwin-arm64:
-      archive: e59fb49a3cc03adbb81dbd2f5cd6206fe09479cdbb7426cdd1b22aaf9145bbbc
-      binary: e59fb49a3cc03adbb81dbd2f5cd6206fe09479cdbb7426cdd1b22aaf9145bbbc
-    cosign-linux-amd64:
-      archive: b62ac8c1ab1cdb072d442d2f3db7d7ffe977566a6170cd03dd48e4583dad3203
-      binary: b62ac8c1ab1cdb072d442d2f3db7d7ffe977566a6170cd03dd48e4583dad3203
-    cosign-linux-arm64:
-      archive: 5f1c8bb2b30c75fb1c72c266b08d9cfc517ddb8b632e35627fd63aaf09e8f1bd
-      binary: 5f1c8bb2b30c75fb1c72c266b08d9cfc517ddb8b632e35627fd63aaf09e8f1bd
-  name: cosign
-  url: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}-{{ .OS }}-{{ .Arch }}
-  version: 1.6.0
-updated: "2022-04-10T17:39:53.602314607Z"
+updated: "2022-04-12T02:00:56.898866398Z"

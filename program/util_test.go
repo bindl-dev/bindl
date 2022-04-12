@@ -49,7 +49,9 @@ func testDirFile(t *testing.T, filename string, data []byte) *os.File {
 const rawProgramManifest = `
 name: myprogram
 version: 0.1.0-rc.2
-url: 'http://myurl.com/foo/{{ .Version }}/{{ .Name }}-{{ .OS }}-{{ .Arch }}.tar.gz'
+paths:
+  base: 'http://myurl.com/foo/{{ .Version }}/'
+  target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}.tar.gz'
 overlay:
   OS:
     linux: Linux
@@ -65,21 +67,25 @@ const rawArchyProgramManifest = `
 name: archy
 version: 0.1.1
 provider: url
-path: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
+paths:
+  base: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}
+  target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
+  checksums:
+    artifact: checksums.txt
 overlay:
   OS:
     linux: Linux
     darwin: Darwin
   Arch:
     amd64: x86_64
-checksums:
-  _src: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/checksums.txt
 `
 
 const rawArchyLockManifest = `
 name: archy
 version: 0.1.1
-url: 'https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}/archy_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
+paths:
+  base: https://github.com/xargs-dev/archy/releases/download/v{{ .Version }}
+  target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
 overlay:
   OS:
     linux: Linux

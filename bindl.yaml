@@ -8,40 +8,50 @@ platforms:
 
 _uname: &uname
   OS: &uname_OS
-    linux: "Linux"
-    darwin: "Darwin"
+    linux: Linux
+    darwin: Darwin
   Arch: &uname_Arch
-    amd64: "x86_64"
+    amd64: x86_64
 
 programs:
   - name: cosign
-    version: 1.6.0
+    version: 1.7.1
     provider: url
-    path: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}-{{ .OS }}-{{ .Arch }}
-    checksums:
-      _src: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
+    paths:
+      base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+      target: "{{ .Name }}-{{ .OS }}-{{ .Arch }}"
+      checksums: 
+        artifact: "{{ .Name }}_checksums.txt"
   - name: addlicense
     version: 1.0.0
     provider: url
-    path: https://github.com/google/addlicense/releases/download/v{{ .Version }}/{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz
     overlay:
       OS:
         <<: *uname_OS
-        darwin: "macOS"
+        darwin: macOS
       Arch: *uname_Arch
-    checksums:
-      _src: https://github.com/google/addlicense/releases/download/v{{ .Version }}/checksums.txt
+    paths:
+      base: https://github.com/google/addlicense/releases/download/v{{ .Version }}
+      target: "{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz"
+      checksums:
+        artifact: checksums.txt
   - name: goreleaser
     version: 1.7.0
     provider: url
-    path: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz
     overlay: *uname
-    checksums:
-      _src: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt
+    paths:
+      base: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}
+      target: "{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz"
+      checksums:
+        artifact: checksums.txt
+        certificate: checksums.txt.pem
+        signature: checksums.txt.sig
   - name: golangci-lint
     # LINT: Match with version in .golangci.yaml and .github/workflows/go.yaml
     version: 1.45.2
     provider: url
-    path: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz
-    checksums:
-      _src: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}/{{ .Name }}-{{ .Version }}-checksums.txt
+    paths:
+      base: https://github.com/golangci/golangci-lint/releases/download/v{{ .Version }}
+      target: "{{ .Name }}-{{ .Version }}-{{ .OS }}-{{ .Arch }}.tar.gz"
+      checksums:
+        artifact: "{{ .Name }}-{{ .Version }}-checksums.txt"

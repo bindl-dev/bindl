@@ -1,0 +1,28 @@
+programs:
+- checksums:
+    cosign-darwin-amd64:
+      archive: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+      binary: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+    cosign-darwin-arm64:
+      archive: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+      binary: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+    cosign-linux-amd64:
+      archive: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+      binary: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+    cosign-linux-arm64:
+      archive: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+      binary: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+    cosign-linux-ppc64le:
+      archive: 5674befe6f5adba3ec28a83512f2c2a98d7bf4b4a3ced2ecdb4e9ff76ba3020f
+      binary: 5674befe6f5adba3ec28a83512f2c2a98d7bf4b4a3ced2ecdb4e9ff76ba3020f
+    cosign-linux-s390x:
+      archive: ce5c6f11b5b68a95b361b3e0e53d0f7a7136d46dd0a44ab7e9291bfe2b0d13d4
+      binary: ce5c6f11b5b68a95b361b3e0e53d0f7a7136d46dd0a44ab7e9291bfe2b0d13d4
+  name: cosign
+  paths:
+    base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
+    target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
+  version: 1.7.1
+updated: "2022-04-12T02:00:46.052144066Z"
