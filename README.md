@@ -30,7 +30,7 @@ To develop on Bindl, you may need to setup several programs:
 
 If your project relies on Bindl, the programs above are optional, but recommended as there are workflows which integrates well with them.
 
-## Git hooks
+### Git hooks
 
 If your project utilizes Bindl and Makefile, it is recommended to use [Git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks), specifically `post-checkout`:
 
