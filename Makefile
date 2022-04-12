@@ -54,8 +54,8 @@ test/integration:
 # would not understand the dependency without bin/bindl existing.
 .PHONY: test/functional
 test/functional:
-	${MAKE} bin/bindl
-	${MAKE} bin/cosign
+	PATH=${PWD}/bin:${PATH} ${MAKE} bin/bindl
+	PATH=${PWD}/bin:${PATH} ${MAKE} bin/cosign
 	PATH=${PWD}/bin:${PATH} ${GO} test -race -run ".*[Ff]unctional.*" -v ./...
 
 .PHONY: test/all
@@ -81,3 +81,7 @@ lint: bin/golangci-lint
 .PHONY: lint/fix
 lint/fix: bin/golangci-lint
 	bin/golangci-lint run --fix
+
+.PHONY: lint/gh-actions
+lint/gh-actions: bin/golangci-lint
+	bin/golangci-lint run --out-format github-actions 
