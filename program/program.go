@@ -68,24 +68,21 @@ type Config struct {
 
 // Lock converts current configuration to Lock, which is the format used by lockfile.
 func (c *Config) Lock(ctx context.Context, platforms map[string][]string, useCache bool) (*Lock, error) {
+	switch c.Provider {
+	case "github":
+		if err := githubToURL(c); err != nil {
+			return nil, err
+		}
+	}
+
 	if err := c.loadChecksum(ctx, platforms, useCache); err != nil {
 		return nil, fmt.Errorf("loading checksums: %w", err)
 	}
-	var p *Lock
-	var err error
-	switch c.Provider {
-	case "url":
-		p, err = NewLock(c)
-		if err != nil {
-			return nil, err
-		}
-		if err = p.collectBinaryChecksum(ctx, platforms, useCache); err != nil {
-			return nil, err
-		}
-	default:
-		return nil, fmt.Errorf("unknown program config provider: %s", c.Provider)
-	}
 
+	p, err := NewLock(ctx, c, platforms, useCache)
+	if err != nil {
+		return nil, err
+	}
 	return p, nil
 }
 
@@ -113,7 +110,7 @@ func (c *Config) loadChecksum(ctx context.Context, platforms map[string][]string
 			if err := bundle.VerifySignature(ctx); err != nil {
 				return fmt.Errorf("verifying signed checksum: %w", err)
 			}
-			internal.Log().Info().Str("program", c.Name).Msg("cosign has verified signature")
+			internal.Log().Info().Str("program", c.Name).Msg("cosign signature valid")
 			c.Paths.Cosign = append(c.Paths.Cosign, bundle)
 		}
 		rawChecksums += "\n" + bundle.Artifact

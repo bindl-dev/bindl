@@ -37,7 +37,7 @@ type Lock struct {
 	Cosign    []*CosignBundle             `json:"cosign,omitempty"`
 }
 
-func NewLock(c *Config) (*Lock, error) {
+func NewLock(ctx context.Context, c *Config, platforms map[string][]string, useCache bool) (*Lock, error) {
 	p := &Lock{
 		Base: Base{
 			Name:    c.Name,
@@ -52,6 +52,9 @@ func NewLock(c *Config) (*Lock, error) {
 	}
 	for f, cs := range c.Checksums {
 		p.Checksums[f] = &ArchiveChecksum{Archive: cs}
+	}
+	if err := p.collectBinaryChecksum(ctx, platforms, useCache); err != nil {
+		return nil, err
 	}
 	return p, nil
 }
@@ -151,7 +154,7 @@ func (p *Lock) DownloadArchive(ctx context.Context, d download.Downloader, goOS,
 		return nil, fmt.Errorf("expected hash for '%s' is invalid: cannot be empty string", a.Name)
 	}
 
-	internal.Log().Info().Str("program", p.Name).Msg("downloading")
+	internal.Log().Info().Str("program", p.Name).Str("platform", goOS+"/"+goArch).Msg("downloading archive")
 	body, err := d.Get(ctx, url)
 	if err != nil {
 		return nil, fmt.Errorf("downloading program: %w", err)
