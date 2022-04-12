@@ -1,0 +1,32 @@
+name: Bindl Installer
+author: Bindl
+description: 'Installs bindl and make it availabe in path'
+branding:
+  icon: 'download'
+  color: 'orange'
+inputs:
+  version:
+    description: 'Release version to be installed (defaults to most recent)'
+    required: false
+    default: 'latest'
+  install-dir:
+    description: 'Where to install the binary'
+    required: false
+    default: '$HOME/.bindl/bin'
+  bootstrap-script:
+    description: 'Which bootstrap script to be used'
+    required: false
+    default: 'https://raw.githubusercontent.com/bindl-dev/bindl/main/bootstrap.sh'
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        mkdir -p "${{ inputs.install-dir }}"
+
+        export OUTDIR=${{ inputs.install-dir }}
+        export TAG=${{ inputs.version }}
+
+        curl --location ${{ inputs.bootstrap-script }} | bash
+
+        echo "${{ inputs.install-dir }}" >> $GITHUB_PATH
