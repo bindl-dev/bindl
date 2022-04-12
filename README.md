@@ -7,7 +7,22 @@ Bindl is a downloader for programs used in a project, often not necessary at run
 
 Bindl is an distro-agnostic, offering ease of consistency in managing binaries across operating systems and distributions.
 
-## Dependencies
+## Usage / Installation
+
+Available under [examples/](examples/) directory. In short:
+
+```
+export OUTDIR=/usr/local/bin # or whichever directory you'd like bindl to exist
+curl --location https://bindl.dev/bootstrap.sh | bash # though seriously, please read first on what bootstrap.sh does.
+```
+
+You may try to install with `go get`, though versioning information may be incomplete as they are stamped in build.
+
+And of course, [assets in releases](https://github.com/bindl-dev/bindl/releases) are downloadable for manual binary installation.
+
+## Developing Bindl
+
+### Dependencies
 
 To develop on Bindl, you may need to setup several programs:
 - GNU Make
@@ -27,7 +42,3 @@ touch .bindl-lock.yaml
 By running the line above every successful `git checkout`, your Make rules will forcibly rebuild binary dependencies the next time its invoked. Bindl will then validate if existing program is consistent with lockfile (i.e. `.bindl-lock.yaml`) and let user proceed if it is. Otherwise, Bindl will attempt to lookup locally and fallback to downloading the program.
 
 This is particularly important when working with branches which has different versions of programs declared in `.bindl-lock.yaml`, because Bindl can enforce consistency with the current branch.
-
-## Usage
-
-Available under [examples/](examples/) directory.
