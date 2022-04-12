@@ -85,6 +85,7 @@ func (c *CosignBundle) VerifySignature(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("creating cosign workspace: %w", err)
 	}
+	internal.Log().Debug().Str("dir", dir).Msg("cosign workspace")
 	artifactPath := filepath.Join(dir, "artifact")
 	if err := os.WriteFile(artifactPath, []byte(c.Artifact), 0666); err != nil {
 		return fmt.Errorf("creating artifact file: %w", err)
@@ -114,7 +115,10 @@ func (c *CosignBundle) VerifySignature(ctx context.Context) error {
 	err = cmd.Run()
 	if err == nil {
 		internal.Log().Debug().Str("cosign", strings.TrimSpace(stderr.String())).Send()
-		os.RemoveAll(dir)
+		err = os.RemoveAll(dir)
+		if err != nil {
+			internal.Log().Debug().Str("dir", dir).Err(err).Msg("remove cosign verification workspace")
+		}
 		return nil
 	}
 
