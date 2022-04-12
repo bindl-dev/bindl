@@ -51,9 +51,6 @@ at compile time. In bootstrap mode, program name must be specified in args.`,
 			conf,
 			names,
 			command.Get)
-		if err == nil {
-			internal.Msgf("✨ Program(s) were downloaded, ensure that %s is in your $PATH to use properly.\n", conf.BinDir)
-		}
 		return err
 	},
 }

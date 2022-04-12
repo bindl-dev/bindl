@@ -31,7 +31,5 @@ func ErrorMsg(err error) {
 }
 
 func Msgf(msg string, vars ...any) {
-	if !log.IsSilent() {
-		fmt.Fprintf(os.Stderr, msg, vars...)
-	}
+	fmt.Fprintf(os.Stdout, msg, vars...)
 }

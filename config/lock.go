@@ -16,7 +16,8 @@ package config
 
 import (
 	"os"
-	"time"
+	"sort"
+	"strings"
 
 	"github.com/bindl-dev/bindl/internal"
 	"github.com/bindl-dev/bindl/program"
@@ -26,8 +27,13 @@ import (
 // Lock is a configuration which was generated from Config.
 // By default, this is the content of .bindl-lock.yaml
 type Lock struct {
-	Updated  time.Time       `json:"updated"`
-	Programs []*program.Lock `json:"programs"`
+	Programs ProgramLocks `json:"programs"`
+}
+
+func NewLock(p []*program.Lock) *Lock {
+	l := &Lock{Programs: ProgramLocks(p)}
+	sort.Stable(l.Programs)
+	return l
 }
 
 // ParseLock reads a file from path and returns *Lock
@@ -50,4 +56,20 @@ func ParseLockBytes(b []byte) (*Lock, error) {
 		internal.Log().Warn().Msg("no programs found in lockfile")
 	}
 	return l, nil
+}
+
+// ProgramLocks implements sort.Interface
+// TODO: use generics?
+type ProgramLocks []*program.Lock
+
+func (p ProgramLocks) Len() int {
+	return len(p)
+}
+
+func (p ProgramLocks) Less(i, j int) bool {
+	return strings.Compare(p[i].Name, p[j].Name) < 0
+}
+
+func (p ProgramLocks) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
 }

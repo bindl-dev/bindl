@@ -45,7 +45,11 @@ func symlink(binDir, progDir string, p *program.Lock) error {
 			Str("target", symlinkPath)).
 		Msg("symlink program")
 	_ = os.Remove(symlinkPath)
-	return os.Symlink(filepath.Join(progDir, p.Name), symlinkPath)
+	if err := os.Symlink(filepath.Join(progDir, p.Name), symlinkPath); err != nil {
+		return err
+	}
+	internal.Msgf(filepath.Join(binDir, progDir, p.Name) + "\n")
+	return nil
 }
 
 // Get implements ProgramCommandFunc, therefore needs to be concurrent-safe.

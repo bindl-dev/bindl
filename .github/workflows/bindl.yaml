@@ -1,0 +1,24 @@
+name: Bindl
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: 1.18.x
+
+    - name: bindl sync
+      run: make --always-make .bindl-lock.yaml
+
+    - uses: chainguard-dev/actions/nodiff@main
+      with:
+        fixup-command: "make .bindl-lock.yaml"

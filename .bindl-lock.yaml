@@ -26,6 +26,26 @@ programs:
     target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.0.0
 - checksums:
+    cosign-darwin-amd64:
+      archive: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+      binary: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
+    cosign-darwin-arm64:
+      archive: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+      binary: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
+    cosign-linux-amd64:
+      archive: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+      binary: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
+    cosign-linux-arm64:
+      archive: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+      binary: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
+  name: cosign
+  paths:
+    base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
+    target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
+  version: 1.7.1
+- checksums:
     golangci-lint-1.45.2-darwin-amd64.tar.gz:
       archive: 995e509e895ca6a64ffc7395ac884d5961bdec98423cb896b17f345a9b4a19cf
       binary: 32f233a3213bf48025bae4af1a41482535454dc9a906daf6df66d4c3c366ca19
@@ -130,24 +150,3 @@ programs:
       signature: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.sig
     target: '{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.7.0
-- checksums:
-    cosign-darwin-amd64:
-      archive: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
-      binary: f9b598a5c7f571f1ccfd168aea90c1022dc53f4ee9997f6d58aa9f3b0db04a7f
-    cosign-darwin-arm64:
-      archive: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
-      binary: b2427998b43c3db3dd773b127f4fc17e3c55353d0c6ac4a4c3fdff9309ce912f
-    cosign-linux-amd64:
-      archive: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
-      binary: 2ed460ccc1ba44f10ef98c19cafddad5b5199659c8a35e4b9b2040012ae1b235
-    cosign-linux-arm64:
-      archive: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
-      binary: 1caf266cf27825ea10081363746e034b6f24da0e38475d4ddad7162ecbd2069d
-  name: cosign
-  paths:
-    base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
-    checksums:
-      artifact: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt
-    target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
-  version: 1.7.1
-updated: "2022-04-12T06:18:42.756599463Z"
