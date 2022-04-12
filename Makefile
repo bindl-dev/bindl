@@ -32,6 +32,15 @@ program/bootstrap/cosign-lock.yaml: bin/bindl
 		--lock program/bootstrap/cosign-lock.yaml
 
 
+###########
+# RELEASE #
+###########
+
+.PHONY: release
+release: bin/goreleaser bin/cosign bin/syft
+	PATH=${PWD}/bin:${PATH} bin/goreleaser release --rm-dist
+
+
 #########
 # TESTS #
 #########
