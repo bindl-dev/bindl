@@ -7,13 +7,24 @@ Bindl is a downloader for programs used in a project, often not necessary at run
 
 Bindl is an distro-agnostic, offering ease of consistency in managing binaries across operating systems and distributions.
 
+## Why?
+
+At the core of it, Bindl is standardizing and securing the work of `curl && chmod`. Through Bindl, projects can rest assured that dependencies and programs are always verified through checksum (and signature if provided).
+
+The ergonomics of adopting Bindl is about making sure that for a given commit in a project, it will have consistent dependency version and installation mechanism regardless of which machine is running.
+
+To learn more about why Bindl exists and how it works, [take a look at the guides](https://bindl.dev/notes).
+
 ## Usage / Installation
 
 Available under [examples/](examples/) directory. In short:
 
-```
-export OUTDIR=/usr/local/bin # or whichever directory you'd like bindl to exist
-curl --location https://bindl.dev/bootstrap.sh | bash # though seriously, please read first on what bootstrap.sh does.
+```bash
+# Whichever directory you'd like bindl to exist
+export OUTDIR=/usr/local/bin
+
+# While it's convenient, please inspect bootstrap.sh before running :)
+curl --location https://bindl.dev/bootstrap.sh | bash
 ```
 
 You may try to install with `go get`, though versioning information may be incomplete as they are stamped in build.
