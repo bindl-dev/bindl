@@ -7,6 +7,12 @@ Bindl is a downloader for programs used in a project, often not necessary at run
 
 Bindl is an distro-agnostic, offering ease of consistency in managing binaries across operating systems and distributions.
 
+## Why?
+
+At the core of it, Bindl is standardizing and securing the work of `curl && chmod`. Through Bindl, projects can rest assured that dependencies and programs are always verified through checksum (and signature if provided).
+
+The ergonomics of adopting Bindl is about making sure that for a given commit in a project, it will have consistent dependency version regardless of which machine is running.
+
 ## Usage / Installation
 
 Available under [examples/](examples/) directory. In short:
