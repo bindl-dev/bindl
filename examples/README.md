@@ -1,5 +1,7 @@
 # Usage
 
+If you would like an example of a real-world project, go to [bindl-dev/spartan](https://github.com/bindl-dev/spartan).
+
 To use Bindl in your project, you can start by bootstrapping Bindl:
 
 ```bash
