@@ -25,7 +25,7 @@ signs:
     - '--output-certificate=${certificate}'
     - '--output-signature=${signature}'
     - '${artifact}'
-  artifacts: checksum
+  artifacts: all
   output: true
 archives:
   - replacements:
