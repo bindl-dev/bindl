@@ -15,7 +15,7 @@ _uname: &uname
 
 programs:
   - name: cosign
-    version: 1.7.1
+    version: 1.7.2
     provider: github
     paths:
       base: sigstore/cosign
