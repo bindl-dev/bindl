@@ -10,10 +10,12 @@ platforms:
 
 programs:
   - name: cosign
-    version: 1.7.1
-    provider: url
+    version: 1.7.2
+    provider: github
     paths:
-      base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
+      base: sigstore/cosign
       target: "{{ .Name }}-{{ .OS }}-{{ .Arch }}"
       checksums: 
         artifact: "{{ .Name }}_checksums.txt"
+        certificate: "{{ .Name }}_checksums.txt-keyless.pem"
+        signature: "{{ .Name }}_checksums.txt-keyless.sig"
