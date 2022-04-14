@@ -15,6 +15,10 @@ GO?=go
 bin/bindl:
 	OUTDIR=bin ./bootstrap.sh
 
+.PHONY: bin/bindl-min
+bin/bindl-min:
+	${GO} build -o bin/bindl ./cmd/bindl
+
 .PHONY: bin/bindl-dev
 bin/bindl-dev: bin/goreleaser
 	bin/goreleaser build \
