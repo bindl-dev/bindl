@@ -25,7 +25,7 @@ programs:
         certificate: "{{ .Name }}_checksums.txt-keyless.pem"
         signature: "{{ .Name }}_checksums.txt-keyless.sig"
   - name: goreleaser
-    version: 1.7.0
+    version: 1.8.1
     provider: github
     overlay: *uname
     paths:
