@@ -136,74 +136,74 @@ programs:
   version: 1.45.2
 - checksums:
     goreleaser_Darwin_arm64.tar.gz:
-      archive: 3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94
-      binary: 148af83bc1d992bfdf5a0607ed1337f239fef24ac7fd22ec97083026a25d3dce
+      archive: 77245ae7f8ccd2a8303b08be86c7c127a989b1fee22b9f824eac984006c67a29
+      binary: 8ccd8b20fc2186440a43f711d2743add71c44a3f90239b0592854ba2a4972497
     goreleaser_Darwin_x86_64.tar.gz:
-      archive: aebb22ab32ddc36002caf3362e2410f1a1487ab098c1f1ac6f5aae59f13f498b
-      binary: 0a801baa89a8a1c8bec1763ee07ffbe84b22defd3284e94d5081d1cbe7ebad8e
+      archive: b91fa807213713411ed5d521a93cdee42eb70add0cd9711d232040dd10b6de4c
+      binary: a0c400c5a9b4fbb8efa8b8825af17b2323e491fa51d7528b1ef7aae7d614400c
     goreleaser_Linux_arm64.tar.gz:
-      archive: 8be69f369d8cd80aedbcfb39ba0af8fbb71fa86ee5879e0fcd94075cf17f73a2
-      binary: 8ad2e4bf43079db8e5a17cf011547eda373012da331ea2536c29f15601a1f040
+      archive: 9144f5ca91467479af51d4c7ff7d984a27930075216e3e019a3ead377d227b51
+      binary: fc6a2d5bfc753f4053f82f3c2b998f026f085047e81fc9be99718631f50e52c3
     goreleaser_Linux_x86_64.tar.gz:
-      archive: e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d
-      binary: 6675d65b87ed168f6c7a981623b3b80a8c1c734197d6e4467cc764f23e843583
+      archive: 105783992834b99c1a515505fdb9459189d980204dca6299f53ee2025b21f846
+      binary: 2a59ea126459e736502f39cac416c1899fe8f4df186855b7eea2b14bc094374b
   cosign:
   - artifact: |
-      1ab042180aa37bd0946871a08827d0826d12d96730639e8119e3e8dd6c156b4f  goreleaser_Windows_armv7.zip.sbom
-      1cc80fc5552f3220ada72eadd251a3e0435c7f837931bd411b1e40a8508511b2  goreleaser_Windows_i386.zip.sbom
-      22cd8584bb58e63ab81f5172687aeda4d38f7caaf8b0fec5cb64176e4d104bd0  goreleaser-1.7.0.aarch64.rpm
-      2bc4bb642db870cc492227c5c740ae68eed442434b05f7f529d795c599226620  goreleaser_Linux_i386.tar.gz
-      3349254563781493938c15ea94351e542b32932bfddaff587c5a0bae65e40c94  goreleaser_Darwin_arm64.tar.gz
-      41b3c5c26a53c2141fdc197053286a1b0797de793d37af8b82b207c5b2eca69d  goreleaser_Linux_x86_64.tar.gz.sbom
-      41d9dd50223cedc9bc551834ebd96b38f7e22b3d5c59b5a7fbbbc2d89fe439b3  goreleaser_Darwin_all.tar.gz
-      4a174977fd538609d2771236328997ca32b53435c8768f622d449c1eba0194cd  goreleaser_Darwin_all.tar.gz.sbom
-      4ec0506fbbc4236422949b6adc55257c408025a49229b4e9854a762d879b48b4  goreleaser_Windows_armv7.zip
-      5589cbdb77708a4327934cd3ed069c65cd97f3e11d5435c2ec385c0e4e8c520a  goreleaser-1.7.0.armv7hl.rpm
-      6a8627d0ce0046c05f78bda3361122c9804596a3a5b7c329fe21ab14ac9e5928  goreleaser_Windows_i386.zip
-      6b97640714cb7a5ed8790cc6b0b8b0a3a69fe9ef5b47492c6a0736e72ef02ca5  goreleaser_Linux_arm64.tar.gz.sbom
-      7463890cc6e14bf06201353480b25d97b51b029686af123d4f39d6288fe4e030  goreleaser_1.7.0_x86.apk
-      80419d5f5ac6a281c8328084030dd2dc8158106cc4d697d408a700464bc1f1db  goreleaser_Linux_armv7.tar.gz
-      8618a9497706fa694876c0899182769d5960b75171fa7fb500721f12768b8d33  goreleaser_Linux_armv7.tar.gz.sbom
-      8a438f7d6b41da2f5f8b85096108ec7895667861664861d27c05a5eccf875557  goreleaser_Darwin_x86_64.tar.gz.sbom
-      8a61178e6d1b086bd52f7113cb563cdacf63ff370c7a1ce22b25e9c8f6efdf89  goreleaser_Windows_arm64.zip.sbom
-      8a97bdcd530ae193b61d831d810424428f9e32ccb94d2880ed63e7540af25bcb  goreleaser_Darwin_arm64.tar.gz.sbom
-      8be69f369d8cd80aedbcfb39ba0af8fbb71fa86ee5879e0fcd94075cf17f73a2  goreleaser_Linux_arm64.tar.gz
-      90799f88fc03d5dcd3d4d451a0b5f720bea2805f68c7b0a989510afa9afa33db  goreleaser_1.7.0_i386.deb
-      9ca9e977ea18c2a2b7083a73eb8e53355796496b10f2b709f6a12cec467b10ef  goreleaser_Windows_arm64.zip
-      ace1cc3b9b36f74c629adda635f149fcfda7f64599944522279972db150c9431  goreleaser_1.7.0_armhf.deb
-      aebb22ab32ddc36002caf3362e2410f1a1487ab098c1f1ac6f5aae59f13f498b  goreleaser_Darwin_x86_64.tar.gz
-      b8bde58f99efa920a908d30100dd1832f8710114bb92d0985a26eae4c7454a32  goreleaser_1.7.0_x86_64.apk
-      be17f26131a58c8a12c6320e325a964096cbb7464923ae961f17b20ca053b621  goreleaser-1.7.0.x86_64.rpm
-      c7f3946d8ae6afa2238a0fb359d96ad6bbc3e062fbf5eee7baa9e11de361909d  goreleaser_Windows_x86_64.zip.sbom
-      c8c05b0221c569f7e5a5307d9fc8dfc7b1cb59f311f5869daacf950a679a3ec9  goreleaser_1.7.0_aarch64.apk
-      cde27bf11fecf5ecc4a0388d62af261529c13772f6e910e5ad6ee082b5c2e013  goreleaser_1.7.0_arm64.deb
-      d71a6d2a8b62384a20ebcec7ef7454010a49f8cbd525434696e15deec9b0f075  goreleaser_1.7.0_armv7.apk
-      e74934e7571991522324642ac7b032310f04baf192ce2a54db1dc323b97bcd7d  goreleaser_Linux_x86_64.tar.gz
-      e958990644c0aa06cfdb27aa6f0373497dd87e1cc189f4824db73e20ef2c8482  goreleaser-1.7.0.i386.rpm
-      faba167e6d3eed6d7cc45b58fefc711b7eef2da7bd21e0ad66eb4f4bccc1ba1f  goreleaser_Linux_i386.tar.gz.sbom
-      fdd5ca7cb052b86aff738ff89f5338ab16b7049c8fd02a74a56b01713e3e786b  goreleaser_Windows_x86_64.zip
-      fe581c9442b4d430195aa7da958572ee4f6493b6c4c7b0b241933a3a13f751ed  goreleaser_1.7.0_amd64.deb
+      0039666ac8d9bf2629cc7cb73d636dd47fd328d070199243f7fe2c5a47c0011d  goreleaser_Darwin_all.tar.gz.sbom
+      01ac17a842cf3f52bfe01ba7d8392a871e1e0d273903c2330d6afa9bd8a229a9  goreleaser_Linux_i386.tar.gz
+      06e6306919b9e3129a3a1f7c05b60b3f00bcf707740e36c0476f1a355bf230d1  goreleaser_Darwin_x86_64.tar.gz.sbom
+      105783992834b99c1a515505fdb9459189d980204dca6299f53ee2025b21f846  goreleaser_Linux_x86_64.tar.gz
+      10d04f7d37b3bc703f5dd4ddddaf931f840d78b196810443dfb04466660c0b74  goreleaser_Linux_armv7.tar.gz
+      2280d4e8b3db32b48c510765a008245b34536a1434f7fef44aa72970f402bb89  goreleaser_1.8.1_armhf.deb
+      284de6f7381e5215b92f4039b575c55ff84bd49aa9e4802298de8c623918d166  goreleaser_1.8.1_amd64.deb
+      383e534be5c780929e41889cbebc8514bffaafa2e0844ce61bb963612f0129cc  goreleaser_Windows_x86_64.zip.sbom
+      391747e224de1c628cac7d76f2a51eb999e3189b2a6df191d8913f5151138814  goreleaser_Windows_arm64.zip.sbom
+      3f9d7c5441016cc0fea0c73e4b4bcd9330961af2aa0a2de7e5acd75a046ab976  goreleaser-1.8.1.aarch64.rpm
+      57a9c763f44d6930a8b3d45f100b2688057b2be08b56d2911dd2a22bd28204e8  goreleaser-1.8.1.armv7hl.rpm
+      5f405e7976df89f95a5254beab6bd30ba998da8b7197cc92fb94184b7f3b3c48  goreleaser_Windows_x86_64.zip
+      6683bbc4c6d82b18a0713568aac93f7400655e2024a0ac9f3806b120dba60687  goreleaser_Windows_i386.zip.sbom
+      67d962d3a7346ed402c0fe76cdd8309f53f72b7f2bf674e6d30953789bf99415  goreleaser_Linux_arm64.tar.gz.sbom
+      70231bfb2261aa15d8ceaf074ea9ef442c98f1acde2ce0b9b86d011de0e75fdf  goreleaser_Darwin_arm64.tar.gz.sbom
+      77245ae7f8ccd2a8303b08be86c7c127a989b1fee22b9f824eac984006c67a29  goreleaser_Darwin_arm64.tar.gz
+      853ff4ec1c4347dfb012e4372217f425add678d8f35eb6a48873d72134f9be4f  goreleaser_1.8.1_i386.deb
+      9144f5ca91467479af51d4c7ff7d984a27930075216e3e019a3ead377d227b51  goreleaser_Linux_arm64.tar.gz
+      916ca77d18f67284e1ffed60552deedd61e1feead0af4286690f82b2236aea93  goreleaser_Windows_armv7.zip.sbom
+      9198c3472f65e744563f64a64133b536019d4b3c40d840df6baed32abdc7feee  goreleaser_Darwin_all.tar.gz
+      a1cb1f3171de1b646dc11a37873128bc3c1312132afe6717d956bfa51048e24f  goreleaser_1.8.1_aarch64.apk
+      b390cceffe9a1b2a4d8c8b7de44a0c593ecd46191f8a95adbc61d98b878bf976  goreleaser_Linux_armv7.tar.gz.sbom
+      b91fa807213713411ed5d521a93cdee42eb70add0cd9711d232040dd10b6de4c  goreleaser_Darwin_x86_64.tar.gz
+      bdee1f1ac44a66b8b2e017b0c9b8c2632aca4ecd2ae3eccdd61a14b952d5c052  goreleaser_1.8.1_x86.apk
+      c6017881bbf11487de10167a129b8e9bda00e01b02ec0468bc653f63b9b7a61f  goreleaser_1.8.1_arm64.deb
+      c7081010d950b9ad75e8ee3212bb32fdd190877ff84c1f117d5db4248ce374c4  goreleaser-1.8.1.x86_64.rpm
+      ca0837510041335d9e8719748bb47e0da27bd187220f9cb725239ebd668547c3  goreleaser_Linux_i386.tar.gz.sbom
+      ccd4695a855410c685296ca86d7c6aeb8be544d9d4a55da4535b163c7b513b2b  goreleaser_Windows_i386.zip
+      ce2617e911d54315155c8a7be7cba7a069f1f81523df6773d7cbd30d4bd3a013  goreleaser-1.8.1.i386.rpm
+      d17aeb9f524c656e8bd1b01816d8a95a25067fa73f463c5081af7f2422fd1156  goreleaser_Windows_armv7.zip
+      d97b02450ca063a1ca8b44e70890a9c9e43afc408bfbdc231974b31d5f88feb7  goreleaser_Linux_x86_64.tar.gz.sbom
+      dc9e0dcb77f10678751a44c603cd08959e9dc66910c041886423c9068fad60b1  goreleaser_1.8.1_armv7.apk
+      e58b216a097cbaa185ff1eb4da673d1cc3649f001beab11df838789deaa1de0e  goreleaser_1.8.1_x86_64.apk
+      ecfca700bc29a17cfdbc01cca4bc96abd948bcca526de03e22ccaf59a113a5f6  goreleaser_Windows_arm64.zip
     certificate: |
       -----BEGIN CERTIFICATE-----
-      MIIDCzCCApGgAwIBAgIUAO2Z8tVlVJLSDz4Lc8KEbl7z6uAwCgYIKoZIzj0EAwMw
+      MIIDDDCCApGgAwIBAgIUAOCrSfZq6mjHDrBbdwvach9F72swCgYIKoZIzj0EAwMw
       KjEVMBMGA1UEChMMc2lnc3RvcmUuZGV2MREwDwYDVQQDEwhzaWdzdG9yZTAeFw0y
-      MjAzMjEwMDEzMDVaFw0yMjAzMjEwMDIzMDRaMAAwWTATBgcqhkjOPQIBBggqhkjO
-      PQMBBwNCAAR/wWUr6yv5zkBpbXJoJOSUet7ZheoItSfMa+1eff2xrthTZwcxXDZY
-      iQjrZzk8T1P6DDiT3zR4GK/31gM43UWYo4IBvTCCAbkwDgYDVR0PAQH/BAQDAgeA
-      MBMGA1UdJQQMMAoGCCsGAQUFBwMDMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFCT/
-      P0NNOFmx8ZV0oGuC2wKC0ag+MB8GA1UdIwQYMBaAFFjAHl+RRaVmqXrMkKGTItAq
+      MjA0MTYwMjUyMTdaFw0yMjA0MTYwMzAyMTZaMAAwWTATBgcqhkjOPQIBBggqhkjO
+      PQMBBwNCAAQgELvKE5QUaczMyh6JaKRxAh7wCaDICH6tl+JGptuJuSsmWVhmFPvs
+      IAmJOAz/z3DqPkoSN7cavVyMhGPbi+pso4IBvTCCAbkwDgYDVR0PAQH/BAQDAgeA
+      MBMGA1UdJQQMMAoGCCsGAQUFBwMDMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFPWo
+      yW75lVqP+AryMXQrDUTuf52oMB8GA1UdIwQYMBaAFFjAHl+RRaVmqXrMkKGTItAq
       xcX6MGMGA1UdEQEB/wRZMFeGVWh0dHBzOi8vZ2l0aHViLmNvbS9nb3JlbGVhc2Vy
       L2dvcmVsZWFzZXIvLmdpdGh1Yi93b3JrZmxvd3MvYnVpbGQueW1sQHJlZnMvdGFn
-      cy92MS43LjAwIwYKKwYBBAGDvzABBQQVZ29yZWxlYXNlci9nb3JlbGVhc2VyMBIG
-      CisGAQQBg78wAQIEBHB1c2gwOQYKKwYBBAGDvzABAQQraHR0cHM6Ly90b2tlbi5h
-      Y3Rpb25zLmdpdGh1YnVzZXJjb250ZW50LmNvbTATBgorBgEEAYO/MAEEBAVidWls
-      ZDA2BgorBgEEAYO/MAEDBCg3NjcxZGFiMjkxNDgzYjI3MzNlODcxYWJmZjM3OWQw
-      N2U3NGRmYzZjMB4GCisGAQQBg78wAQYEEHJlZnMvdGFncy92MS43LjAwCgYIKoZI
-      zj0EAwMDaAAwZQIxAKCzSCW6PrSnf5lfkGvEvf/M//1ct0YfpdtE9UtH6LNGfVXG
-      C+4Wt/0K13S0vx8qxwIwQ/YwCxvc+IjmByuY7bBOfew74OYq6cW5DSruZjjHnLyt
-      G2QH8xza6IF7/24ymfCO
+      cy92MS44LjEwOQYKKwYBBAGDvzABAQQraHR0cHM6Ly90b2tlbi5hY3Rpb25zLmdp
+      dGh1YnVzZXJjb250ZW50LmNvbTAeBgorBgEEAYO/MAEGBBByZWZzL3RhZ3MvdjEu
+      OC4xMBMGCisGAQQBg78wAQQEBWJ1aWxkMCMGCisGAQQBg78wAQUEFWdvcmVsZWFz
+      ZXIvZ29yZWxlYXNlcjASBgorBgEEAYO/MAECBARwdXNoMDYGCisGAQQBg78wAQME
+      KDM2NjNlYzFiMTNhNmI1MGUyMjViOTVkOGNlMGRiMWY2M2M2MWM5YWIwCgYIKoZI
+      zj0EAwMDaQAwZgIxALMRwGDIdAfmk8pXo8gv+VG46Blt7Ye1lB4C4MWWQ6CagHp1
+      yq1hWNcB0f8D0JsasAIxAMLnkXW7zbTHQwo+QukQyV9LTb0e7Qbwrab7Icdx/e4U
+      p89sFMw+Ue3+KZtNfLyjMQ==
       -----END CERTIFICATE-----
-    signature: MEYCIQCeX4Qsyh6Z290kSAIPdNISZzj5G2BBlt4W0ODD+o9RDQIhAKBNAT+6FubSywqhiTh0yY405BM9hO+gbZMephJVFSwp
+    signature: MEUCIBPwX8pozdccT+pxyRow85jxYi+UI7t7fFRIkzIctMjXAiEAyqJV4cWkuTs28a4mI+OgbifNaquFXKESUjYC85PBYwg=
   name: goreleaser
   overlay:
     Arch:
@@ -218,7 +218,7 @@ programs:
       certificate: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.pem
       signature: https://github.com/goreleaser/goreleaser/releases/download/v{{ .Version }}/checksums.txt.sig
     target: '{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz'
-  version: 1.7.0
+  version: 1.8.1
 - checksums:
     syft_0.43.2_darwin_amd64.tar.gz:
       archive: 90953f7a116bbc5b57532778ce5d77782eec9fc9328da4f1127c1d00f70d9fb0
