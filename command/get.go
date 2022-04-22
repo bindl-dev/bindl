@@ -116,7 +116,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 
 	binPath := filepath.Join(fullProgDir, p.Name)
 	if err := os.WriteFile(binPath, bin, 0755); err != nil {
-		return fmt.Errorf("write file %s: %w", binPath, err)
+		return fmt.Errorf("write file '%s': %w", binPath, err)
 	}
 
 	internal.Log().Debug().Str("output", binPath).Str("program", p.Name).Msg("downloaded")
