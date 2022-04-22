@@ -111,7 +111,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 
 	fullProgDir := filepath.Join(conf.BinDir, progDir)
 	if err := os.MkdirAll(fullProgDir, 0755); err != nil {
-		return fmt.Errorf("make dir with parents %s: %w", fullProgDir, err)
+		return fmt.Errorf("ensuring directory existence '%s': %w", fullProgDir, err)
 	}
 
 	binPath := filepath.Join(fullProgDir, p.Name)
