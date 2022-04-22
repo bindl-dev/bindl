@@ -16,6 +16,7 @@ package command
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"path/filepath"
 	"time"
@@ -62,14 +63,21 @@ func symlink(binDir, progDir string, p *program.Lock) error {
 func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 	archiveName, err := p.ArchiveName(conf.OS, conf.Arch)
 	if err != nil {
-		return err
+		return fmt.Errorf("get archive name: %w", err)
+	}
+
+	checksum, ok := p.Checksums[archiveName]
+	if !ok {
+		return fmt.Errorf("failed to find %s in p.Checksums", archiveName)
 	}
 
 	progDir := filepath.Join(conf.ProgDir, p.Checksums[archiveName].Binary+"-"+p.Name)
 	if err := Verify(ctx, conf, p); err == nil {
 		// Re-run symlink to renew atime and mtime, so that GNU Make will not rebuild in the future
 		internal.Log().Debug().Str("program", p.Name).Msg("found valid existing, re-linking")
-		return symlink(conf.BinDir, progDir, p)
+		if err := symlink(conf.BinDir, progDir, p); err != nil {
+			return fmt.Errof("symlink %s: %w", progDir, err)
+		}
 	}
 
 	internal.Log().Debug().Err(err).Msg("verification failed")
@@ -90,24 +98,27 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 
 	a, err := p.DownloadArchive(ctx, &download.HTTP{UseCache: conf.UseCache}, conf.OS, conf.Arch)
 	if err != nil {
-		return err
+		return fmt.Errorf("download archive: %w", err)
 	}
+
 	internal.Log().Debug().Str("program", p.Name).Msg("extracting archive")
 	bin, err := a.Extract(p.Name)
 	if err != nil {
-		return err
+		return fmt.Errorf("extract archive: %w", err)
 	}
+
 	internal.Log().Debug().Str("program", p.Name).Msg("found binary")
 
 	fullProgDir := filepath.Join(conf.BinDir, progDir)
-	if err = os.MkdirAll(fullProgDir, 0755); err != nil {
-		return err
+	if err := os.MkdirAll(fullProgDir, 0755); err != nil {
+		return fmt.Errorf("make dir with parents %s: %w", err)
 	}
+
 	binPath := filepath.Join(fullProgDir, p.Name)
-	err = os.WriteFile(binPath, bin, 0755)
-	if err != nil {
-		return err
+	if err := os.WriteFile(binPath, bin, 0755); err != nil {
+		return fmt.Errorf("write file %s: %w", binPath, err)
 	}
+
 	internal.Log().Debug().Str("output", binPath).Str("program", p.Name).Msg("downloaded")
 
 	return symlink(conf.BinDir, progDir, p)
