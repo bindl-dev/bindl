@@ -75,9 +75,8 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 	if err := Verify(ctx, conf, p); err == nil {
 		// Re-run symlink to renew atime and mtime, so that GNU Make will not rebuild in the future
 		internal.Log().Debug().Str("program", p.Name).Msg("found valid existing, re-linking")
-		if err := symlink(conf.BinDir, progDir, p); err != nil {
-			return fmt.Errorf("symlink %s: %w", progDir, err)
-		}
+		// symLink already returns context in the error
+		return symlink(conf.BinDir, progDir, p)
 	}
 
 	internal.Log().Debug().Err(err).Msg("verification failed")
