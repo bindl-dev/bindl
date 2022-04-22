@@ -68,7 +68,7 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 
 	checksum, ok := p.Checksums[archiveName]
 	if !ok {
-		return fmt.Errorf("failed to find %s in p.Checksums", archiveName)
+		return fmt.Errorf("unrecognized checksum reference '%s'", archiveName)
 	}
 
 	progDir := filepath.Join(conf.ProgDir, checksum.Binary+"-"+p.Name)
