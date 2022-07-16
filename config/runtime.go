@@ -27,6 +27,7 @@ type Runtime struct {
 	Arch string `envconfig:"ARCH"`
 
 	UseCache bool `envconfig:"USE_CACHE"`
+	Hardlink bool // Only use in containers
 
 	Debug  bool `envconfig:"DEBUG"`
 	Silent bool `envconfig:"SILENT"`

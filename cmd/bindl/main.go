@@ -22,6 +22,9 @@ import (
 	"github.com/bindl-dev/bindl/command/cli"
 )
 
+// boxed indicate if current build is running in container
+var boxed = ""
+
 func main() {
 	// Put any logic inside run() so that defer calls are honored.
 	if err := run(); err != nil {
@@ -38,6 +41,10 @@ func run() error {
 
 	// Silence usage as they look noisy.
 	cli.Root.SilenceUsage = true
+
+	if boxed != "" {
+		cli.Boxed()
+	}
 
 	return cli.Root.ExecuteContext(ctx)
 }

@@ -220,6 +220,32 @@ programs:
     target: '{{ .Name }}_{{ .OS }}_{{ .Arch }}.tar.gz'
   version: 1.8.1
 - checksums:
+    ko_0.11.2_Darwin_arm64.tar.gz:
+      archive: 02acfe3bc856805c25d65bb620e414b98aa504c6194ff8e953ce169edfcc03c6
+      binary: d459221a402aa3047e5ed27db76bb669ae958588e6fde0ed7fcf2d84ff19a9fd
+    ko_0.11.2_Darwin_x86_64.tar.gz:
+      archive: 5e95f6be71bd47b5cc3517de83af254209cb914e4f854c9391e8f993f4003f90
+      binary: 0345be9e8b85192cd548ef61df92b8acfa666d4a173081b5c27fa91f1c770cad
+    ko_0.11.2_Linux_arm64.tar.gz:
+      archive: 48c1d4a7eabdf583dfc1640ca5087f00a6b5bfdd1ac9400c14e7affb2c2d3fbb
+      binary: 6b5e376b5d2ff5fe09d5b3fe93375aafefdb53f36453986a2a3a398c90c382bd
+    ko_0.11.2_Linux_x86_64.tar.gz:
+      archive: afb5dacb44bfeafdc53c6de03d9ff74f4a6003c5617381d3139038aa25f3fb66
+      binary: 7f85590cf718c18b41263ecae611f32f01891c7e786389f441672ec9da788f27
+  name: ko
+  overlay:
+    Arch:
+      amd64: x86_64
+    OS:
+      darwin: Darwin
+      linux: Linux
+  paths:
+    base: https://github.com/google/ko/releases/download/v{{ .Version }}/
+    checksums:
+      artifact: https://github.com/google/ko/releases/download/v{{ .Version }}/checksums.txt
+    target: '{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz'
+  version: 0.11.2
+- checksums:
     syft_0.43.2_darwin_amd64.tar.gz:
       archive: 90953f7a116bbc5b57532778ce5d77782eec9fc9328da4f1127c1d00f70d9fb0
       binary: 36ec338aaacf711bdf334c933c94989d07a75c568fe18b2973d040c72b37dc7b

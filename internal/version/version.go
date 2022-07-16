@@ -42,7 +42,9 @@ func init() {
 			date = s.Value
 		case "vcs.modified":
 			modified = s.Value == "true"
-			version = version + "-dirty"
+			if modified {
+				version = version + "-dirty"
+			}
 		default:
 			continue
 		}

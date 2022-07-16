@@ -56,5 +56,8 @@ func init() {
 }
 
 func printVersion(*cobra.Command, []string) {
+	if boxed != "" {
+		fmt.Println("[containerized]")
+	}
 	fmt.Printf("version: %s (%s)\ncommit: %s\ndate: %s\n", version, goVersion, commit, date)
 }

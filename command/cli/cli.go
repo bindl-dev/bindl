@@ -59,6 +59,7 @@ var conf = &config.Runtime{
 	BinDir:       "./bin",
 	ProgDir:      ".bindl/programs",
 
+	Hardlink: false,
 	UseCache: false,
 
 	Debug:  false,
@@ -66,6 +67,15 @@ var conf = &config.Runtime{
 
 	OS:   runtime.GOOS,
 	Arch: runtime.GOARCH,
+}
+
+// Boxed configures the default runtime config with values relevant for container runtime.
+func Boxed() {
+	conf.Path = "/bindl.yaml"
+	conf.LockfilePath = "/.bindl-lock.yaml"
+	conf.BinDir = "/opt/bindl/"
+	conf.ProgDir = "../.bindl/"
+	conf.Hardlink = true
 }
 
 func init() {

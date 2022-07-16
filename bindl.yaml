@@ -56,6 +56,15 @@ programs:
       target: "{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz"
       checksums:
         artifact: checksums.txt
+  - name: ko
+    version: 0.11.2
+    provider: github
+    overlay: *uname
+    paths:
+      base: google/ko
+      target: "{{ .Name }}_{{ .Version }}_{{ .OS }}_{{ .Arch }}.tar.gz"
+      checksums:
+        artifact: checksums.txt
   - name: golangci-lint
     version: 1.45.2
     provider: github

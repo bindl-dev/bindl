@@ -28,7 +28,7 @@ import (
 	"github.com/rs/zerolog"
 )
 
-func symlink(binDir, progDir string, p *program.Lock) error {
+func linkBin(hardlink bool, binDir, progDir string, p *program.Lock) error {
 	relProgDir := filepath.Join(progDir, p.Name)
 
 	// Update program atime and mtime to prevent Makefile from rebuilding
@@ -38,16 +38,35 @@ func symlink(binDir, progDir string, p *program.Lock) error {
 		return err
 	}
 
-	symlinkPath := filepath.Join(binDir, p.Name)
+	linkBinPath := filepath.Join(binDir, p.Name)
 	internal.Log().Debug().
 		Str("program", p.Name).
-		Dict("symlink", zerolog.Dict().
+		Dict("linkBin", zerolog.Dict().
 			Str("ref", relProgDir).
-			Str("target", symlinkPath)).
-		Msg("symlink program")
-	_ = os.Remove(symlinkPath)
-	if err := os.Symlink(filepath.Join(progDir, p.Name), symlinkPath); err != nil {
-		return err
+			Str("target", linkBinPath)).
+		Msg("linking program")
+	_ = os.Remove(linkBinPath)
+
+	if !hardlink {
+		if err := os.Symlink(filepath.Join(progDir, p.Name), linkBinPath); err != nil {
+			return err
+		}
+	} else {
+		internal.Log().Debug().Msg("hardlink")
+		cwd, err := os.Getwd()
+		if err != nil {
+			return fmt.Errorf("getwd: %w", err)
+		}
+		if err := os.Chdir(binDir); err != nil {
+			return fmt.Errorf("chdir: %w", err)
+		}
+		linkErr := os.Link(filepath.Join(progDir, p.Name), linkBinPath)
+		if chdirErr := os.Chdir(cwd); chdirErr != nil {
+			internal.Log().Warn().Err(chdirErr).Msg("failed to return to original directory")
+		}
+		if linkErr != nil {
+			return err
+		}
 	}
 	internal.Msgf(filepath.Join(binDir, progDir, p.Name) + "\n")
 	return nil
@@ -56,7 +75,7 @@ func symlink(binDir, progDir string, p *program.Lock) error {
 // Get implements ProgramCommandFunc, therefore needs to be concurrent-safe.
 // Before downloading, Get attempts to:
 // - validate the existing installation
-// - if it failed, redo symlink, then validate again
+// - if it failed, redo linkBin, then validate again
 // - if it still fails, then attempt to download
 // This is useful when a project is working on branches with different versions of
 // a given program, ensuring that we only download when absolutely necessary.
@@ -71,29 +90,32 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 		return fmt.Errorf("unrecognized checksum reference '%s'", archiveName)
 	}
 
+	if err := os.MkdirAll(conf.BinDir, 0755); err != nil {
+		return fmt.Errorf("mkdirall: %w", err)
+	}
 	progDir := filepath.Join(conf.ProgDir, checksum.Binary+"-"+p.Name)
 	if err := Verify(ctx, conf, p); err == nil {
-		// Re-run symlink to renew atime and mtime, so that GNU Make will not rebuild in the future
+		// Re-run linkBin to renew atime and mtime, so that GNU Make will not rebuild in the future
 		internal.Log().Debug().Str("program", p.Name).Msg("found valid existing, re-linking")
-		// symLink already returns context in the error
-		return symlink(conf.BinDir, progDir, p)
+		// linkBin already returns context in the error
+		return linkBin(conf.Hardlink, conf.BinDir, progDir, p)
 	}
 
 	internal.Log().Debug().Err(err).Msg("verification failed")
 
 	// Looks like verify failed, let's assume that the right version exists,
-	// but was symlinked to the wrong one, therefore fix symlink and re-verify
-	if err := symlink(conf.BinDir, progDir, p); err != nil {
-		internal.Log().Debug().Err(err).Msg("failed symlink, downloading program")
+	// but was linkBined to the wrong one, therefore fix linkBin and re-verify
+	if err := linkBin(conf.Hardlink, conf.BinDir, progDir, p); err != nil {
+		internal.Log().Debug().Err(err).Msg("failed to link, downloading program")
 	} else {
 		if err := Verify(ctx, conf, p); err == nil {
 			internal.Log().Debug().Str("program", p.Name).Msg("re-linked to appropriate version")
-			// No need to return symlink() here, because we just ran symlink()
+			// No need to return linkBin() here, because we just ran linkBin()
 			return nil
 		}
 	}
 
-	internal.Log().Debug().Err(err).Msg("verification failed after fixing symlink, redownloading")
+	internal.Log().Debug().Err(err).Msg("verification failed after fixing link, redownloading")
 
 	a, err := p.DownloadArchive(ctx, &download.HTTP{UseCache: conf.UseCache}, conf.OS, conf.Arch)
 	if err != nil {
@@ -120,5 +142,5 @@ func Get(ctx context.Context, conf *config.Runtime, p *program.Lock) error {
 
 	internal.Log().Debug().Str("output", binPath).Str("program", p.Name).Msg("downloaded")
 
-	return symlink(conf.BinDir, progDir, p)
+	return linkBin(conf.Hardlink, conf.BinDir, progDir, p)
 }
