@@ -111,6 +111,7 @@ func (c *CosignBundle) VerifySignature(ctx context.Context) error {
 	var stderr bytes.Buffer
 	cmd := exec.CommandContext(ctx, p, cosignArgs...)
 	cmd.Stderr = &stderr
+	cmd.Env = append(cmd.Env, "COSIGN_EXPERIMENTAL=1")
 
 	err = cmd.Run()
 	if err == nil {

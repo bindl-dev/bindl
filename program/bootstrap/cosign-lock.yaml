@@ -1,90 +1,93 @@
 programs:
 - checksums:
     cosign-darwin-amd64:
-      archive: fab8f2c4f8705a4c4fd2cc97856213e1d0b86d5b1707a39edc462b9b05afe7fb
-      binary: fab8f2c4f8705a4c4fd2cc97856213e1d0b86d5b1707a39edc462b9b05afe7fb
+      archive: 1d164b8b1fcfef1e1870d809edbb9862afd5995cab63687a440b84cca5680ecf
+      binary: 1d164b8b1fcfef1e1870d809edbb9862afd5995cab63687a440b84cca5680ecf
     cosign-darwin-arm64:
-      archive: 6dababc0001a695f03aa5a9712700d7ee1763375c5e97fc2544f11a88ebe9d5b
-      binary: 6dababc0001a695f03aa5a9712700d7ee1763375c5e97fc2544f11a88ebe9d5b
+      archive: 02bef878916be048fd7dcf742105639f53706a59b5b03f4e4eaccc01d05bc7ab
+      binary: 02bef878916be048fd7dcf742105639f53706a59b5b03f4e4eaccc01d05bc7ab
     cosign-linux-amd64:
-      archive: 80f80f3ef5b9ded92aa39a9dd8e028f5b942a3b6964f24c47b35e7f6e4d18907
-      binary: 80f80f3ef5b9ded92aa39a9dd8e028f5b942a3b6964f24c47b35e7f6e4d18907
+      archive: a50651a67b42714d6f1a66eb6773bf214dacae321f04323c0885f6a433051f95
+      binary: a50651a67b42714d6f1a66eb6773bf214dacae321f04323c0885f6a433051f95
     cosign-linux-arm64:
-      archive: 2448231e6bde13722aad7a17ac00789d187615a24c7f82739273ea589a42c94b
-      binary: 2448231e6bde13722aad7a17ac00789d187615a24c7f82739273ea589a42c94b
+      archive: a7a79a52c7747e2c21554cad4600e6c7130c0429017dd258f9c558d957fa9090
+      binary: a7a79a52c7747e2c21554cad4600e6c7130c0429017dd258f9c558d957fa9090
     cosign-linux-ppc64le:
-      archive: 9ffe464b924c63a91a02788a291262d737aa39b3a694a1144da57ae181339338
-      binary: 9ffe464b924c63a91a02788a291262d737aa39b3a694a1144da57ae181339338
+      archive: 9cb74b2915f38b6cc6b4fb4938b16d58b5739d00f737224690b91d207e6aa805
+      binary: 9cb74b2915f38b6cc6b4fb4938b16d58b5739d00f737224690b91d207e6aa805
     cosign-linux-s390x:
-      archive: aa81ff205a53f9c07316cfc12934d6c8523f78827d7cb04b9c45fb553198ed59
-      binary: aa81ff205a53f9c07316cfc12934d6c8523f78827d7cb04b9c45fb553198ed59
+      archive: 6ca3d1739910bb0f7cce57c9ebf44b6fefd66e07810ad0e506d622cf85af134f
+      binary: 6ca3d1739910bb0f7cce57c9ebf44b6fefd66e07810ad0e506d622cf85af134f
   cosign:
   - artifact: |
-      04d78e1c44723d0046845c7a525c610d0197dcc0ba1cd2e6956437d692d0782d  cosign-windows-amd64.exe_1.7.2_windows_amd64.sbom
-      0f5a525d3c51c65fdceb3d8375c8cf3c6ec898564db345ddbae4ba179d2fec0c  cosign-linux-amd64_1.7.2_linux_amd64.sbom
-      1388db51c5780144dce75005e1784958ab51bdae04ea9871d4b70cba4f52cb0f  cosign-1.7.2.armv7hl.rpm
-      215f29fb7496399a54ea3e6e24559df70f0c2b909300f3f635f44f57dc8fe787  sget-linux-ppc64le
-      2448231e6bde13722aad7a17ac00789d187615a24c7f82739273ea589a42c94b  cosign-linux-arm64
-      34fdcfd46612d4a9f5c0d939deda9e6757e7e4672f1aee718a6bca48e0318572  sget-windows-amd64.exe
-      381eb5cd789fc4ec1831616e076da77dcc3bfcc57e9dfb600c89fe056f1f127d  sget-linux-amd64_1.7.2_linux_amd64.sbom
-      3eec4e0fd524f1a59a26ee78daf99ffef5f109c0823c0d2abc1d7e1a7955bf23  sget-linux-arm_1.7.2_linux_arm.sbom
-      41ba769b15a7e781a178f1c0010b4d2889de9964e9f1bc169d7477cb3c8ff5c5  sget-darwin-arm64_1.7.2_darwin_arm64.sbom
-      464c9a7c1b5e58cc8b4486389381fe527f0e15b70ca166d71f01e9ebe0be1da9  cosign_1.7.2_aarch64.apk
-      5e7134c68e3b3b78d6f55db63b57f200cd958ce4cf0fa0b60ddcce36e734933a  sget-darwin-arm64
-      63d4c5e4f0069819ea08f4ea1b24321eb764022b689d6f4d847aad1f6d263e75  cosign-1.7.2.s390x.rpm
-      6412db8d835017ba1d1b546eded3dcf865e472e5f4fe44a192691569e4fbcac0  cosign_1.7.2_armhf.deb
-      6c1263e215f3a8b9bf104ba55f92e82ad685d878d55ba1d00a314e437c90be90  cosign-linux-arm_1.7.2_linux_arm.sbom
-      6dababc0001a695f03aa5a9712700d7ee1763375c5e97fc2544f11a88ebe9d5b  cosign-darwin-arm64
-      6fc44091f2f96a229020355f2c445c138329da001e6c71e92545426d9b54b268  cosign-linux-s390x_1.7.2_linux_s390x.sbom
-      742c0b44a799e3a619164af8f3bd2cdd0b6309aa335bdcc9f061196239ac2efa  sget-darwin-amd64
-      76dd666af3a3162fe2d1ad7d5eea50f1c04cbbad6568dcd5529a37edf654a72d  cosign-linux-arm
-      80f80f3ef5b9ded92aa39a9dd8e028f5b942a3b6964f24c47b35e7f6e4d18907  cosign-linux-amd64
-      8461d1b2f154ddfe9fdee0568d4fb23f7016e6ba556f41cd176ab333a7b4a010  cosign_1.7.2_s390x.apk
-      8a8b81051505e2e1af7065bf677fe76d9f03dff95f58bafd2d15fdefeed2ddd4  cosign-linux-pivkey-pkcs11key-amd64_1.7.2_linux_amd64.sbom
-      918b4751e98a443ea82e73b32283f3c096aebaa0efbc0c527383c22a386e0f66  sget-windows-amd64.exe_1.7.2_windows_amd64.sbom
-      95a8d30185dccd05d306061a475e9b5185fd9bb0f305ac3249da5dcd6b5f2314  cosign-1.7.2.ppc64le.rpm
-      9631a9faaa49ad36742b7b83fa213cf7e8c95c6164b46c487ec52d581503ab51  sget-linux-arm64
-      9ad67d5b324d488092ce163de0c91dc5d3811fb84cb0ce3c573052485ebce0a8  cosign-linux-ppc64le_1.7.2_linux_ppc64le.sbom
-      9ffe464b924c63a91a02788a291262d737aa39b3a694a1144da57ae181339338  cosign-linux-ppc64le
-      a0f9ae21dc63b2a0c967eca2f4faff18e9967f4423bfb221a954f76df76c70f1  cosign-linux-pivkey-pkcs11key-amd64
-      a58623ae5294863f957dd501b9f60230e93edeab6bb4b2744ba789da86d18e96  cosign-1.7.2.x86_64.rpm
-      aa81ff205a53f9c07316cfc12934d6c8523f78827d7cb04b9c45fb553198ed59  cosign-linux-s390x
-      b47b7e8a2e6632c9753dda0647505c1d38fe6f310a941b652285928085883775  sget-linux-arm
-      b4983b5900e9420575e0dcf0f9f0dd62afdcb7ac309bd3c747571b73bcd36607  cosign_1.7.2_s390x.deb
-      bc88c5e9e937bfe168eb2f6243929ed90ce49c3ee650f8e099c63372f40d3154  cosign-1.7.2.aarch64.rpm
-      beda1b9892bcd68cd8b3985b690d139d6544f712a1e23b61a5bbd35adc030122  cosign_1.7.2_ppc64el.deb
-      c177618c5dcda93d49f337f99f5ccfbfb9b38a1194a8bb8df21ebbe7625c4bcb  cosign-windows-amd64.exe
-      c6916d6be17eb4d7eeab2bd1ec43126dd23fc350457b08a885a4a83b23cd3c54  cosign-darwin-arm64_1.7.2_darwin_arm64.sbom
-      d14e1f071e8175dd888432739149ca565779bbf191183a7b7120c20386b485af  sget-darwin-amd64_1.7.2_darwin_amd64.sbom
-      d296e47aafbf5116757304fa50031f3e3bcb0f20f70a98678843f84b0b808f49  sget-linux-s390x_1.7.2_linux_s390x.sbom
-      d40edcf2d5dbb1af240c65ad662fee34e4ef9fb5385f7203efdd98c6ced74ed2  sget-linux-arm64_1.7.2_linux_arm64.sbom
-      d4eca23070a78bbb9a6af094623b49069e2fe183a1f5ba14f7ccc00c77d298a7  cosign_1.7.2_x86_64.apk
-      d62756c3040e825799a2eac276b6fcbbe58ff8088f60c013bcd5b5d777fc3117  cosign_1.7.2_amd64.deb
-      db9a00e76dfbb8523c08e73e47f5344fdc9d44296f72ae725f2b3b33a5d67fa2  sget-linux-s390x
-      dddb52cb4b0943085a424c34cfbf410b17203daf36bd5299b15d328b0aa41f46  cosign_1.7.2_arm64.deb
-      df253b5d2ca452e7b491ad46d34c9099e15a088a9e21fe5d3613170503d8b50e  cosign_1.7.2_armv7.apk
-      f3a9e933a2d20357d5264a342bcdae0763fb35dedbab5e03e6d81e404f75ff65  cosign-darwin-amd64_1.7.2_darwin_amd64.sbom
-      f9042175710b6b5056812a25ba476316965854ad191d50751dfad58c4df653f4  cosign_1.7.2_ppc64le.apk
-      fab8f2c4f8705a4c4fd2cc97856213e1d0b86d5b1707a39edc462b9b05afe7fb  cosign-darwin-amd64
-      fd1fc2143baadab82ac5a2fa6df6eb7a18b28485f04a50c8422b900881ddfc58  sget-linux-amd64
-      fdb067f9dabd9ebd1577bf4d39adc7d856922eb409c108be3dffe28d237581f3  cosign-linux-arm64_1.7.2_linux_arm64.sbom
-      ff561ad1132247520c791276af8dc4779eb96e61c56299baf692cd0aff5867e6  sget-linux-ppc64le_1.7.2_linux_ppc64le.sbom
+      013390218279dfeee165eb056e96e9848b673e0c890e246527b364dfe9c87d53  cosign_1.13.1_arm64.deb
+      02bef878916be048fd7dcf742105639f53706a59b5b03f4e4eaccc01d05bc7ab  cosign-darwin-arm64
+      035358b5ba7aec6d30f11eefdbc3554465a05a98e9694cf255b5d4c0a4cdab6d  cosign-darwin-arm64_1.13.1_darwin_arm64.sbom
+      040e91ae81fb2a14f9dfcfde03b03b5e19f4caeb56132b49bb3de5000a415657  sget-windows-amd64.exe_1.13.1_windows_amd64.sbom
+      05735068cdbc46ae5737a264b330c742e9ee6e7b0c7b2c3f965a9eb15b8a2c2f  sget-linux-amd64_1.13.1_linux_amd64.sbom
+      059db7a541619cd15a20cce60043bf25ab3ac26032b06641d4af2f6f9c44ee39  sget-darwin-arm64_1.13.1_darwin_arm64.sbom
+      070f56cde1600aec38809e83102dc4e6d5cb21099191e78f34970487790f4436  cosign_1.13.1_armhf.deb
+      0860d09b53e057de2821c875a110d74e568b917db17e11d4c5691a4a2a15ddd8  sget-darwin-amd64
+      0aea3725c96f9f80a4d4e0a3d05127044fbc6cf53ce341b16eb03dff78da1b34  cosign_1.13.1_amd64.deb
+      0bb5ed2c1c22046dcdbf5f75e648283439242c286090f747900bbad9060fddf9  sget-linux-ppc64le_1.13.1_linux_ppc64le.sbom
+      1381fec9dc4cf8d88edcd1defe9198509ae0ce54e26bd89099f6b4adc8d239e7  cosign-windows-amd64.exe_1.13.1_windows_amd64.sbom
+      18fafa789769ce45ba07e43a544462589bbfcc49a227c842e153832400d1799b  cosign-1.13.1.aarch64.rpm
+      1d164b8b1fcfef1e1870d809edbb9862afd5995cab63687a440b84cca5680ecf  cosign-darwin-amd64
+      25ede0909bd143e0de25e28e99a6c2e4f9205fd8e18f08e162da7730a148793c  cosign-linux-arm64_1.13.1_linux_arm64.sbom
+      29b04f76be97a3869f0811e78961ead95a1ba9a9601151f39bbc56bea9623a8d  cosign-linux-ppc64le_1.13.1_linux_ppc64le.sbom
+      2b706b1b976238ee5ff2fff22c40b42d275025e96802bd5270ca11114f43c876  sget-linux-ppc64le
+      2c17e469a1c379b1893e39fbe14c2d6537918fa0a1064c8a36c3db7c3b93b730  cosign-1.13.1.ppc64le.rpm
+      2d754a12c3820cee5c7ab4a17728eaaa05e4ed7186bc32772bb4a757610d604d  cosign-1.13.1.x86_64.rpm
+      31b63f7e9ca88bb16f886962a46973905de0c4f07ff2f27cc71c099c81c91c6f  cosign-linux-pivkey-pkcs11key-amd64
+      34047c89dbb9b9c389d0354879559c8a0de32901bc7af7a0488da9612b937def  cosign-darwin-amd64_1.13.1_darwin_amd64.sbom
+      3563016ca58053bc0804a9210d960ecdbff75cfacabe07383e1abb13a60f05ad  sget-linux-s390x_1.13.1_linux_s390x.sbom
+      36c25be6bb496ccd57e676a93edfb05931517443e6f5ce1e51f08650c1bb260f  sget-linux-amd64
+      3787b451f762afbbfbb27b06b6eae36c10e45dd6fe9a576550ba7ef730de2bf7  sget-linux-s390x
+      3fc2ec2775e9e24329c0b87e29ec489c109cfba5fc88329cb4b75bccc2841c62  sget-windows-amd64.exe
+      527b0dfafc765d796fd389ae629eaf29bec64ce958db34a4501ab981825db571  cosign-1.13.1.armv7hl.rpm
+      5d0898557193b273febdc2dfb8f9b0c922ac5c4de18e52f46cef4d71dac910f2  sget-darwin-arm64
+      5eb366876b0ddb1b9daaeec15d718b1e492390728c8a0cdb4001e2978ceae77a  sget-linux-arm64_1.13.1_linux_arm64.sbom
+      653f9f8327421f4e1c78db29cd952af7844014421a06bd9c8f6d2f52b49aa752  sget-linux-arm64
+      6ca3d1739910bb0f7cce57c9ebf44b6fefd66e07810ad0e506d622cf85af134f  cosign-linux-s390x
+      73c990fcb97f1c335e3715e50dc49351add51f7a18daee3d676de98fc8d6d994  sget-linux-arm
+      78a2774b68b995cc698944f6c235b1c93dcb6d57593a58a565ee7a56d64e4b85  cosign-windows-amd64.exe
+      823a08caea7005a3d2141a294408c91caa7a6cbcd2f841a9463cbf9a105d976b  cosign_1.13.1_ppc64el.deb
+      91426b591a6c021e0a7ee1dd5f6dd654804c000260d285e085ab9bdecb8001cf  cosign_1.13.1_armv7.apk
+      965b4b608629eef660bb9a4ebfe4dd58e1b483279ab9eb42441d6114ffcc1412  sget-darwin-amd64_1.13.1_darwin_amd64.sbom
+      967f5c85a69a348694b3171bf8ba2022a1dbff4bd0b7e7be8b77255e51ea4c12  cosign-linux-s390x_1.13.1_linux_s390x.sbom
+      9cb74b2915f38b6cc6b4fb4938b16d58b5739d00f737224690b91d207e6aa805  cosign-linux-ppc64le
+      a50651a67b42714d6f1a66eb6773bf214dacae321f04323c0885f6a433051f95  cosign-linux-amd64
+      a7a79a52c7747e2c21554cad4600e6c7130c0429017dd258f9c558d957fa9090  cosign-linux-arm64
+      b65848d91f50eef1789b9e18b27f4a7ecbac95088fe69aafd45614dbb3854224  cosign_1.13.1_ppc64le.apk
+      b6de82f94e7ca7b10fb4eedc5ea0ba855255fb062e29379954f72fa4117bffc1  cosign_1.13.1_s390x.deb
+      cad5a8586a59764ee725e1f85bcf00ac040eceeca6a8b88bc4367e615ca296d6  cosign-linux-arm_1.13.1_linux_arm.sbom
+      d84eb236aa12a4a0e85e9333f169f81833e533dd8784f2c10005adee88c4b6b7  cosign-linux-amd64_1.13.1_linux_amd64.sbom
+      db27ab436d6dbdb2084444ab94c10152c20920daedc992f7f2561786745b790d  cosign_1.13.1_aarch64.apk
+      e5d8344e846a8aef38bbb150608e15d3c993c63739263969fc877d8f6b3b68c1  cosign_1.13.1_x86_64.apk
+      ec8997f45b633e6be660e805386ebb9ac76d1b43ba8d51e6586eb55a811a520d  cosign-linux-pivkey-pkcs11key-amd64_1.13.1_linux_amd64.sbom
+      edc24d49459a73f54e78868a3540e1e54452ad2328c66e1eba8bcd78fcd349fc  cosign-linux-arm
+      f114884703fb0e615f9828b865d0b8fdbe4c4fba2746a48f0aca826b6e075018  sget-linux-arm_1.13.1_linux_arm.sbom
+      f90ec297dd86e051077718261c5cfa5217c3fa378925fb5375e27f22f16c12c2  cosign-1.13.1.s390x.rpm
+      fdbdf13cc1f20a2c09699cc240cd8f2348b83c51fb7710bcc56ad99801b67b1b  cosign_1.13.1_s390x.apk
     certificate: |
       -----BEGIN CERTIFICATE-----
-      MIICLDCCAbKgAwIBAgITM9wpTXg1U/FrUOIeZVyLYIeQmDAKBggqhkjOPQQDAzAq
-      MRUwEwYDVQQKEwxzaWdzdG9yZS5kZXYxETAPBgNVBAMTCHNpZ3N0b3JlMB4XDTIy
-      MDQxMjEyMTE0M1oXDTIyMDQxMjEyMjE0MlowADBZMBMGByqGSM49AgEGCCqGSM49
-      AwEHA0IABJ6wbGuu88Ji9ZABY/aViGxF2rJymbQlT1K/1wtmwW6+boh6NIMxlZBI
-      iqpukAQyjij0JbJfDRVaFWSgPN4FNeejgeAwgd0wDgYDVR0PAQH/BAQDAgeAMBMG
-      A1UdJQQMMAoGCCsGAQUFBwMDMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFH0otW1E
-      JgaoDA/QnW/UUJOoOcGvMB8GA1UdIwQYMBaAFFjAHl+RRaVmqXrMkKGTItAqxcX6
-      MD0GA1UdEQEB/wQzMDGBL2tleWxlc3NAcHJvamVjdHNpZ3N0b3JlLmlhbS5nc2Vy
-      dmljZWFjY291bnQuY29tMCkGCisGAQQBg78wAQEEG2h0dHBzOi8vYWNjb3VudHMu
-      Z29vZ2xlLmNvbTAKBggqhkjOPQQDAwNoADBlAjEA6BTNVU6j0RvLXa3kUQMKA8xJ
-      LkBavF7ExybvEMvcAr+hLR9iAknvLaGYRA92pzl0AjAgNXpdAfremSBVr2o+2ln2
-      f/E/WzOU0xUhQEqBSyANO1Vll1cY1W/56GIY9c4dRKI=
+      MIICujCCAkGgAwIBAgIUTfLcYWQMMrFxXsGXYLgOn9dSsugwCgYIKoZIzj0EAwMw
+      NzEVMBMGA1UEChMMc2lnc3RvcmUuZGV2MR4wHAYDVQQDExVzaWdzdG9yZS1pbnRl
+      cm1lZGlhdGUwHhcNMjIxMDE3MTgxNzE4WhcNMjIxMDE3MTgyNzE4WjAAMFkwEwYH
+      KoZIzj0CAQYIKoZIzj0DAQcDQgAEjb3lO6QPgCq+uVa6mX/e7Bv02VorWG74OWrr
+      uXYLciTip7dr2X3k63K2RYDyLQdxJFJ6CeYR3F+XdAJ/dXqUuKOCAWAwggFcMA4G
+      A1UdDwEB/wQEAwIHgDATBgNVHSUEDDAKBggrBgEFBQcDAzAdBgNVHQ4EFgQU8PZF
+      ZUErqxVqenUwLpFFn0p3+VEwHwYDVR0jBBgwFoAU39Ppz1YkEZb5qNjpKFWixi4Y
+      ZD8wPQYDVR0RAQH/BDMwMYEva2V5bGVzc0Bwcm9qZWN0c2lnc3RvcmUuaWFtLmdz
+      ZXJ2aWNlYWNjb3VudC5jb20wKQYKKwYBBAGDvzABAQQbaHR0cHM6Ly9hY2NvdW50
+      cy5nb29nbGUuY29tMIGKBgorBgEEAdZ5AgQCBHwEegB4AHYACGCS8ChS/2hF0dFr
+      J4ScRWcYrBY9wzjSbea8IgY2b3IAAAGD5yoU4gAABAMARzBFAiEA47CBkFijZoon
+      F+k7O8RQ7RbOQP8EYGdchjPzK/sfRTgCIFcQHWJEVqElKyYIH6x1pskJT0lLdXNZ
+      d1A+74+b2mZhMAoGCCqGSM49BAMDA2cAMGQCMAZioeQlh0Js6fL7jFxG5F3jm2uB
+      2idsSXeQJgpdh82+Lu6Sq2KLBMFxvwHLBpHX7QIwCi7eVCOinUrOd6NN0zSX49zz
+      uZvIPNQsCAcHTHwjcq8m4hhl1K2hMjahT/MVlrSY
       -----END CERTIFICATE-----
-    signature: MEQCIA5lb+F76z+FpB96MWOcMoYxfOmW7Y4IdU34tJCEsrC/AiAxWvZBY+ila8/V8VDP0Lvp7ooLpdaUhBVJij8SiWp8Nw==
+    signature: MEUCIQCCiWd3opOHWl0JGWmsRxmflpOiPsJWuwlFcFtqsBoJrwIgbQqWHh3acI7qavpLLkaDCED4bQYSpsvdwXWJmAMW3hw=
   name: cosign
   paths:
     base: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/
@@ -93,4 +96,4 @@ programs:
       certificate: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt-keyless.pem
       signature: https://github.com/sigstore/cosign/releases/download/v{{ .Version }}/{{ .Name }}_checksums.txt-keyless.sig
     target: '{{ .Name }}-{{ .OS }}-{{ .Arch }}'
-  version: 1.7.2
+  version: 1.13.1
