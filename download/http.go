@@ -29,6 +29,7 @@ import (
 )
 
 // HTTP implements Downloader which downloads programs through net/http
+//
 //nolint:govet  // bytes saved isn't worth the reduced visibility
 type HTTP struct {
 	UseCache bool
