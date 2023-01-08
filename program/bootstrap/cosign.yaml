@@ -10,7 +10,7 @@ platforms:
 
 programs:
   - name: cosign
-    version: 1.7.2
+    version: 1.13.1
     provider: github
     paths:
       base: sigstore/cosign
