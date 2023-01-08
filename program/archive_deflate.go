@@ -82,3 +82,14 @@ func untargz(w io.Writer, rawTarGz io.Reader, binaryName string) error {
 
 	return untar(w, gzReader, binaryName)
 }
+
+func ungz(w io.Writer, rawGz io.Reader, binaryName string) error {
+	gzReader, err := gzip.NewReader(rawGz)
+	if err != nil {
+		return err
+	}
+	defer gzReader.Close()
+
+	_, err = io.Copy(w, gzReader)
+	return err
+}

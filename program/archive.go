@@ -30,6 +30,7 @@ type Archive struct {
 const (
 	archiveTarSuffix   = ".tar"
 	archiveTarGzSuffix = ".tar.gz"
+	archiveGzSuffix    = ".gz"
 	archiveZipSuffix   = ".zip"
 )
 
@@ -75,6 +76,8 @@ func (a *Archive) extractBinaryNoChecksum(binaryName string) ([]byte, error) {
 		err = untar(&buf, r, binaryName)
 	case strings.HasSuffix(a.Name, archiveTarGzSuffix):
 		err = untargz(&buf, r, binaryName)
+	case strings.HasSuffix(a.Name, archiveGzSuffix):
+		err = ungz(&buf, r, binaryName)
 	default:
 		// assume currently downloaded file is the binary
 		data = a.Data
